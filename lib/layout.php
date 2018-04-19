@@ -108,6 +108,8 @@
 			div.lastpost { font: 10px $font2 !important; white-space: nowrap; }
 			div.lastpost:first-line { font: 13px $font !important; }
 			.sparkline { display: none; }
+			.brightlinks a { color: $brightlinkcolor; }
+			.brightlinks a:hover { font-weight: inherit; }
 			.font 	{font:13px $font}
 			.fonth	{font:13px $font;color:$tableheadtext}	/* is this even used? */
 			.fonts	{font:10px $font2}
@@ -210,6 +212,55 @@
 			$xminilogip	= $sql -> fetchq("SELECT `username`, `ip` FROM `pendingusers` ORDER BY `time` DESC LIMIT 1");
 			$GLOBALS['jul_settings']['board_title']	.= "<br><span class='font' style=\"color: #ff0\"><b>". $xminilog['count'] ."</b> pending user(s), last <b>'". $xminilogip['username'] ."'</b> at <b>". date($dateformat, $xminilog['time'] + $tzoff) ."</b> by <b>". $xminilogip['ip'] ."</b></span>";
 		}
+	}
+
+	function render_form_table($content) {
+		$html = "
+	    <table class='table form-table table-margin' cellspacing='0'>
+	  		<tbody>
+	  ";
+	  for ($a = 0; $a < count($content); ++$a) {
+	    $val = $content[$a];
+	    if ($val[0] === '---') {
+	      // Separator
+	      $html .= "
+	        <tr>
+	          <td class='tbl tdbgh font center'>&nbsp;</td>
+	          <td class='tbl tdbgh font center'>&nbsp;</td>
+	        </tr>
+	      ";
+	    }
+	    else {
+	      $label = $val[0];
+	      $val = $val[1];
+	      $html .= "
+	        <tr>
+	          <td class='tbl tdbg1 font center label'><b>{$label}</b></td>
+	          <td class='tbl tdbg2 font'>{$val}</td>
+	        </tr>
+	      ";
+	    }
+	  }
+	  $html .= "
+	      </tbody>
+	    </table>
+	  ";
+		print($html);
+	}
+
+	function render_box($content) {
+		$html = '
+			<table class="table brightlinks table-margin" cellspacing="0">
+ 				<tbody>
+					<tr>
+						<td class="tbl tdbgh font center">Notice</td>
+					</tr>
+					<tr>
+						<td class="tbl tdbg1 font center">'.$content.'</td>
+					</tr>
+				</tbody>
+			</table>';
+		print($html);
 	}
 
 
@@ -396,6 +447,14 @@
 		return $header;
 	}
 
+	function version_footer() {
+		global $smallfont;
+		return "{$smallfont}
+		Jul v{$GLOBALS['jul_version']['version']} - <a href='{$GLOBALS['jul_version']['repository']}'>{$GLOBALS['jul_version']['commit']}</a>
+		<br>&copy;{$GLOBALS['jul_version']['copyright_start']}-{$GLOBALS['jul_version']['copyright_end']} {$GLOBALS['jul_version']['authors']}
+		</font>";
+	}
+
 	$ref=filter_string($_SERVER['HTTP_REFERER']);
 	$url=getenv('SCRIPT_URL');
 
@@ -465,13 +524,10 @@
 	<br>
 	<table cellpadding=0 border=0 cellspacing=2><tr>
 		<td>
-			<img src={$GLOBALS['jul_base_dir']}/images/poweredbyacmlm.gif>
+			<img class=\"pointresize\" src={$GLOBALS['jul_base_dir']}/images/poweredbyacmlm.gif>
 		</td>
 		<td>
-			{$smallfont}
-			Acmlmboard - <a href='https://github.com/Xkeeper0/jul'>". (file_exists('version.txt') ? file_get_contents("version.txt") : shell_exec("git log --format='commit %h [%ad]' --date='short' -n 1")) ."</a>
-			<br>&copy;2000-". date("Y") ." Acmlm, Xkeeper, Inuyasha, et al.
-			</font>
+			". version_footer() ."
 		</td>
 	</tr></table>
 	". ($x_hacks['mmdeath'] >= 0 ? "<div style='position: absolute; top: -100px; left: -100px;'>Hidden preloader for doom numbers:

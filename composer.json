@@ -1,0 +1,10 @@
+{
+  "name": "msikma/jul",
+  "version": "1.0.0",
+  "license": "none",
+  "type": "project",
+  "repository": "https://github.com/msikma/jul",
+  "require": {
+    "php": ">=7.0.0"
+  }
+}

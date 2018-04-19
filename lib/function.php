@@ -42,11 +42,15 @@
 	}
 	$GLOBALS['jul_sql_settings'] = array_merge($default_sql_settings, $sql_settings);
 	$GLOBALS['jul_settings'] = array_merge($default_forum_settings, $forum_settings);
+	// A list of all the 'regular' settings that users would want to customize.
+	// Doesn't include the very old legacy items. Used by the installer.
+	$GLOBALS['jul_common_settings'] = array('board_name', 'board_title', 'site_url', 'site_name');
 
 	require_once 'lib/routing.php';
 	require_once 'lib/helpers.php';
 	require_once 'lib/mysql.php';
 	require_once 'lib/xss.php';
+	require_once 'lib/version.php';
 
 	$sql	= new mysql;
 
