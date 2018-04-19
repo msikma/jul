@@ -69,8 +69,8 @@
 
 	$prtable="
 		$tccellh>&nbsp</td>$tccellh>&nbsp<tr>
-		$tccell1><b>Add an user</td>$tccell2l>$addlist<tr>
-		$tccell1><b>Remove an user</td>$tccell2l>$remlist<tr>
+		$tccell1><b>Add a user</td>$tccell2l>$addlist<tr>
+		$tccell1><b>Remove a user</td>$tccell2l>$remlist<tr>
 		$tccellh>&nbsp</td>$tccellh>&nbsp<tr>
 		$tccell1>&nbsp</td>$tccell2l>
 		$inph=action VALUE=dochanges>
