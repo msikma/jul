@@ -248,12 +248,12 @@
 		print($html);
 	}
 
-	function render_box($content) {
+	function render_box($content, $title='Notice') {
 		$html = '
 			<table class="table brightlinks table-margin" cellspacing="0">
  				<tbody>
 					<tr>
-						<td class="tbl tdbgh font center">Notice</td>
+						<td class="tbl tdbgh font center">'.$title.'</td>
 					</tr>
 					<tr>
 						<td class="tbl tdbg1 font center">'.$content.'</td>

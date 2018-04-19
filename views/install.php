@@ -54,9 +54,16 @@ if (false && $already_installed) {
   ");
 }
 else if ($config_ready && $db_ready[0] && $installer_step === 3) {
-  print("
-todo
-  ");
+  render_box("
+    We're all done installing! Now you can log in to your forum for the first time.
+  ", 'Installation result');
+  ob_start();
+  // Huge hack here.
+  $GLOBALS['skip_header'] = true;
+  $GLOBALS['skip_footer'] = true;
+  include('./login.php');
+  $html = ob_get_clean();
+  print($html);
 }
 else if ($config_ready && $db_ready[0] && $installer_step === 2) {
   $admin_username = $_POST['admin_username'];
@@ -95,7 +102,7 @@ else if ($config_ready && $db_ready[0] && $installer_step === 2) {
   <tr>
     <td class='tbl tdbg1 font center label'>Inserting admin user...</td>
     <td class='tbl tdbg2 font'>
-      Done. Click 'Continue'.
+      Done. Inserted admin user with username <strong><a>{$admin_username}</a></strong>.<br />Click 'Continue'.
     </td>
   </tr>
   <tr>

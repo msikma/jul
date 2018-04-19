@@ -9,7 +9,13 @@
 	$password = $_POST['userpass'];
 	$verifyid = $_POST['verify'];
 
-	$txt="$header<br>$tblstart";
+	if ($GLOBALS['skip_header']) {
+		// Skip the regular header.
+		$txt = "$tblstart";
+	}
+	else {
+		$txt = "$header<br>$tblstart";
+	}
 
 	if($_POST['action']=='login') {
 		if (!$username)
@@ -88,6 +94,11 @@
 			xk_ircsend("1|". xk(7) ."Auto-banned asshole trying to be clever with the login form (action: ".xk(8).$_POST['action'].xk(7).") with IP ". xk(8) . $_SERVER['REMOTE_ADDR'] . xk(7) .".");
 	}
 
-	print $txt.$tblend.$footer;
-	printtimedif($startingtime);
-?>
+	if ($GLOBALS['skip_footer']) {
+		// Skip the footer.
+		print($txt);
+	}
+	else {
+		print $txt.$tblend.$footer;
+		printtimedif($startingtime);
+	}
