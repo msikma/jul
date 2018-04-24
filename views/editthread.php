@@ -1,6 +1,6 @@
 <?php
-	require_once '../lib/function.php';
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/function.php';
+	require_once 'lib/actions/layout.php';
 
 	$trashid = 27;
 
@@ -17,7 +17,7 @@
 		$ismod = 0;
 
 	if (!$ismod)
-		errorpage("You aren't allowed to edit this thread.",'the thread',"{$GLOBALS['jul_views_path']}/thread.php?id={$id}");
+		error_page("You aren't allowed to edit this thread.",'the thread',"{$GLOBALS['jul_views_path']}/thread.php?id={$id}");
 
 	// Quickmod
 	if (substr($_GET['action'], 0, 1) == 'q') {
@@ -41,7 +41,7 @@
 		$sql->query("UPDATE forums SET numposts=numposts+$numposts,numthreads=numthreads+1,lastpostdate=$t2[lastpostdate],lastpostuser=$t2[lastposter] WHERE id=$trashid");
 
 		// Yeah whatever
-		errorpage("Thread successfully trashed.",'return to the thread',"{$GLOBALS['jul_views_path']}/thread.php?id=$id");
+		error_page("Thread successfully trashed.",'return to the thread',"{$GLOBALS['jul_views_path']}/thread.php?id=$id");
 	}
 	elseif ($_POST['action'] == 'editthread') {
 		$posticons[$iconid]=str_replace("\n",'',$posticons[$iconid]);
@@ -56,7 +56,7 @@
 			$sql->query("UPDATE forums SET numposts=numposts-$numposts,numthreads=numthreads-1,lastpostdate=$t1[lastpostdate],lastpostuser=$t1[lastposter] WHERE id=$forumid");
 			$sql->query("UPDATE forums SET numposts=numposts+$numposts,numthreads=numthreads+1,lastpostdate=$t2[lastpostdate],lastpostuser=$t2[lastposter] WHERE id=$forummove");
 		}
-		errorpage("Thank you, $loguser[name], for editing the thread.",'return to the thread',"{$GLOBALS['jul_views_path']}/thread.php?id=$id");
+		error_page("Thank you, $loguser[name], for editing the thread.",'return to the thread',"{$GLOBALS['jul_views_path']}/thread.php?id=$id");
 	}
 	// Deletion disallowed for now
 /*	elseif ($_POST['action'] == 'deletethread') {
@@ -65,7 +65,7 @@
 		$numdeletedposts=$thread[replies]+1;
 		$t1 = $sql->fetchq("SELECT lastpostdate,lastposter FROM threads WHERE forum=$forumid ORDER BY lastpostdate DESC LIMIT 1");
 		$sql->query("UPDATE forums SET numposts=numposts-$numdeletedposts,numthreads=numthreads-1,lastpostdate=$t1[lastpostdate],lastpostuser=$t1[lastposter] WHERE id=$forumid");
-		errorpage("Thank you, $loguser[name], for deleting the thread.",'return to the thread',"{$GLOBALS['jul_views_path']}/thread.php?id=$id");
+		error_page("Thank you, $loguser[name], for deleting the thread.",'return to the thread',"{$GLOBALS['jul_views_path']}/thread.php?id=$id");
 	} */
 	elseif ($_GET['action'] == 'trashthread') {
 		print "$header<br>$tblstart

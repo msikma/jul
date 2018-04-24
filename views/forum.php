@@ -1,5 +1,5 @@
 <?php
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 	$id = intval($_GET['id']);
 	$user = intval($_GET['user']);
 
@@ -15,8 +15,8 @@
 		$t = $sql->fetchq("SELECT title,forum FROM threads WHERE id=$thread");
 
 		if (!$log) {
-			require_once '../lib/layout.php';
-			errorpage("You need to be logged in to edit your favorites!",'return to the forum',"{$GLOBALS['jul_views_path']}/forum.php?id=$t[forum]");
+			require_once 'lib/actions/layout.php';
+			error_page("You need to be logged in to edit your favorites!",'return to the forum',"{$GLOBALS['jul_views_path']}/forum.php?id=$t[forum]");
 		}
 
 		$sql->query("DELETE FROM favorites WHERE user=$loguserid AND thread=$thread");
@@ -32,16 +32,16 @@
 		else
 			$tx = "\"$t[title]\" has been removed from your favorites.";
 
-		require_once '../lib/layout.php';
-		errorpage($tx,'return to the forum',"{$GLOBALS['jul_views_path']}/forum.php?id=$t[forum]");
+		require_once 'lib/actions/layout.php';
+		error_page($tx,'return to the forum',"{$GLOBALS['jul_views_path']}/forum.php?id=$t[forum]");
 	}
 
 	// Forum Setup
 	if ($fav) {
 		if (!$log) {
 			$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-			require_once '../lib/layout.php';
-			errorpage("You need to be logged in to view your favorites.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
+			require_once 'lib/actions/layout.php';
+			error_page("You need to be logged in to view your favorites.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
 		}
 
 		$forum['title'] = 'Favorites';
@@ -56,8 +56,8 @@
 		$user1=$sql->fetchq("SELECT name,sex,powerlevel,aka,birthday FROM users WHERE id={$user}");
 		if (!$user1) {
 			$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-			require_once '../lib/layout.php';
-			errorpage("No user with that ID exists.",'the index page','index.php');
+			require_once 'lib/actions/layout.php';
+			error_page("No user with that ID exists.",'the index page','index.php');
 		}
 
 		$forum['title']="Threads by $user1[name]";
@@ -71,14 +71,14 @@
 		if (!$forum) {
 			trigger_error("Attempted to access invalid forum $id", E_USER_NOTICE);
 			$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-			require_once '../lib/layout.php';
+			require_once 'lib/actions/layout.php';
 			notAuthorizedError();
 		}
 		elseif ($forum['minpower'] > max(0,$power)) {
 			if ($log)
 				trigger_error("Attempted to access level-$forum[minpower] restricted forum $id (user's powerlevel: ".intval($loguser['powerlevel']).")", E_USER_NOTICE);
 			$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-			require_once '../lib/layout.php';
+			require_once 'lib/actions/layout.php';
 			notAuthorizedError();
 		}
 		else
@@ -91,13 +91,13 @@
 	}
 	else {
 		$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-		require_once '../lib/layout.php';
-		errorpage("No forum specified.",'the index page',"index.php");
+		require_once 'lib/actions/layout.php';
+		error_page("No forum specified.",'the index page',"index.php");
 	}
 
 
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- $forum[title]";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	$hotcount = $sql->resultq('SELECT hotcount FROM misc',0,0);
 	if ($hotcount <= 0) $hotcount = 0xFFFF;
@@ -359,5 +359,5 @@ function notAuthorizedError() {
 	$rreason = (($log) ? 'don\'t have access to it' : 'are not logged in');
 	$redir = (($log) ? 'index.php' : "{$GLOBALS['jul_views_path']}/login.php");
 	$rtext = (($log) ? 'the index page' : 'log in (then try again)');
-	errorpage("Couldn't enter this restricted forum, as you {$rreason}.", $rtext, $redir);
+	error_page("Couldn't enter this restricted forum, as you {$rreason}.", $rtext, $redir);
 }

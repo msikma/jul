@@ -1,11 +1,10 @@
 <?php
-  require_once '../lib/function.php';
-  require_once '../lib/layout.php';
-  if(!$log) errorpage('You must be logged in to edit your profile.');
-  if($_GET['lol'] || ($loguserid == 1420)) errorpage('<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;"><object width="100%" height="100%"><param name="movie" value="http://www.youtube.com/v/lSNeL0QYfqo&hl=en_US&fs=1&color1=0x2b405b&color2=0x6b8ab6&autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/lSNeL0QYfqo&hl=en_US&fs=1&color1=0x2b405b&color2=0x6b8ab6&autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="100%" height="100%"></embed></object></div>');
-  if($banned) errorpage('Sorry, but banned users aren\'t allowed to edit their profile.');
+  require_once 'lib/actions/function.php';
+  require_once 'lib/actions/layout.php';
+  if(!$log) error_page('You must be logged in to edit your profile.');
+  if($banned) error_page('Sorry, but banned users aren\'t allowed to edit their profile.');
 	if($loguser['profile_locked'] == 1) {
-		errorpage("You are not allowed to edit your profile.");
+		error_page("You are not allowed to edit your profile.");
 	}
   if($loguser['posts']>=500 or ($loguser[posts]>=250 && (ctime()-$loguser[regdate])>=100*86400)) $postreq=1;
   if($loguser['titleoption']==0 || $banned) $titleopt=0;

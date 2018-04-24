@@ -1,23 +1,23 @@
 <?php
 	// (fat catgirl here)
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 
 	// Stop this insanity.  Never index editpost...
 	$meta['noindex'] = true;
 
 	if (!$log) {
-		require_once '../lib/layout.php';
-		errorpage("You are not logged in.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
+		require_once 'lib/actions/layout.php';
+		error_page("You are not logged in.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
 	}
 	if ($loguser['editing_locked'] == 1) {
-		require_once '../lib/layout.php';
-		errorpage("You are not allowed to edit your posts.",'return to the board','index.php');
+		require_once 'lib/actions/layout.php';
+		error_page("You are not allowed to edit your posts.",'return to the board','index.php');
 	}
 
 	$post     = $sql->fetchq("SELECT * FROM posts,posts_text WHERE id='$id 'AND id=pid");
 	if (!$post) {
-		require_once '../lib/layout.php';
-		errorpage("Post ID #{$id} doesn't exist.",'return to the board','index.php');
+		require_once 'lib/actions/layout.php';
+		error_page("Post ID #{$id} doesn't exist.",'return to the board','index.php');
 	}
 
 	$threadid = $post['thread'];
@@ -33,7 +33,7 @@
 	$specialscheme = $forum['specialscheme'];
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- $forum[title]: $thread[title] -- Editing Post";
 
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 	print $header;
 
 	if (@mysql_num_rows($sql->query("SELECT user FROM forummods WHERE forum=$forum[id] and user=$loguserid")))

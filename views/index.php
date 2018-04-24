@@ -1,22 +1,7 @@
 <?php
 
-require_once 'lib/function.php';
-require_once 'lib/layout.php';
-
-if (filter_string($_GET['action']) == 'markforumread' and $log) {
-  $sql->query("DELETE FROM forumread WHERE user=$loguserid AND forum='$forumid'");
-  $sql->query("DELETE FROM `threadsread` WHERE `uid` = '$loguserid' AND `tid` IN (SELECT `id` FROM `threads` WHERE `forum` = '$forumid')");
-  $ct = ctime();
-  $sql->query("INSERT INTO forumread (user,forum,readdate) VALUES ($loguserid,$forumid,{$ct})");
-  return header("Location: index.php");
-}
-
-if (filter_string($_GET['action']) == 'markallforumsread' and $log) {
-  $sql->query("DELETE FROM forumread WHERE user=$loguserid");
-  $sql->query("DELETE FROM `threadsread` WHERE `uid` = '$loguserid'");
-  $sql->query("INSERT INTO forumread (user,forum,readdate) SELECT $loguserid,id,".ctime().' FROM forums');
-  return header("Location: index.php");
-}
+// Redirects in case the user marks a forum/all forums read.
+run_cleanup_actions();
 
 $postread = readpostread($loguserid);
 
@@ -205,7 +190,7 @@ foreach ($categories as $category) {
     $new='&nbsp;';
 
     if ($forum['numposts']) {
-      if ($log && intval($forumnew[$forum['id']]) > 0) {
+      if ($log) {
         $new = $statusicons['new'] ."<br>". generatenumbergfx(intval($forumnew[$forum['id']]));
       }
       elseif (!$log && $forum['lastpostdate']>ctime()-3600) {

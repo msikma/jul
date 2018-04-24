@@ -1,6 +1,6 @@
 <?php
 	chdir("../");
-	require_once 'lib/function.php';
+	require_once 'lib/actions/function.php';
 	require_once 'lib/rpg.php';
 
 

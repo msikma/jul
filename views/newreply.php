@@ -1,13 +1,13 @@
 <?php
 	// die("Disabled.");
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 	$thread=$sql->fetchq("SELECT forum, closed, sticky,title,lastposter FROM threads WHERE id=$id");
 
 	// Stop this insanity.  Never index newreply.
 	$meta['noindex'] = true;
 
 	if (!$thread) {
-		require_once '../lib/layout.php';
+		require_once 'lib/actions/layout.php';
 		print "
 			$header<br>$tblstart
 			$tccell1>Nice try. Next time, wait until someone makes the thread <i>before</i> trying to reply to it.<br>".redirect("{$GLOBALS['jul_base_dir']}/index.php", 'return to the index page', 0)."
@@ -28,7 +28,7 @@
 
 	$thread['title']=str_replace('<','&lt;',$thread['title']);
 
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 
 	$smilies=readsmilies();

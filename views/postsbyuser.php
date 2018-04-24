@@ -1,18 +1,18 @@
 <?php
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 
 	$user = $sql->resultq("SELECT name FROM users WHERE id=$id");
 	$windowtitle = "Listing posts by $user";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	if (!$id)
-		errorpage('No user specified.', 'return to the board', 'index.php');
+		error_page('No user specified.', 'return to the board', 'index.php');
 
 	if ($_GET['forum']) {
 		$fid = intval($_GET['forum']);
 		$forum = $sql->fetchq("SELECT title, minpower FROM forums WHERE id={$fid}");
 		if ($forum['minpower'] > 0 && $power < $forum['minpower'])
-			errorpage('You don\'t have access to view posts in this forum.', 'return to the board', 'index.php');
+			error_page('You don\'t have access to view posts in this forum.', 'return to the board', 'index.php');
 		$where = "in $forum[title]";
 		$forumquery = " AND t.forum = {$fid}";
 	}

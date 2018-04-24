@@ -1,14 +1,19 @@
 <?php
+require_once 'lib/config.example.php';
+var_dump($sql_settings);
+die('a');
 
-require_once '../lib/function.php';
-require_once '../lib/layout.php';
-require_once '../lib/install.php';
+require_once 'lib/actions/function.php';
+require_once 'lib/actions/layout.php';
+require_once 'lib/check-install.php';
+require_once 'lib/install.php';
 
 $self = 'installer.php';
 
 $config_ready = check_config();
 $db_ready = check_db();
-$already_installed = check_already_installed();
+#$already_installed = check_already_installed();
+$already_installed = false;
 $installer_step = !isset($_POST['step']) ? 1 : intval($_POST['step']);
 
 ?>
@@ -132,7 +137,7 @@ else if ($config_ready && $db_ready[0] && $installer_step === 1) {
     array('Database settings', $db),
     array('---'),
     array('Admin username', "<input type='text' name='admin_username' value='' class='right' />"),
-    array('Admin password', "<input type='password' name='admin_password' value='' class='right' /><br />Choose a username and password for your new admin user.<br />Make sure it's a unique and strong password.<br />For complete certainty, <a href='#'>generate a strong password</a>."),
+    array('Admin password', "<input type='password' name='admin_password' value='' class='right' /><br />Choose a username and password for your new admin user.<br />Make sure it's a unique and strong password.<br />For complete certainty, <a href='https://passwordsgenerator.net/' target='_blank'>generate a strong password</a>."),
     array('---'),
     array('', "<input type='hidden' name='step' value='2' /><input type='submit' class='submit' value='Confirm and install' />"),
   );

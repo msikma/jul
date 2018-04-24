@@ -1,6 +1,6 @@
 <?php
-	require_once '../lib/function.php';
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/function.php';
+	require_once 'lib/actions/layout.php';
 	$userid = htmlspecialchars(stripslashes($_GET['userid']));
 
 	$vd=date('m-d-y', ctime());

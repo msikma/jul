@@ -2,8 +2,8 @@
 
   $windowtitle	= "Thread Repair System II";
 
-  require_once '../lib/function.php';
-  require_once '../lib/layout.php';
+  require_once 'lib/actions/function.php';
+  require_once 'lib/actions/layout.php';
 
   print "$header<br>";
 

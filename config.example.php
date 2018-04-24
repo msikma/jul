@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Forum configuration. Values entered here will override those from defaults.php.
+ * Forum configuration. Values entered here will override those from 'lib/defaults.php'.
  */
 
 $sql_settings = array(

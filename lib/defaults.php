@@ -28,7 +28,7 @@ $default_forum_settings = array(
 	'date_format_short' => 'm-d-y',
 
 	// Various hardcoded settings, most of them just legacy.
-	'irc_enable_notifications' => false, // Toggles the IRC bot callback code. See xk_ircsend() in lib/function.php.
+	'irc_enable_notifications' => false, // Toggles the IRC bot callback code. See xk_ircsend() in lib/actions/function.php.
 	'irc_header_title' => 'IRC Chat - BadnikZONE, #tcrf, #x',
 	'irc_channels' => '#tcrf,#x',
 	'irc_servers' => array('irc.badnik.zone', 'irc.rustedlogic.net', 'irc.tcrf.net'),

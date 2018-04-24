@@ -10,6 +10,11 @@
   -ms-interpolation-mode:nearest-neighbor;
 }
 
+/* Centered bulleted list. */
+ul.center li {
+  list-style-position: inside;
+}
+
 /* Make all links bold and not underlined by default */
 a:link,a:visited,a:active,a:hover{text-decoration:none;font-weight:bold;}
 

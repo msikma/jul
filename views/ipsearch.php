@@ -1,7 +1,7 @@
 <?php
-  require_once('../lib/function.php');
+  require_once 'lib/actions/function.php';
   $windowtitle = "IP Address Search";
-  require_once('../lib/layout.php');
+  require_once 'lib/actions/layout.php';
   print "$header<br>";
   admincheck();
   print adminlinkbar("{$GLOBALS['jul_views_path']}/ipsearch.php");

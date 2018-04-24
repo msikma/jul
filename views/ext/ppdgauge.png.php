@@ -1,8 +1,6 @@
 <?php
 
-	chdir("../");
-	require_once "lib/function.php";
-	//$sql->selectdb("sonicret_s2bivb");
+	require_once "lib/actions/function.php";
 
 	if ($_GET['s']) $size = $_GET['s'];
 	if ($size > 1024 || $size < 80) $size = 255;

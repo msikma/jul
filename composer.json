@@ -1,10 +1,22 @@
 {
-  "name": "msikma/jul",
+  "name": "dada/jul",
   "version": "1.0.0",
-  "license": "none",
+  "authors": [
+    { "name": "Michiel Sikma", "email": "michiel@sikma.org" },
+    { "name": "Acmlm" },
+    { "name": "Xkeeper" },
+    { "name": "Inuyasha" }
+  ],
+  "support": {
+    "issues": "https://github.com/msikma/jul/issues"
+  },
+  "license": "proprietary",
+  "keywords": ["forum", "community"],
+  "homepage": "https://github.com/msikma/jul",
   "type": "project",
   "repository": "https://github.com/msikma/jul",
   "require": {
-    "php": ">=7.0.0"
+    "php": ">=7.0.0",
+    "dshafik/php7-mysql-shim": "^0.2.0"
   }
 }

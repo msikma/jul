@@ -1,6 +1,6 @@
 <?php
-	require_once '../lib/function.php';
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/function.php';
+	require_once 'lib/actions/layout.php';
 
 	$misc   = $sql->fetchq('SELECT * FROM misc');
 	$tstats = $sql->query('SHOW TABLE STATUS');
@@ -26,7 +26,7 @@
 	<br>$tblstart
 	<tr>$tccellh>Interesting statistics</td></tr>
 	<tr>$tccell1l>
-		<img src='{$GLOBALS['jul_base_dir']}/ext/ppdgauge.php' alt='Posts in last 24 hours' title='Posts in last 24 hours' style='display: block; float: right;'>
+		<img src='{$GLOBALS['jul_base_dir']}/ext/ppdgauge.png' width='256' height='256' alt='Posts in last 24 hours' title='Posts in last 24 hours' style='display: block; float: right;'>
 		<ul>
 			<li><a href='{$GLOBALS['jul_views_path']}/activeusers.php'>Recently active posters</a></li>
 			<li><a href='{$GLOBALS['jul_views_path']}/acs.php'>Daily poster rankings</a></li>
@@ -46,11 +46,11 @@
 	<br>$tblstart
 	$tccellh width='200'>Records$tccellh>&nbsp<tr>
 	$tccell1s><b>Most posts within 24 hours:</td>
-	$tccell2ls>$misc[maxpostsday], on ".date($dateformat,$misc['maxpostsdaydate'])."<tr>
+	$tccell2ls>".($misc['maxpostsdaydate'] ? "$misc[maxpostsday], on ".date($dateformat,$misc['maxpostsdaydate']) : 'Unknown')."<tr>
 	$tccell1s><b>Most posts within 1 hour:</td>
-	$tccell2ls>$misc[maxpostshour], on ".date($dateformat,$misc['maxpostshourdate'])."<tr>
+	$tccell2ls>".($misc['maxpostshourdate'] ? "$misc[maxpostshour], on ".date($dateformat,$misc['maxpostshourdate']) : 'Unknown')."<tr>
 	$tccell1s><b>Most users online:</td>
-	$tccell2ls>$misc[maxusers], on ".date($dateformat,$misc['maxusersdate'])."$misc[maxuserstext]
+	$tccell2ls>".($misc['maxusersdate'] ? "$misc[maxusers], on ".date($dateformat,$misc['maxusersdate']) : 'Unknown')."$misc[maxuserstext]
 	$tblend<br>".
 /*
 	// This is kind of in Edit Profile already.

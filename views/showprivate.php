@@ -1,5 +1,5 @@
 <?php
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 	if (!$id)
 		return header("Location: {$GLOBALS['jul_views_path']}/private.php");
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- Private Messages";
@@ -8,12 +8,12 @@
 	$msg = $sql->fetchq("SELECT * FROM pmsgs,pmsgs_text WHERE id=$id AND id=pid");
 
 	if (!$log) {
-		require_once '../lib/layout.php';
-		errorpage("Couldn't get the private message.  You are not logged in.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
+		require_once 'lib/actions/layout.php';
+		error_page("Couldn't get the private message.  You are not logged in.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
 	}
 	elseif (!$msg || (($msg['userto'] != $loguserid && $msg['userfrom'] != $loguserid) && !$isadmin)) {
-		require_once '../lib/layout.php';
-		errorpage("Couldn't get the private message.  It either doesn't exist or was not sent to you.",'your private message inbox',"{$GLOBALS['jul_views_path']}/private.php");
+		require_once 'lib/actions/layout.php';
+		error_page("Couldn't get the private message.  It either doesn't exist or was not sent to you.",'your private message inbox',"{$GLOBALS['jul_views_path']}/private.php");
 	}
 
 	if ($isadmin && $msg['userto'] != $loguserid)
@@ -22,7 +22,7 @@
 
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$msg[userfrom]");
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- Private Messages: $msg[title]";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	$top = "<table width=100%><td align=left>$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - <a href={$GLOBALS['jul_views_path']}/private.php>$pmlinktext</a> - $msg[title]</table>";
 	if ($msg['userto'] == $loguserid)

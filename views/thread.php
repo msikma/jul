@@ -1,6 +1,6 @@
 <?php
 
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 
 	$id			= filter_int($_GET['id']);
 	$user		= filter_int($_GET['user']);
@@ -51,8 +51,8 @@
 		$id		= $sql->resultq("SELECT `thread` FROM `posts` WHERE `id` = '{$pid}'");
 		if (!$id) {
 			$meta['noindex'] = true; // prevent search engines from indexing
-			require_once '../lib/layout.php';
-			errorpage("Couldn't find a post with ID #".intval($pid).".  Perhaps it's been deleted?",'the index page',"index.php");
+			require_once 'lib/actions/layout.php';
+			error_page("Couldn't find a post with ID #".intval($pid).".  Perhaps it's been deleted?",'the index page',"index.php");
 		}
 		$numposts = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `thread` = '{$id}' AND `id` < '{$pid}'");
 		$page = floor($numposts / $ppp);
@@ -76,13 +76,13 @@
 			$meta['noindex'] = true; // prevent search engines from indexing
 			if (!$ismod) {
 				trigger_error("Accessed nonexistant thread number #$id", E_USER_NOTICE);
-				require_once '../lib/layout.php';
+				require_once 'lib/actions/layout.php';
 				notAuthorizedError();
 			}
 
 			if ($sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `thread` = '{$id}'") <= 0) {
-				require_once '../lib/layout.php';
-				errorpage("Thread ID #{$id} doesn't exist, and no posts are associated with the invalid thread ID.",'the index page',"index.php");
+				require_once 'lib/actions/layout.php';
+				error_page("Thread ID #{$id} doesn't exist, and no posts are associated with the invalid thread ID.",'the index page',"index.php");
 			}
 
 			// Mod+ can see and possibly remove bad posts
@@ -101,7 +101,7 @@
 			$meta['noindex'] = true; // prevent search engines from indexing
 			if (!$ismod) {
 				trigger_error("Accessed thread number #$id with bad forum ID $forumid", E_USER_WARNING);
-				require_once '../lib/layout.php';
+				require_once 'lib/actions/layout.php';
 				notAuthorizedError();
 			}
 			$thread_error = E_BADFORUM;
@@ -113,7 +113,7 @@
 			if ($log)
 				trigger_error("Attempted to access thread $id in level-$forum[minpower] restricted forum $forumid (user's powerlevel: ".intval($loguser['powerlevel']).")", E_USER_NOTICE);
 			$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-			require_once '../lib/layout.php';
+			require_once 'lib/actions/layout.php';
 			notAuthorizedError();
 		}
 
@@ -165,8 +165,8 @@
 		$uname = $sql->resultq("SELECT name FROM users WHERE id={$user}");
 		if (!$uname) {
 			$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-			require_once '../lib/layout.php';
-			errorpage("User ID #{$user} doesn't exist.",'the index page',"index.php");
+			require_once 'lib/actions/layout.php';
+			error_page("User ID #{$user} doesn't exist.",'the index page',"index.php");
 		}
 
 		$thread['replies'] = $sql->resultq("SELECT count(*) FROM posts WHERE user={$user}") - 1;
@@ -176,13 +176,13 @@
 	}
 	else {
 		$meta['noindex'] = true; // prevent search engines from indexing what they can't access
-		require_once '../lib/layout.php';
-		errorpage("No thread specified.",'the index page',"index.php");
+		require_once 'lib/actions/layout.php';
+		error_page("No thread specified.",'the index page',"index.php");
 	}
 
 	//temporary
 	if ($windowtitle) $windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- $windowtitle";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	$fonline = "";
 	if ($id && !$thread_error) {
@@ -457,5 +457,5 @@ function notAuthorizedError() {
 	global $log;
 	$redir = (($log) ? 'index.php' : "{$GLOBALS['jul_views_path']}/login.php");
 	$rtext = (($log) ? 'the index page' : 'log in (then try again)');
-	errorpage("Couldn't enter the forum. You don't have access to this restricted forum.", $rtext, $redir);
+	error_page("Couldn't enter the forum. You don't have access to this restricted forum.", $rtext, $redir);
 }
