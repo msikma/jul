@@ -30,4 +30,3 @@ $f = $_GET['f'];
  ImageColorTransparent($img,$ctp);
  ImagePNG($img);
  ImageDestroy($img);
-?>
