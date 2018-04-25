@@ -2,7 +2,8 @@
 .old/
 .well-known/
 board/
-xkeeper/
+vendor/
+.php_cs.cache
 /version.txt
 /config.php
 lib/firewall.php
