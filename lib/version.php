@@ -9,12 +9,14 @@ function get_composer() {
 // Returns a formatted commit number from Git.
 function get_commit($composer) {
   $data = explode('$$', shell_exec("git log --format='%h$$%ad$$%H' --date='short' -n 1"));
+  $rev = trim(shell_exec("git rev-list HEAD --count"));
   // If Git is not available somehow, $data will probably be [''].
   if (!$data || $data[0] === '') $data = null;
   return array(
     'hash' => $data[0],
     'full_hash' => $data[2],
     'last_commit' => $data[1],
+    'rev' => $rev,
     'url' => $composer['repository'].'/commit/'.$data[2],
     'string' => 'commit '.$data[0].' ['.$data[1].']'
   );

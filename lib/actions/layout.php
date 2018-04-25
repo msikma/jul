@@ -273,7 +273,7 @@ function version_footer()
 
     return "
 {$smallfont}
-	Jul v{$GLOBALS['jul_version']['version']}-{$name[0]} {$commit}
+	Jul v{$GLOBALS['jul_version']['version']}-{$name[0]} r{$GLOBALS['jul_version']['commit']['rev']} {$commit}
 	<br>&copy;{$GLOBALS['jul_version']['copyright_start']}-{$GLOBALS['jul_version']['copyright_end']} {$GLOBALS['jul_version']['authors']}
 </font>";
 }
