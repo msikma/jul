@@ -39,7 +39,7 @@ header('Content-type: text/css');
 
 // If the current theme wishes only to include its own CSS, skip the standard rules.
 if (isset($schemetype) && $schemetype === 1) {
-  $content = file_get_contents($GLOBALS['jul_base_dir']."/themes/$theme/style.css");
+  $content = file_get_contents($GLOBALS['jul_base_path']."/themes/$theme/style.css");
   print($content);
   exit;
 }
