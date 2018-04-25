@@ -1,5 +1,7 @@
 <?php
 
+require_once 'themes/default/settings.php';
+
 $startingtime = microtime(true);
 
 error_on_bad_db();
@@ -138,6 +140,20 @@ if ($loguser) {
     $loguser['id'] = null;
     $log = 0;
 }
+
+$scheme = filter_int($scheme);
+if (isset($_GET['scheme']) && is_numeric($_GET['scheme'])) {
+    $scheme = intval($_GET['scheme']);
+} elseif (isset($_GET['scheme'])) {
+    $scheme = 0;
+}
+
+// Load theme settings.
+$schemerow = $sql->fetchq("SELECT `name`, `file` FROM schemes WHERE id='$scheme'");
+$theme = $schemerow ? $schemerow['file'] : 'night';
+
+// Include the chosen theme settings, which sets up its variables/colors.
+include "themes/$theme/settings.php";
 
 if ($x_hacks['superadmin']) {
     $loguser['powerlevel'] = 4;
