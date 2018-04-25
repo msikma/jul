@@ -97,7 +97,7 @@ if ($formcss) {
     if (!isset($formtextcolor)) {
         $formtextcolor = $textcolor;
     }
-    $css .= "
+    print("
 textarea,input,select{
   border:	#$inputborder solid 1px;
   background:#000000;
@@ -116,5 +116,5 @@ textarea:focus {
 .submit{
   border:	#$inputborder solid 2px;
   font:	10pt $font;}
-";
+");
 }
