@@ -34,8 +34,8 @@ $statusicons['hot'] = "<img class='ui-icon' src={$base}/images/hot.gif>";
 $statusicons['hotoff'] = "<img class='ui-icon' src={$base}/images/hotoff.gif>";
 $statusicons['off'] = "<img class='ui-icon' src={$base}/images/off.gif>";
 
-$statusicons['getnew'] = '<img class="ui-icon" src='.$GLOBALS['jul_base_dir'].'/images/getnew.png title="Go to new posts" align="absmiddle">';
-$statusicons['getlast'] = '<img class="ui-icon" src='.$GLOBALS['jul_base_dir'].'/images/getlast.png title="Go to last post" style="position:relative;top:1px;">';
+$statusicons['getnew'] = '<img class="ui-icon" src='.$base.'/images/getnew.png title="Go to new posts" align="absmiddle">';
+$statusicons['getlast'] = '<img class="ui-icon" src='.$base.'/images/getlast.png title="Go to last post" style="position:relative;top:1px;">';
 
 $statusicons['sticky'] = 'Sticky:';
 $statusicons['poll'] = 'Poll:';
