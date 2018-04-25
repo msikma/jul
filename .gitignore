@@ -10,3 +10,5 @@ lib/firewall.php
 *.DS_Store
 .AppleDouble
 .LSOverride
+/todo.md
+/_stuff
