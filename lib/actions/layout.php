@@ -10,30 +10,17 @@ header('Pragma: no-cache');
 $userip = $_SERVER['REMOTE_ADDR'];
 
 if (!($clientip = filter_var(getenv('HTTP_CLIENT_IP'), FILTER_VALIDATE_IP))) {
-    $clientip = 'XXXXXXXXXXXXXXXXX';
+  $clientip = 'XXXXXXXXXXXXXXXXX';
 }
 if (!($forwardedip = filter_var(getenv('HTTP_X_FORWARDED_FOR'), FILTER_VALIDATE_IP))) {
-    $forwardedip = 'XXXXXXXXXXXXXXXXX';
+  $forwardedip = 'XXXXXXXXXXXXXXXXX';
 }
-//	$clientip=(getenv("HTTP_CLIENT_IP") == "" ? "XXXXXXXXXXXXXXXXX" : getenv("HTTP_CLIENT_IP"));
-//	$forwardedip=(getenv("HTTP_X_FORWARDED_FOR") == "" ? "XXXXXXXXXXXXXXXXX" : getenv("HTTP_X_FORWARDED_FOR"));
-
 if (!isset($windowtitle)) {
-    $windowtitle = $GLOBALS['jul_settings']['board_name'];
+  $windowtitle = $GLOBALS['jul_settings']['board_name'];
 }
-// remove these?
-require_once 'lib/actions/colors.php';
-if ($specialscheme) {
-    include "schemes/spec-$specialscheme.php";
-}
+
 $home = base_dir().'/';
 $GLOBALS['jul_settings']['board_title'] = "<a href='{$home}'>{$GLOBALS['jul_settings']['board_title']}</a>";
-
-//$GLOBALS['jul_settings']['board_title'] = "<a href='./'><img src=\"images/christmas-banner-blackroseII.png\" title=\"Not even Christmas in July, no. It's May.\"></a>";
-
-// PONIES!!!
-// if($forumid==30) $GLOBALS['jul_settings']['board_title'] = "<a href='./'><img src=\"images/poniecentral.gif\" title=\"YAAAAAAAAAAY\"></a>";
-// end PONIES!!!
 
 $race = $loguserid ? postradar($loguserid) : '';
 
@@ -44,17 +31,17 @@ $smallfont = '<font class="fonts">';
 $tinyfont = '<font class="fontt">';
 
 foreach (array('1', '2', 'c', 'h') as $celltype) {
-    $cell = "<td class='tbl tdbg$celltype font";
-    $celln = "tccell$celltype";
-    $$celln = $cell." center'";
-    ${$celln.'s'} = $cell."s center'";
-    ${$celln.'t'} = $cell."t center'";
-    ${$celln.'l'} = $cell."'";
-    ${$celln.'r'} = $cell." right'";
-    ${$celln.'ls'} = $cell."s'";
-    ${$celln.'lt'} = $cell."t'";
-    ${$celln.'rs'} = $cell."s right'";
-    ${$celln.'rt'} = $cell."t right'";
+  $cell = "<td class='tbl tdbg$celltype font";
+  $celln = "tccell$celltype";
+  $$celln = $cell." center'";
+  ${$celln.'s'} = $cell."s center'";
+  ${$celln.'t'} = $cell."t center'";
+  ${$celln.'l'} = $cell."'";
+  ${$celln.'r'} = $cell." right'";
+  ${$celln.'ls'} = $cell."s'";
+  ${$celln.'lt'} = $cell."t'";
+  ${$celln.'rs'} = $cell."s right'";
+  ${$celln.'rt'} = $cell."t right'";
 }
 
 $inpt = '<input type="text" name';
@@ -72,121 +59,6 @@ $sep = array('<br><br>--------------------<br>',
      '<br><br><hr>',
      '<br><br>', );
 $br = "\n";
-
-// DELETE
-if (isset($bgimage) && '' != $bgimage) {
-    $bgimage = " url('$bgimage')";
-} else {
-    $bgimage = '';
-}
-
-if (isset($schemetype) && 1 == $schemetype) {
-    $css = "<link rel='stylesheet' href='{$GLOBALS['jul_base_dir']}/css/basics.css' type='text/css'><link rel='stylesheet' type='text/css' href='/css/$schemefile.css'>";
-    // possibly causes issue #19 - not sure why this was here
-    // likely irrelevant after addition of custom date formats
-    // (remove this later)
-    //$dateformat = "m/d/y h:i";
-    //$dateshort  = "m/d/y";
-
-    // backwards compat
-    global $bgcolor, $linkcolor;
-    $bgcolor = '000';
-    $linkcolor = 'FFF';
-} else {
-    $css = "
-	<link rel='stylesheet' href='{$GLOBALS['jul_base_dir']}/css/base.css' type='text/css'>
-	<style type='text/css'>
-	a			{	color: #$linkcolor;	}
-	a:visited	{	color: #$linkcolor2;	}
-	a:active	{	color: #$linkcolor3;	}
-	a:hover		{	color: #$linkcolor4;	}
-	body {
-		scrollbar-face-color:		#$scr3;
-		scrollbar-track-color:		#$scr7;
-		scrollbar-arrow-color:		#$scr6;
-		scrollbar-highlight-color:	#$scr2;
-		scrollbar-3dlight-color:	#$scr1;
-		scrollbar-shadow-color:	#$scr4;
-		scrollbar-darkshadow-color:	#$scr5;
-		color: #$textcolor;
-		font:13px $font;
-		background: #$bgcolor$bgimage;
-	}
-	div.lastpost { font: 10px $font2 !important; white-space: nowrap; }
-	div.lastpost:first-line { font: 13px $font !important; }
-	.sparkline { display: none; }
-	.brightlinks a { color: #$brightlinkcolor; font-weight: normal; }
-	.brightlinks a:hover { font-weight: normal; }
-	.font 	{font:13px $font}
-	.fonth	{font:13px $font;color:$tableheadtext}	/* is this even used? */
-	.fonts	{font:10px $font2}
-	.fontt	{font:10px $font3}
-	.tdbg1	{background:#$tablebg1}
-	.tdbg2	{background:#$tablebg2}
-	.tdbgc	{background:#$categorybg}
-	.tdbgh	{background:#$tableheadbg; color:$tableheadtext}
-	.table	{empty-cells:	show; width: $tablewidth;
-			 border-top:	#$tableborder 1px solid;
-			 border-left:	#$tableborder 1px solid;}
-	td.tbl	{border-right:	#$tableborder 1px solid;
-			 border-bottom:	#$tableborder 1px solid}
-";
-}
-
-$numcols = (filter_int($numcols) ? $numcols : 60);
-
-if ($formcss) {
-    $numcols = 80;
-    if (!isset($formtextcolor)) {
-        $formtextcolor = $textcolor;
-    }
-    $css .= "
-textarea,input,select{
-  border:	#$inputborder solid 1px;
-  background:#000000;
-  color:	#$formtextcolor;
-  font:	10pt $font;}
-textarea:focus {
-  border:	#$inputborder solid 1px;
-  background:#000000;
-  color:	#$formtextcolor;
-  font:	10pt $font;}
-.radio{
-  border:	none;
-  background:none;
-  color:	#$formtextcolor;
-  font:	10pt $font;}
-.submit{
-  border:	#$inputborder solid 2px;
-  font:	10pt $font;}
-";
-}
-
-// April 1st page flip
-//$css .= "
-//	body {
-//		transform:			scale(-1, 1);
-//		-o-transform:		scale(-1, 1);
-//		-moz-transform:		scale(-1, 1);
-//		-webkit-transform:	scale(-1, 1);
-//	}
-//	.tbl {
-//		transform:			scale(-1, 1);
-//		-o-transform:		scale(-1, 1);
-//		-moz-transform:		scale(-1, 1);
-//		-webkit-transform:	scale(-1, 1);
-//	}
-//";
-
-// 10/18/08 - hydrapheetz: added a small hack for "extra" css goodies.
-if (!isset($nullscheme) && !isset($schemetype)) {
-    if (isset($css_extra)) {
-        $css .= $css_extra."\n";
-    }
-    $css .= '</style>';
-}
-
-// $css	.= "<!--[if IE]><style type='text/css'>#f_ikachan, #f_doomcounter, #f_mustbeblind { display: none; }</style><![endif]-->	";
 
 $headlinks = '';
 if ($loguserid) {
@@ -210,6 +82,7 @@ if ($loguserid) {
 - <a href=\"{$GLOBALS['jul_views_path']}/login.php\">Login</a>";
 }
 
+// TODO: make this show up for all admins? Test it.
 if (in_array($loguserid, array(1, 5, 2100))) {
     $xminilog = $sql->fetchq('SELECT COUNT(*) as count, MAX(`time`) as time FROM `minilog`');
     if ($xminilog['count']) {
@@ -274,23 +147,12 @@ if (!$ipbanned && !$torbanned && (!defined('IS_AJAX_REQUEST') || !IS_AJAX_REQUES
         $ct = ctime();
         $sql->query("INSERT INTO hits VALUES ({$views},{$u},'{$userip}',{$ct})");
     }
-
-    // Print out a message to IRC whenever a 10-million-view milestone is hit
-    if ($views % 10000000 > 9999994 || ($views % 10000000 >= 9991000 && 0 == $views % 1000) || ($views % 10000000 >= 9999900 && 0 == $views % 10) || ($views > 5 && $views % 10000000 < 5)) {
-        xk_ircsend('0|View '.xk(11).str_pad(number_format($views), 10, ' ', STR_PAD_LEFT).xk().' by '.($loguser['id'] ? xk(11).str_pad($loguser['name'], 25, ' ') : xk(12).str_pad($_SERVER['REMOTE_ADDR'], 25, ' ')).xk().($views % 1000000 > 500000 ? ' ('.xk(12).str_pad(number_format(1000000 - ($views % 1000000)), 5, ' ', STR_PAD_LEFT).xk(2).' to go'.xk().')' : ''));
-    }
 }
 
 // Dailystats update in one query
 $sql->query('INSERT INTO dailystats (date, users, threads, posts, views) '.
              "VALUES ('".date('m-d-y', ctime())."', (SELECT COUNT( * ) FROM users), (SELECT COUNT(*) FROM threads), (SELECT COUNT(*) FROM posts), $views) ".
              "ON DUPLICATE KEY UPDATE users=VALUES(users), threads=VALUES(threads), posts=VALUES(posts), views=$views");
-
-//	$sql->query("INSERT INTO dailystats (date) VALUES ('".date('m-d-y',ctime())."')");
-//	$sql->query("UPDATE dailystats SET users=$count[u],threads=$count[t],posts=$count[p],views=$views WHERE date='".date('m-d-y',ctime())."'");
-
-//No gunbound rankset here (yet), stop futily trying to update it
-//updategb();
 
 $new = '&nbsp;';
 $privatebox = '';
@@ -325,44 +187,25 @@ window.jul_settings = {$settings_json};
 
 $jscripts = '';
 if ($GLOBALS['jul_settings']['display_ikachan']) { // Ikachan! :D!
-    //$ikachan = 'images/ikachan/vikingikachan.png';
-    //$ikachan = 'images/sankachan.png';
-    //$ikachan = 'images/ikamad.png';
-    $ikachan = 'images/squid.png';
-
-    $ikaquote = 'Capturing turf before it was cool';
-    //$ikaquote = 'Someone stole my hat!';
-    //$ikaquote = 'If you don\'t like Christmas music, well... it\'s time to break out the earplugs.';
-    //$ikaquote = 'This viking helmet is stuck on my head!';
-    //$ikaquote = 'Searching for hats to wear!  If you find any, please let me know...';
-    //$ikaquote = 'What idiot thought celebrating a holiday five months late was a good idea?';
-    //$ikaquote = 'Back to being a fixture now, please stop bitching.';
-    //$ikaquote = 'I just want to let you know that you are getting coal this year. You deserve it.';
-
-    $yyy = "<img id='f_ikachan' src='$ikachan' style=\"z-index: 999999; position: fixed; left: ".mt_rand(0, 100).'%; top: '.mt_rand(0, 100)."%;\" title=\"$ikaquote\">";
+  $ikachan = $GLOBALS['jul_themes_path'].'/default/images/squid.png';
+  $ikaquotes = array(
+    'Capturing turf before it was cool',
+    'Someone stole my hat!',
+    'If you don\'t like Christmas music, well... it\'s time to break out the earplugs.',
+    'This viking helmet is stuck on my head!',
+    'Searching for hats to wear!  If you find any, please let me know...',
+    'What idiot thought celebrating a holiday five months late was a good idea?',
+    'I just want to let you know that you are getting coal this year. You deserve it.'
+  );
+  $ikaquote = $ikaquotes[array_rand($ikaquotes)];
+  $yyy = "<img id='f_ikachan' src='$ikachan' style=\"z-index: 999999; position: fixed; left: ".mt_rand(0, 100).'%; top: '.mt_rand(0, 100)."%;\" title=\"$ikaquote\">";
 }
 
-/*if ($_GET['w']) {
-    $yyy	= "<img src=images/wave/squid.png style=\"position: fixed; left: ". mt_rand(0,100) ."%; top: ". mt_rand(0,100) ."%;\" title=\"Ikachaaaan!\">";
-    $yyy	.= "<img src=images/wave/cheepcheep.png style=\"position: fixed; left: ". mt_rand(0,100) ."%; top: ". mt_rand(0,100) ."%;\" title=\"cheep tricks\">";
-    $yyy .= "<img src=images/wave/chest.png style=\"position: fixed; right: 20px; bottom: 0px;\" title=\"1\">";
-
-    for ($xxx = rand(0,5); $xxx < 20; $xxx++) {
-        $yyy .= "<img src=images/wave/seaweed.png style=\"position: fixed; left: ". mt_rand(0,100) ."%; bottom: -". mt_rand(24,72) ."px;\" title=\"weed\">";
-    }
-}*/
-
 $dispviews = $views;
-//	if (($views % 1000000 >= 999000) && ($views % 1000000 < 999990))
-//		$dispviews = substr((string)$views, 0, -3) . "???";
-
-// :shepicide:
 $body = '<body>';
-
 if (!isset($meta)) {
     $meta = array();
 }
-
 $metatag = '';
 
 if (filter_bool($meta['noindex'])) {
@@ -381,6 +224,8 @@ $header1 = "<html><head><meta http-equiv='Content-type' content='text/html; char
 {$GLOBALS['jul_js_vars']}
 $metatag
 <link rel=\"shortcut icon\" href=\"/images/favicons/favicon".(!$x_hacks['host'] ? rand(1, 8).'' : '').".ico\" type=\"image/x-icon\">
+<link rel='stylesheet' href='{$GLOBALS['jul_base_dir']}/css/base.css' type='text/css'>
+<link rel='stylesheet' href='{$GLOBALS['jul_views_path']}/theme/style.css' type='text/css'>
 $css
 </head>
 $body
@@ -433,6 +278,10 @@ function version_footer()
 </font>";
 }
 
+if (isset($_GET['scheme']) && is_numeric($_GET['scheme'])) {
+    $GLOBALS['jul_settings']['board_title'] .= "</a><br><span class='font'>Previewing scheme \"<b>".$schemerow['name'].'</b>"</span>';
+}
+
 $ref = filter_string($_SERVER['HTTP_REFERER']);
 $url = getenv('SCRIPT_URL');
 
@@ -452,18 +301,6 @@ if ($ref && 'jul.rus' != substr($ref, 7, 7)) {
 $sql->query("DELETE FROM guests WHERE ip='$userip' OR date<".(ctime() - 300));
 
 if ($log) {
-    /*
-        $ulastip=mysql_result(mysql_query("SELECT lastip FROM users WHERE id=$loguserid"),0,0);
-        $aol1=(substr($userip,0,7)=='152.163' or substr($userip,0,7)=='205.188' or substr($userip,0,6)=='64.12.' or substr($userip,0,6)=='195.93' or substr($userip,0,6)=='198.81');
-        $aol2=(substr($ulastip,0,7)=='152.163' or substr($ulastip,0,7)=='205.188' or substr($ulastip,0,6)=='64.12.' or substr($ulastip,0,6)=='195.93' or substr($ulastip,0,6)=='198.81');
-        if($userip!=$ulastip && !($aol1 && $aol2)){
-        $fpnt=fopen('ipchanges.log', 'a');
-        $r=fputs($fpnt, "User $loguserid IP changed from $ulastip to $userip, on ".date($dateformat,ctime())."
-    ");
-        $r=fclose($fpnt);
-        }
-    */
-    //if ($loguserid != 3 && $loguserid != 2)
     if (($loguser['powerlevel'] <= 5) && (!defined('IS_AJAX_REQUEST') || !IS_AJAX_REQUEST)) {
         $influencelv = calclvl(calcexp($loguser['posts'], (ctime() - $loguser['regdate']) / 86400));
 
@@ -483,7 +320,7 @@ if ($log) {
             }
             $diff = '/'.($diff + 1) * 8;
 
-            xk_ircsend('102|'.xk(7)."User $loguser[name] (id $loguserid) changed from IP ".xk(8).$loguser['lastip'].xk(7).' to '.xk(8).$_SERVER['REMOTE_ADDR'].xk(7)." ({$color}{$diff}".xk(7).')');
+            report_notice("User $loguser[name] (id $loguserid) changed from IP {$loguser['lastip']} to {$_SERVER['REMOTE_ADDR']}.");
         }
 
         $sql->query('UPDATE users SET lastactivity='.ctime().",lastip='$userip',lasturl='".addslashes($url)."',lastforum=0,`influence`='$influencelv' WHERE id=$loguserid");
@@ -524,9 +361,9 @@ $smallfont
 ';
 if ($ipbanned) {
     if ('Banned; account hijacked. Contact admin via PM to change it.' == $loguser['title']) {
-        $reason = 'Your account was hijacked; please contact Xkeeper to reset your password and unban your account.';
+        $reason = 'Your account was hijacked; please contact '.$GLOBALS['jul_settings']['primary_admin_name'].' to reset your password and unban your account.';
     } elseif ($loguser['title']) {
-        $reason = 'Ban reason: '.$loguser['title'].'<br>If you think have been banned in error, please contact Xkeeper.';
+        $reason = 'Ban reason: '.$loguser['title'].'<br>If you think have been banned in error, please contact '.$GLOBALS['jul_settings']['primary_admin_name'].'.';
     } else {
         $reason = $sql->resultq("SELECT `reason` FROM ipbans WHERE $checkips", 0, 0);
         $reason = ($reason ? "Reason: $reason" : '<i>(No reason given)</i>');
@@ -536,14 +373,14 @@ You are banned from this board.
 <br>".$reason."
 <br>
 <br>If you think you have been banned in error, please contact the administrator:
-<br>E-mail: xkeeper@gmail.com
+<br>E-mail: ".$GLOBALS['jul_settings']['primary_admin_email']."
 $tblend$footer");
 }
 if ($torbanned) {
     die("$header<br>$tblstart$tccell1>
 You appear to be using a Tor proxy. Due to abuse, Tor usage is forbidden.
-<br>If you have been banned in error, please contact Xkeeper.
+<br>If you have been banned in error, please contact ".$GLOBALS['jul_settings']['primary_admin_name'].".
 <br>
-<br>E-mail: xkeeper@gmail.com
+<br>E-mail: ".$GLOBALS['jul_settings']['primary_admin_email']."
 $tblend$footer");
 }

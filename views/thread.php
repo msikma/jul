@@ -348,7 +348,7 @@
 	";
 	if ($forumid) {
 		if ($forum['pollstyle'] != -2) $threadforumlinks .= "<a href='{$GLOBALS['jul_views_path']}/newthread.php?poll=1&id=$forumid'>$newpollpic</a> - ";
-		else                           $threadforumlinks .= "<img src=\"images/nopolls.png\" align=\"absmiddle\"> - ";
+		else                           $threadforumlinks .= "{$ui_icons['no_more_polls']} - ";
 		$threadforumlinks .= "<a href='{$GLOBALS['jul_views_path']}/newthread.php?id=$forumid'>$newthreadpic</a>";
 		if (!$thread['closed']) $threadforumlinks .= " - <a href='{$GLOBALS['jul_views_path']}/newreply.php?id=$id'>$newreplypic</a>";
 		else                    $threadforumlinks .= " - $closedpic";

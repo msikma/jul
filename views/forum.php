@@ -123,7 +123,7 @@
 
 		$newthreadbar =
 			"<td align=right class=fonts>".
-			(($forum['pollstyle'] != -2) ? "<a href={$GLOBALS['jul_views_path']}/newthread.php?poll=1&id=$id>$newpollpic</a>" : "<img src=\"images/nopolls.png\" align=\"absmiddle\">")
+			(($forum['pollstyle'] != -2) ? "<a href={$GLOBALS['jul_views_path']}/newthread.php?poll=1&id=$id>$newpollpic</a>" : $ui_icons['no_more_polls'])
 			." - <a href={$GLOBALS['jul_views_path']}/newthread.php?id=$id>$newthreadpic</a></td>";
 	}
 	$infotable =

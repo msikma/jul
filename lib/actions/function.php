@@ -97,6 +97,9 @@ if (filter_int($_COOKIE['loguserid']) && filter_string($_COOKIE['logverify'])) {
 
 $tzoff = 0;
 
+// Names of the user groups.
+$pwlnames = array('-2' => 'Permabanned', '-1' => 'Banned', 'Normal', 'Normal +', 'Moderator', 'Administrator', 'Sysadmin');
+
 if ($loguser) {
     $loguserid = $loguser['id'];
     $tzoff = $loguser['timezone'] * 3600;

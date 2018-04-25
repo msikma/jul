@@ -12,6 +12,8 @@ $GLOBALS['jul_base_dir'] = str_replace($containing_dir, '', $base_dir);
 $GLOBALS['jul_home'] = $GLOBALS['jul_base_dir'].'/';
 // Path where we can find the views, e.g. thread.php, forum.php.
 $GLOBALS['jul_views_path'] = "{$GLOBALS['jul_base_dir']}/views";
+// Path where we can find themes.
+$GLOBALS['jul_themes_path'] = "{$GLOBALS['jul_base_dir']}/themes";
 
 // Allow us to include from lib/ wherever we are.
 set_include_path($GLOBALS['jul_base_path']);

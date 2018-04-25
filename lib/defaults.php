@@ -33,6 +33,10 @@ $default_forum_settings = array(
 	'irc_channels' => '#tcrf,#x',
 	'irc_servers' => array('irc.badnik.zone', 'irc.rustedlogic.net', 'irc.tcrf.net'),
 
+	// Primary admin, the person people are told to turn to if they are e.g. banned.
+	'primary_admin_name' => 'Dada',
+	'primary_admin_email' => 'tomato@tomatoland.org',
+
 	// Ikachan! :D!
 	'display_ikachan' => false,
 	// Settings of the top menu. This is an array of routes: use only specified routes in lib/routing.php.
