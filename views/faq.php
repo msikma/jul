@@ -114,7 +114,7 @@
 		  </tr>
 		  <tr>
 		    <td class='tbl tdbg2'>&amp;expgaintime&amp;</td>
-		    <td class='tbl tdbg1'>Seconds for 1 EXP when idle</td>
+		    <td class='tbl tdbg1'>for 1 EXP when idle</td>
 		  </tr>
 		  <tr>
 		    <td class='tbl tdbg2'>&amp;expdone&amp;</td>

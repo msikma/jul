@@ -117,7 +117,7 @@
 	$lvl=calclvl($exp);
 	$expleft=calcexpleft($exp);
 	$expstatus="Level: $lvl<br>EXP: $exp (for next level: $expleft)";
-	if($user['posts'] > 0) $expstatus.="<br>Gain: ".calcexpgainpost($user['posts'],(ctime()-$user['regdate'])/86400)." EXP per post, ".calcexpgaintime($user['posts'],(ctime()-$user['regdate'])/86400)." seconds to gain 1 EXP when idle";
+	if($user['posts'] > 0) $expstatus.="<br>Gain: ".calcexpgainpost($user['posts'],(ctime()-$user['regdate'])/86400)." EXP per post,<br /> ".calcexpgaintime($user['posts'],(ctime()-$user['regdate'])/86400)." to gain 1 EXP when idle";
 	$postavg=sprintf("%01.2f",$user['posts']/(ctime()-$user['regdate'])*86400);
 	$totalwidth=116;
 	$barwidth=@floor(($user['posts']/$maxposts)*$totalwidth);

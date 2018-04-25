@@ -17,6 +17,7 @@
   "repository": "https://github.com/msikma/jul",
   "require": {
     "php": ">=7.0.0",
-    "dshafik/php7-mysql-shim": "^0.2.0"
+    "dshafik/php7-mysql-shim": "^0.2.0",
+    "coduo/php-humanizer": "^2.0"
   }
 }

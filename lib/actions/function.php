@@ -1,5 +1,7 @@
 <?php
 
+use Coduo\PHPHumanizer\DateTimeHumanizer;
+
 require_once 'themes/default/settings.php';
 
 $startingtime = microtime(true);
@@ -292,7 +294,12 @@ function calcexpgainpost($posts, $days)
 }
 function calcexpgaintime($posts, $days)
 {
-    return sprintf('%01.3f', 172800 * @(@pow(@($days / $posts), 0.5) / $posts));
+    $val = (int)sprintf('%01d', 172800 * @(@pow(@($days / $posts), 0.5) / $posts));
+    $str = DateTimeHumanizer::preciseDifference(date_create_from_format('U', time()), date_create_from_format('U', time() + $val));
+    $str = str_replace('from now', '', $str);
+    $str = preg_replace('/(, [0-9]+ seconds)/', '', $str);
+    $str = explode(',', $str);
+    return implode(',', array_slice($str, 0, -2)).', '.implode(' and ', array_slice($str, -2));
 }
 
 function calcexpleft($exp)
