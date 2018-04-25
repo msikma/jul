@@ -14,6 +14,8 @@ $GLOBALS['jul_home'] = $GLOBALS['jul_base_dir'].'/';
 $GLOBALS['jul_views_path'] = "{$GLOBALS['jul_base_dir']}/views";
 // Path where we can find themes.
 $GLOBALS['jul_themes_path'] = "{$GLOBALS['jul_base_dir']}/themes";
+// Path to the images.
+$GLOBALS['jul_images_path'] = "{$GLOBALS['jul_base_dir']}/images";
 
 // Allow us to include from lib/ wherever we are.
 set_include_path($GLOBALS['jul_base_path']);

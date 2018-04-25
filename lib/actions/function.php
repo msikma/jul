@@ -155,6 +155,16 @@ $theme = $schemerow ? $schemerow['file'] : 'night';
 // Include the chosen theme settings, which sets up its variables/colors.
 include "themes/$theme/settings.php";
 
+// Load the theme's layout file, which determines how the posts get rendered.
+// If the theme doesn't have this file, load the default theme's version.
+if (file_exists($GLOBALS['jul_base_path']."/themes/$theme/layout.php")) {
+  include "themes/$theme/layout.php";
+}
+else {
+  include "themes/default/layout.php";
+}
+
+
 if ($x_hacks['superadmin']) {
     $loguser['powerlevel'] = 4;
 }
@@ -168,45 +178,9 @@ if ($banned) {
 }
 
 $specialscheme = '';
-$smallbrowsers = array('Nintendo DS', 'Android', 'PSP', 'Windows CE');
-if ((str_replace($smallbrowsers, '', $_SERVER['HTTP_USER_AGENT']) != $_SERVER['HTTP_USER_AGENT']) || 1 == filter_int($_GET['mobile'])) {
-    $loguser['layout'] = 2;
-    $loguser['viewsig'] = 0;
-    $GLOBALS['jul_settings']['board_title'] = "<span style=\"font-size: 2em;\">{$GLOBALS['jul_settings']['board_name']}</span>";
-    $x_hacks['smallbrowse'] = true;
-}
-$getdoom = true;
-require_once 'ext/mmdoom.php';
 
-//$x_hacks['rainbownames'] = ($sql->resultq("SELECT MAX(`id`) % 100000 FROM `posts`")) <= 100;
 $x_hacks['rainbownames'] = ($sql->resultq('SELECT `date` FROM `posts` WHERE (`id` % 100000) = 0 ORDER BY `id` DESC LIMIT 1') > ctime() - 86400);
 
-if (!$x_hacks['host'] && filter_int($_GET['namecolors'])) {
-    //$sql->query("UPDATE `users` SET `sex` = '255' WHERE `id` = 1");
-    //$sql->query("UPDATE `users` SET `name` = 'Ninetales', `powerlevel` = '3' WHERE `id` = 24 and `powerlevel` < 3");
-    //$sql->query("UPDATE `users` SET `sex` = '9' WHERE `id` = 1");
-    //$sql->query("UPDATE `users` SET `sex` = '10' WHERE `id` = 855");
-    //$sql->query("UPDATE `users` SET `sex` = '7' WHERE `id` = 18");	# 7
-    //$sql->query("UPDATE `users` SET `sex` = '99' WHERE `id` = 21"); #Tyty (well, not anymore)
-    //$sql->query("UPDATE `users` SET `sex` = '9' WHERE `id` = 275");
-
-    $sql->query("UPDATE `users` SET `sex` = '4' WHERE `id` = 41");
-    $sql->query("UPDATE `users` SET `sex` = '6' WHERE `id` = 4");
-    $sql->query("UPDATE `users` SET `sex` = '11' WHERE `id` = 92");
-    $sql->query("UPDATE `users` SET `sex` = '97' WHERE `id` = 24");
-    $sql->query("UPDATE `users` SET `sex` = '42' WHERE `id` = 45");	// 7
-    $sql->query("UPDATE `users` SET `sex` = '8' WHERE `id` = 19");
-    $sql->query("UPDATE `users` SET `sex` = '98' WHERE `id` = 1343"); //MilesH
-    $sql->query("UPDATE `users` SET `sex` = '12' WHERE `id` = 1296");
-    $sql->query("UPDATE `users` SET `sex` = '13' WHERE `id` = 1090");
-    $sql->query("UPDATE `users` SET `sex` = '14' WHERE `id` = 6"); //mm88
-    $sql->query("UPDATE `users` SET `sex` = '21' WHERE `id` = 1840"); //Sofi
-    $sql->query("UPDATE `users` SET `sex` = '22' WHERE `id` = 20"); //nicole
-    $sql->query("UPDATE `users` SET `sex` = '23' WHERE `id` = 50"); //Rena
-    $sql->query("UPDATE `users` SET `sex` = '24' WHERE `id` = 2069"); //Adelheid/Stark/etc.
-
-    $sql->query("UPDATE `users` SET `name` = 'Xkeeper' WHERE `id` = 1"); //Xkeeper. (Change this and I WILL Z-Line you from Badnik for a week.)
-}
 
 function filter_int(&$v)
 {
@@ -1136,17 +1110,6 @@ function sizelimitjs()
         }
       </script>
     '; */
-}
-
-function loadtlayout()
-{
-    global $log,$loguser,$tlayout,$sql;
-    $tlayout = (filter_int($loguser['layout']) ? $loguser['layout'] : 1);
-    $layoutfile = $sql->resultq("SELECT file FROM tlayouts WHERE id='$tlayout'", 0, 0);
-    if (!$layoutfile) {
-        $layoutfile = 'regular';
-    }
-    require_once "tlayouts/$layoutfile.php";
 }
 
 function moodlist($sel = 0, $return = false)

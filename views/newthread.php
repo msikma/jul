@@ -286,7 +286,6 @@
 					$question = htmlspecialchars(stripslashes($question));
 					$briefing = htmlspecialchars(stripslashes($briefing));
 				}
-				loadtlayout();
 				$ppost=$user;
 				$ppost['uid']=$userid;
 				$ppost['num']=$postnum;

@@ -1,6 +1,6 @@
 <?php
 function threadpost($post,$bg,$pthread='') {
-	global $loguser,$quote,$edit,$ip,$smallfont,$tzoff,$sep,$dateformat,$dateshort,$tlayout,${"tablebg$bg"};
+	global $loguser,$quote,$edit,$ip,$smallfont,$tzoff,$sep,$dateformat,$dateshort,${"tablebg$bg"};
 	$post = setlayout($post);
 	$p = $post['id'];
 	$u = $post['uid'];

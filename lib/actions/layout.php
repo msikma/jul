@@ -223,7 +223,7 @@ if (isset($meta['canonical'])) {
 $header1 = "<html><head><meta http-equiv='Content-type' content='text/html; charset=utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>$windowtitle</title>
 {$GLOBALS['jul_js_vars']}
 $metatag
-<link rel=\"shortcut icon\" href=\"/images/favicons/favicon".(!$x_hacks['host'] ? rand(1, 8).'' : '').".ico\" type=\"image/x-icon\">
+<link rel=\"shortcut icon\" href=\"{$GLOBALS['jul_base_dir']}/images/favicons/favicon".(!$x_hacks['host'] ? rand(1, 8).'' : '').".ico\" type=\"image/x-icon\">
 <link rel='stylesheet' href='{$GLOBALS['jul_base_dir']}/css/base.css' type='text/css'>
 <link rel='stylesheet' href='{$GLOBALS['jul_views_path']}/theme/style.css' type='text/css'>
 $css
@@ -353,8 +353,7 @@ $smallfont
 	".version_footer().'
 </td>
 </tr></table>
-'.($x_hacks['mmdeath'] >= 0 ? "<div style='position: absolute; top: -100px; left: -100px;'>Hidden preloader for doom numbers:
-<img src='numgfx/death/0.png'> <img src='numgfx/death/1.png'> <img src='numgfx/death/2.png'> <img src='numgfx/death/3.png'> <img src='numgfx/death/4.png'> <img src='numgfx/death/5.png'> <img src='numgfx/death/6.png'> <img src='numgfx/death/7.png'> <img src='numgfx/death/8.png'> <img src='numgfx/death/9.png'>" : '').'
+
 
 
 </body></html>

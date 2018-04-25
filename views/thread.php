@@ -315,7 +315,6 @@
 			";
 	}
 
-	loadtlayout();
 	switch($loguser['viewsig']) {
 		case 1:  $sfields = ',headtext,signtext'; break;
 		case 2:  $sfields = ',u.postheader headtext,u.signature signtext'; break;

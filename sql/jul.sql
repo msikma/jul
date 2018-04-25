@@ -826,22 +826,6 @@ CREATE TABLE `tinapoints` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tlayouts`
---
-
-DROP TABLE IF EXISTS `tlayouts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tlayouts` (
-  `id` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `ord` smallint(5) NOT NULL DEFAULT '0',
-  `name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `file` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `tor`
 --
 
@@ -986,7 +970,6 @@ CREATE TABLE `users` (
   `threadsperpage` smallint(4) unsigned NOT NULL DEFAULT '50',
   `timezone` float NOT NULL DEFAULT '0',
   `scheme` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  `layout` tinyint(2) unsigned NOT NULL DEFAULT '1',
   `viewsig` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `posttool` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `signsep` tinyint(3) unsigned NOT NULL DEFAULT '0',

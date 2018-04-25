@@ -28,7 +28,6 @@
 	if ($msg['userto'] == $loguserid)
 		$sql->query("UPDATE pmsgs SET msgread=1 WHERE id=$id");
 
-	loadtlayout();
 	$post = $user;
 	$post['uid']    = $user['id'];
 	$post['date']   = $msg['date'];

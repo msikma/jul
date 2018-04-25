@@ -234,7 +234,6 @@
 
 			} else {
 
-				loadtlayout();
 				$message				= stripslashes($message);
 				$ppost					= $user;
 				$ppost['posts']++;

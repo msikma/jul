@@ -122,7 +122,6 @@
 					<br>".redirect("{$GLOBALS['jul_views_path']}/private.php",'your private message box',0).$tblend;
 			}
 			else {
-				loadtlayout();
 				$ppost=$loguser;
 				$message = stripslashes($message);
 				$username = stripslashes($username);

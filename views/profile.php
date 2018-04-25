@@ -122,9 +122,9 @@
 	$totalwidth=116;
 	$barwidth=@floor(($user['posts']/$maxposts)*$totalwidth);
 	if($barwidth<0) $barwidth=0;
-	if($barwidth) $baron="<img src=images/$numdir"."bar-on.gif width=$barwidth height=8>";
-	if($barwidth<$totalwidth) $baroff="<img src=images/$numdir"."bar-off.gif width=".($totalwidth-$barwidth)." height=8>";
-	$bar="<img src=images/$numdir"."barleft.gif>$baron$baroff<img src=images/$numdir"."barright.gif><br>";
+	if($barwidth) $baron="<img src={$GLOBALS['jul_base_dir']}/images/$numdir"."bar-on.gif width=$barwidth height=8>";
+	if($barwidth<$totalwidth) $baroff="<img src={$GLOBALS['jul_base_dir']}/images/$numdir"."bar-off.gif width=".($totalwidth-$barwidth)." height=8>";
+	$bar="<img src={$GLOBALS['jul_base_dir']}/images/$numdir"."barleft.gif>$baron$baroff<img src={$GLOBALS['jul_base_dir']}/images/$numdir"."barright.gif><br>";
 	if(!$topposts) $topposts=5000;
 
 	if($user['posts']) $projdate=ctime()+(ctime()-$user['regdate'])*($topposts-$user['posts'])/($user['posts']);
@@ -136,7 +136,6 @@
 	if($user['homepagename']) $homepagename="$user[homepagename]</a> - $user[homepageurl]";
 	if($user['postbg']) $postbg="<div style='background:url($user[postbg]);' height=100%>";
 
-	loadtlayout();
 	$user['headtext']=$user['postheader'];
 	$user['signtext']=$user['signature'];
 	$user['text'] = "Sample text. [quote=fhqwhgads]A sample quote, with a <a href=about:blank>link</a>, for testing your layout.[/quote]This is how your post will appear.";

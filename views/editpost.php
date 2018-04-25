@@ -121,7 +121,6 @@
 					".redirect("{$GLOBALS['jul_views_path']}/thread.php?pid=$id#$id",'return to the thread',0).'</table></table>';
 			}
 			else {
-				loadtlayout();
 				$ppost=$sql->fetchq("SELECT * FROM users WHERE id=$post[user]");
 				$head = stripslashes($head);
 				$sign = stripslashes($sign);

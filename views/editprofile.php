@@ -78,13 +78,6 @@
     }
     $schlist="<select name=sscheme>$schlist</select>";
 
-    $tlayouts=$sql->query('SELECT tl.id as id, tl.name, COUNT(u.layout) as used FROM tlayouts tl LEFT JOIN users u ON (u.layout = tl.id) GROUP BY u.layout ORDER BY tl.ord');
-    while($lay=$sql->fetch($tlayouts)){
-			$sel=($lay['id']==$loguser['layout']?' selected':'');
-			$laylist.="<option value=$lay[id]$sel>$lay[name] ($lay[used])";
-    }
-    $laylist="<select name=tlayout>$laylist</select>";
-
     $used = $sql->getresultsbykey('SELECT signsep, count(*) as cnt FROM users GROUP BY signsep', 'signsep', 'cnt');
     for($i=0;$sepn[$i];$i++){
 			$sel=($i==$loguser['signsep']?' selected':'');
@@ -176,9 +169,6 @@
 	 $tccell2l>$pagestyle<tr>
 	 $tccell1><b>Poll vote system:$descbr Normal (based on users) or Influence (based on levels)</td>
 	 $tccell2l>$pollstyle<tr>
-
-	 $tccell1><b>Thread layout:$descbr You can choose from a few thread layouts here.</td>
-	 $tccell2l>$laylist<tr>
 	 $tccell1><b>Signature separator:$descbr You can choose from a few signature separators here.</td>
 	 $tccell2l>$seplist<tr>
 	 $tccell1><b>Color scheme / layout:$descbr You can select from a few color schemes here.</td>
@@ -280,7 +270,6 @@
       `scheme` = '$sscheme',
       `threadsperpage` = '$threadsperpage',
       `viewsig` = '$viewsig',
-      `layout` = '$tlayout',
       `moodurl` = '". $_POST['moodurl'] ."',
       `imood` = '$imood',
       `pronouns` = '{$_POST['pronouns']}',

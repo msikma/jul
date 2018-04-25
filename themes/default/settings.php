@@ -7,6 +7,9 @@ $nmcol[0] = array('-2' => '6a6a6a', '-1' => '888888', '97ACEF', 'D8E8FE', 'AFFAB
 $nmcol[1] = array('-2' => '767676', '-1' => '888888', 'F185C9', 'FFB3F3', 'C762F2', 'C53A9E');
 $nmcol[2] = array('-2' => '767676', '-1' => '888888', '7C60B0', 'EEB9BA', '47B53C', 'F0C413');
 
+// Which table layout to use by default.
+$tlayout = 1;
+
 $linkcolor = 'FFD040';
 $linkcolor2 = 'F0A020';
 $linkcolor3 = 'FFEA00';

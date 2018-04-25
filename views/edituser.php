@@ -58,16 +58,6 @@
 	}
 	$schlist="<select name=sscheme>$schlist</select>";
 
-
-	$tlayouts=$sql->query('SELECT id,name FROM tlayouts ORDER BY ord');
-	while($lay=$sql->fetch($tlayouts)){
-		$sel="";
-		if($lay['id']==$user['layout']) $sel=' selected';
-		$used=$sql->resultq("SELECT count(id) as cnt FROM users WHERE layout=$lay[id]",0,'cnt');
-		$laylist.="<option value=$lay[id]$sel>$lay[name] ($used)";
-	}
-	$laylist="<select name=tlayout>$laylist</select>";
-
 	$rsets=$sql->query('SELECT id,name FROM ranksets ORDER BY id');
 	while($set=$sql->fetch($rsets)) {
 		$sel=($set['id']==$user['useranks']?' selected':'');
@@ -155,7 +145,6 @@
 				$lft Posts per page                   $rgt $inpt=postsperpage SIZE=5 MAXLENGTH=5 VALUE=$user[postsperpage]>
 				$lft Threads per page                 $rgt $inpt=threadsperpage SIZE=4 MAXLENGTH=4 VALUE=$user[threadsperpage]>
 				$lft View signatures and post headers $rgt $vsig
-				$lft Thread layout                    $rgt $laylist
 				$lft Color scheme / layout            $rgt $schlist
 
 				$lft &nbsp</td>$tccell2l>
@@ -225,9 +214,7 @@
 		`scheme` = '$sscheme',
 		`threadsperpage` = '$threadsperpage',
 		`viewsig` = '$viewsig',
-		`layout` = '$tlayout',".
-//	`posttool` = '$posttool',
-	 "`moodurl` = '$moodurl',
+		`moodurl` = '$moodurl',
 		`profile_locked` = '$profile_locked',
 		`editing_locked` = '$editing_locked',
 		`pronouns` = '$pronouns',
