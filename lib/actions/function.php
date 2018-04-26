@@ -51,6 +51,20 @@ $dateshort = $GLOBALS['jul_settings']['date_format_short'];
 
 $loguser = array();
 
+// This array will contain our post filters.
+// We load every PHP file inside 'filters' and let them populate this.
+$GLOBALS['jul_postfilters'] = array();
+$path = $GLOBALS['base_dir'].'/lib/filters/';
+$dir = new DirectoryIterator($path);
+$filters = array();
+foreach ($dir as $fileinfo) {
+  if ($fileinfo->isDot()) {
+    continue;
+  }
+  include($fileinfo->getPathname());
+  // TODO: make some system for storing and loading settings in the database.
+}
+
 // This function was not included in the original code.
 // I have no idea what the idea behind it was so I'll just use this for now.
 function getpwhash($name, $id)
@@ -116,12 +130,6 @@ if ($loguser) {
     }
 
     $log = 1;
-
-    if (1 == $loguser['id']) {
-        $hacks['comments'] = true;
-    } else {
-        $hacks['comments'] = $sql->resultq("SELECT COUNT(*) FROM `users_rpg` WHERE `uid` = '$loguserid' AND `eq6` IN ('43', '71', '238')");
-    }
 
     if ($loguser['viewsig'] >= 3) {
         return header('Location: /?sec=1');
@@ -1259,63 +1267,14 @@ function include_js($fn, $as_tag = false)
     }
 }
 
-function dofilters($p)
+function dofilters($post)
 {
-    global $hacks;
-    $img_base = base_dir().'/';
-    $temp = $p;
-
-    $p = preg_replace("'position\s*:\s*fixed'si", 'display:none', $p);
-
-    //$p=preg_replace("':awesome:'","<small>[unfunny]</small>", $p);
-
-    $p = preg_replace("':facepalm:'si", "<img src={$img_base}images/facepalm.jpg>", $p);
-    $p = preg_replace("':facepalm2:'si", "<img src={$img_base}images/facepalm2.jpg>", $p);
-    $p = preg_replace("':epicburn:'si", "<img src={$img_base}images/epicburn.png>", $p);
-    $p = preg_replace("':umad:'si", "<img src={$img_base}images/umad.jpg>", $p);
-    $p = preg_replace("':gamepro5:'si", '<img src=http://xkeeper.net/img/gamepro5.gif title="FIVE EXPLODING HEADS OUT OF FIVE">', $p);
-    $p = preg_replace("':headdesk:'si", '<img src=http://xkeeper.net/img/headdesk.jpg title="Steven Colbert to the rescue">', $p);
-    $p = preg_replace("':rereggie:'si", "<img src={$img_base}images/rereggie.png>", $p);
-    $p = preg_replace("':tmyk:'si", '<img src=http://xkeeper.net/img/themoreyouknow.jpg title="do doo do doooooo~">', $p);
-    $p = preg_replace("':jmsu:'si", "<img src={$img_base}images/jmsu.png>", $p);
-    $p = preg_replace("':noted:'si", "<img src={$img_base}images/noted.png title=\"NOTED, THANKS!!\">", $p);
-    $p = preg_replace("':apathy:'si", '<img src=http://xkeeper.net/img/stickfigure-notext.png title="who cares">', $p);
-    $p = preg_replace("':spinnaz:'si", "<img src=\"{$img_base}images/smilies/spinnaz.gif\">", $p);
-    $p = preg_replace("':trolldra:'si", "<img src=\"/{$img_base}images/trolldra.png\">", $p);
-    $p = preg_replace("':reggie:'si", '<img src=http://xkeeper.net/img/reggieshrug.jpg title="REGGIE!">', $p);
-
-    $p = preg_replace("'zeon'si", 'shit', $p);
-
-    if (filter_bool($hacks['comments'])) {
-        $p = str_replace('<!--', '<font color=#80ff80>&lt;!--', $p);
-        $p = str_replace('-->', '--&gt;</font>', $p);
-    }
-
-    $p = preg_replace("'(https?://.*?photobucket.com/)'si", "{$img_base}images/photobucket.png#\\1", $p);
-    $p = preg_replace("'http://.{0,3}\.?tinypic\.com'si", 'tinyshit', $p);
-    $p = str_replace('<link href="http://pieguy1372.freeweb7.com/misc/piehills.css" rel="stylesheet">', '', $p);
-    $p = str_replace('tabindex="0" ', 'title="the owner of this button is a fucking dumbass" ', $p);
-
-    //	$p=str_replace("http://xkeeper.shacknet.nu:5/", 'http://xchan.shacknet.nu:5/', $p);
-    //	$p=preg_replace("'<style'si",'&lt;style',$p);
-
-    //$p=preg_replace("'%BZZZ%'si",'onclick="bzzz(',$p);
-
-    /*
-    $p=preg_replace("'document.cookie'si",'document.co<z>okie',$p);
-    $p=preg_replace("'eval'si",'eva<z>l',$p);
-    $p=preg_replace("'<script'si",'<<z>script',$p);
-    $p=preg_replace("'</script'si",'<<z>/script',$p);
-    $p=preg_replace("'javascript:'si",'javasc<z>ript:',$p);
-    $p=preg_replace("'<iframe(?! src=\"https://www.youtube.com/embed/)'si",'<<z>iframe',$p);
-    $p=preg_replace("'<meta'si",'<<z>meta',$p);
-    */
-
-    $p = xss_clean($p);
-
-    $p = preg_replace("'\[youtube\]([a-zA-Z0-9_-]{11})\[/youtube\]'si", '<iframe src="https://www.youtube.com/embed/\1" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>', $p);
-
-    return $p;
+  foreach ($GLOBALS['jul_postfilters'] as $filter) {
+    // TODO: merge in database settings.
+    $settings = $filter['defaults'];
+    $post = $filter['function']($post);
+  }
+  return $post;
 }
 
 function replytoolbar()

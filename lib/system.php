@@ -18,7 +18,6 @@ require_once 'lib/rpg.php';
 require_once 'lib/security.php';
 require_once 'lib/threadpost.php';
 require_once 'lib/version.php';
-require_once 'lib/xss.php';
 
 // Note: lib/actions/function.php will automatically redirect to the error page
 // if the database is not reachable or if the forum is not installed.
