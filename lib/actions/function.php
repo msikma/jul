@@ -217,6 +217,12 @@ function filter_string(&$v)
     }
 }
 
+// Used by 'rendertime.png'.
+function sinc($x) {
+	$ret	= ($x ? sin($x*pi())/($x*pi()) : 1);
+	return $ret;
+}
+
 function readsmilies()
 {
     global $x_hacks;
@@ -1551,7 +1557,7 @@ function gethttpheaders()
 
 function printtimedif($timestart)
 {
-    global $x_hacks, $sql, $sqldebuggers, $smallfont;
+    global $x_hacks, $sql, $sqldebuggers, $smallfont, $route;
 
     $exectime = microtime(true) - $timestart;
 
@@ -1573,26 +1579,13 @@ function printtimedif($timestart)
 			<tr><td align=right>Total render time:&nbsp;</td><td>{$tseconds} seconds</td></tr>
 		</table>";
 
-    /*
-    if (in_array($_SERVER['REMOTE_ADDR'], $sqldebuggers)) {
-        if (!mysql::$debug_on && $_SERVER['REQUEST_METHOD'] != 'POST')
-            print "<br><a href=".$_SERVER['REQUEST_URI'].(($_SERVER['QUERY_STRING']) ? "&" : "?")."debugsql>Useless mySQL query debugging shit</a>";
-        else
-            print mysql::debugprinter();
-    }
-    */
-
-    if (!$x_hacks['host']) {
-        $pages = array(
-            '/index.php',
-            '/thread.php',
-            '/forum.php',
-        );
-        $url = $_SERVER['REQUEST_URI'];
-        if (in_array(substr($url, 0, 14), $pages)) {
-            $sql->query("INSERT INTO `rendertimes` SET `page` = '".addslashes($url)."', `time` = '".ctime()."', `rendertime`  = '".$exectime."'");
-            $sql->query("DELETE FROM `rendertimes` WHERE `time` < '".(ctime() - 86400 * 14)."'");
-        }
+    // Save the render time to the database.
+    $pages = array('index', 'thread', 'forum');
+    $page = $route['file'];
+    if (in_array($page, $pages)) {
+      $sql->query("INSERT INTO `rendertimes` SET `page` = '".mysql_real_escape_string($page)."', `time` = '".ctime()."', `rendertime`  = '".$exectime."'");
+      // Delete render times from the last 14 days.
+      $sql->query("DELETE FROM `rendertimes` WHERE `time` < '".(ctime() - 86400 * 14)."'");
     }
 }
 
