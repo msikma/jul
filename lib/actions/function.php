@@ -25,6 +25,27 @@ $sql->connect($GLOBALS['jul_sql_settings']['host'], $GLOBALS['jul_sql_settings']
     early_html_die('The MySQL server has exploded.', true);
 $sql->selectdb($sql_settings['name']) or early_html_die('Another stupid MySQL error happened, panic', true);
 
+// This array will contain our post filters.
+// We load every PHP file inside 'filters' and let them populate this.
+$GLOBALS['jul_postfilters'] = array();
+$path = $GLOBALS['base_dir'].'/lib/filters/';
+$dir = new DirectoryIterator($path);
+$filters = array();
+foreach ($dir as $fileinfo) {
+  if ($fileinfo->isDot()) {
+    continue;
+  }
+  include_once($fileinfo->getPathname());
+  // TODO: make some system for storing and loading settings in the database.
+}
+
+// This is the only filter we explicitly import.
+require_once 'lib/filters/bbcode.php';
+// This is a replacement for doreplace2().
+function bbcode_format($msg, $options) {
+  return jul_postfilter_bbcode($msg, $options);
+}
+
 if (filter_int($die) || filter_int($_GET['sec'])) {
     if ($die) {
         $sql->query("INSERT INTO `minilog` SET `ip` = '".$_SERVER['REMOTE_ADDR']."', `time` = '".ctime()."', `banflags` = '$banflags'");
@@ -50,20 +71,6 @@ $dateformat = $GLOBALS['jul_settings']['date_format_long'];
 $dateshort = $GLOBALS['jul_settings']['date_format_short'];
 
 $loguser = array();
-
-// This array will contain our post filters.
-// We load every PHP file inside 'filters' and let them populate this.
-$GLOBALS['jul_postfilters'] = array();
-$path = $GLOBALS['base_dir'].'/lib/filters/';
-$dir = new DirectoryIterator($path);
-$filters = array();
-foreach ($dir as $fileinfo) {
-  if ($fileinfo->isDot()) {
-    continue;
-  }
-  include($fileinfo->getPathname());
-  // TODO: make some system for storing and loading settings in the database.
-}
 
 // This function was not included in the original code.
 // I have no idea what the idea behind it was so I'll just use this for now.
@@ -366,7 +373,6 @@ function calclvl($exp)
 function generatenumbergfx($num, $minlen = 0, $double = false)
 {
     global $numdir;
-    var_dump($img_base);
     $nw = 8 * ($double ? 2 : 1);
     $num = strval($num);
     $gfxcode = '';
@@ -482,66 +488,6 @@ function escape_codeblock($text)
 
     // @TODO why not just use htmlspecialchars() or htmlentities()
     return '[quote]<code>'.str_replace($list, $list2, $text[0]).'</code>[/quote]';
-}
-
-function doreplace2($msg, $options = '0|0')
-{
-    // options will contain smiliesoff|htmloff
-    $options = explode('|', $options);
-    $smiliesoff = $options[0];
-    $htmloff = $options[1];
-
-    $list = array('<', '\\"', '\\\\', "\\'", '[', ':', ')', '_');
-    $list2 = array('&lt;', '"', '\\', "\'", '&#91;', '&#58;', '&#41;', '&#95;');
-    $msg = preg_replace_callback("'\[code\](.*?)\[/code\]'si", 'escape_codeblock', $msg);
-
-    if ($htmloff) {
-        $msg = str_replace('<', '&lt;', $msg);
-        $msg = str_replace('>', '&gt;', $msg);
-    }
-
-    if (!$smiliesoff) {
-        global $smilies;
-        if (!$smilies) {
-            $smilies = readsmilies();
-        }
-        for ($s = 0; $smilies[$s][0]; ++$s) {
-            $smilie = $smilies[$s];
-            $msg = str_replace($smilie[0], "<img src=$smilie[1] align=absmiddle>", $msg);
-        }
-    }
-
-    $msg = str_replace('[red]', '<font color=FFC0C0>', $msg);
-    $msg = str_replace('[green]', '<font color=C0FFC0>', $msg);
-    $msg = str_replace('[blue]', '<font color=C0C0FF>', $msg);
-    $msg = str_replace('[orange]', '<font color=FFC080>', $msg);
-    $msg = str_replace('[yellow]', '<font color=FFEE20>', $msg);
-    $msg = str_replace('[pink]', '<font color=FFC0FF>', $msg);
-    $msg = str_replace('[white]', '<font color=white>', $msg);
-    $msg = str_replace('[black]', '<font color=0>', $msg);
-    $msg = str_replace('[/color]', '</font>', $msg);
-    $msg = preg_replace("'\[quote=(.*?)\]'si", '<blockquote><font class=fonts><i>Originally posted by \\1</i></font><hr>', $msg);
-    $msg = str_replace('[quote]', '<blockquote><hr>', $msg);
-    $msg = str_replace('[/quote]', '<hr></blockquote>', $msg);
-    $msg = preg_replace("'\[sp=(.*?)\](.*?)\[/sp\]'si", '<span style="border-bottom: 1px dotted #f00;" title="did you mean: \\1">\\2</span>', $msg);
-    $msg = preg_replace("'\[abbr=(.*?)\](.*?)\[/abbr\]'si", '<span style="border-bottom: 1px dotted;" title="\\1">\\2</span>', $msg);
-    $msg = str_replace('[spoiler]', '<div class="fonts pstspl2"><b>Spoiler:</b><div class="pstspl1">', $msg);
-    $msg = str_replace('[/spoiler]', '</div></div>', $msg);
-    $msg = preg_replace("'\[(b|i|u|s)\]'si", '<\\1>', $msg);
-    $msg = preg_replace("'\[/(b|i|u|s)\]'si", '</\\1>', $msg);
-    $msg = preg_replace("'\[img\](.*?)\[/img\]'si", '<img src=\\1>', $msg);
-    $msg = preg_replace("'\[url\](.*?)\[/url\]'si", '<a href=\\1>\\1</a>', $msg);
-    $msg = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si", '<a href=\\1>\\2</a>', $msg);
-    $msg = str_replace('http://nightkev.110mb.com/justus_layout.css', 'about:blank', $msg);
-
-    do {
-        $msg = preg_replace("/<(\/?)t(able|h|r|d)(.*?)>(\s+?)<(\/?)t(able|h|r|d)(.*?)>/si",
-                '<\\1t\\2\\3><\\5t\\6\\7>', $msg, -1, $replaced);
-    } while ($replaced >= 1);
-
-    sbr(0, $msg);
-
-    return $msg;
 }
 
 function settags($text, $tags)
@@ -1267,14 +1213,18 @@ function include_js($fn, $as_tag = false)
     }
 }
 
-function dofilters($post)
+function dofilters($html, $options)
 {
+  // Unpack the HTML returned from postcode().
+  $before = $html[0];
+  $post = $html[1];
+  $after = $html[2];
   foreach ($GLOBALS['jul_postfilters'] as $filter) {
     // TODO: merge in database settings.
     $settings = $filter['defaults'];
-    $post = $filter['function']($post);
+    $post = $filter['function']($post, $options);
   }
-  return $post;
+  return "{$before}{$post}{$after}";
 }
 
 function replytoolbar()

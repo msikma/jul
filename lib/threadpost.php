@@ -37,13 +37,13 @@ function threadpost($post,$bg,$pthread='') {
 		$set['threadlink'] = "<a href={$GLOBALS['jul_views_path']}/thread.php?id={$pthread['id']}>{$pthread['title']}</a>";
 	}
 
-	$post['text']=doreplace2($post['text'], $post['options']);
+	$post['text']=dofilters(array('', $post['text'], ''), $post['options']);
 
 	if (filter_int($post['editdate'])) {
 		$post['edited'] = " (last edited by {$post['edited']} at ".date($dateformat,$post['editdate']+$tzoff).")";
 	}
 
-	$return=dofilters(postcode($post,$set));
+	$return=dofilters(postcode($post,$set), $post['options']);
 	return $return;
 }
 
@@ -98,9 +98,8 @@ function setlayout($post) {
 		$post['headtext']=doreplace($post['headtext'],$post['num'],($post['date']-$post['regdate'])/86400,$post['name']);
 		$post['signtext']=doreplace($post['signtext'],$post['num'],($post['date']-$post['regdate'])/86400,$post['name']);
 	}
-	$post['headtext']=doreplace2($post['headtext']);
-	$post['signtext']=doreplace2($post['signtext']);
-	//	$post['text']=doreplace2($post['text'], $post['options']);
+	$post['headtext']=dofilters(array('', $post['headtext'], ''), $post['options']);
+	$post['signtext']=dofilters(array('', $post['signtext'], ''), $post['options']);
 	return $post;
 }
 

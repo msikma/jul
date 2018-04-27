@@ -82,9 +82,7 @@
 	$numdays=(ctime()-$user['regdate'])/86400;
 
 	$user['signature']=doreplace($user['signature'],$user['posts'],$numdays,$user['name']);
-	//  $user['signature']=doreplace2($user['signature'],$user['posts'],$numdays,$user['name']);
 	$user['postheader']=doreplace($user['postheader'],$user['posts'],$numdays,$user['name']);
-	//  $user['postheader']=doreplace2($user['postheader'],$user['posts'],$numdays,$user['name']);
 
 	if ($user['picture']) $picture = "<img src=\"$user[picture]\">";
 	if ($user['moodurl']) $moodavatar = " | <a href='{$GLOBALS['jul_views_path']}/avatar.php?id=$id' class=\"popout\" target=\"_blank\">Preview mood avatar</a>";
@@ -217,7 +215,7 @@ $tblend
 	$tccell1l width=150><b>Pronouns</td>			$tccell2l>". htmlspecialchars($user['pronouns']) ."&nbsp;<tr>
 	$tccell1l width=150><b>Location</td>			$tccell2l>$user[location]&nbsp;<tr>
 	$tccell1l width=150><b>Birthday</td>			$tccell2l>$birthday $age&nbsp;<tr>
-	$tccell1l width=150><b>User bio</td>			$tccell2l>". dofilters(doreplace2(doreplace($user['bio'], $user['posts'], (ctime()-$user['regdate'])/86400, $user['name']))) ."&nbsp;<tr>
+	$tccell1l width=150><b>User bio</td>			$tccell2l>". dofilters(array('', doreplace($user['bio'], $user['posts'], (ctime()-$user['regdate'])/86400, $user['name']), '')) ."&nbsp;<tr>
 $tblend
 <br>$tblstart
 	$tccellh colspan=2><center>Sample post<tr>

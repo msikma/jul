@@ -4,8 +4,14 @@ function userfields(){
 	return 'posts,sex,powerlevel,birthday,aka,picture,moodurl,title,useranks,location,lastposttime,lastactivity,imood,pronouns';
 }
 
-
-function postcode($post,$set){
+/**
+ * Returns the contents of the post.
+ *
+ * The post is returned in an array of three items:
+ * The HTML before the post (containing the username and avatar, etc.),
+ * the HTML of the post itself, and the closing HTML.
+ */
+function postcode($post, $set){
 	global $tzoff, $smallfont, $ip, $quote, $edit, $dateshort, $dateformat, $tlayout, $textcolor, $numdir, $numfil, $tblstart, $hacks, $x_hacks, $loguser;
 
 	$tblend		= "</table>";
@@ -75,51 +81,62 @@ function postcode($post,$set){
 
   // Default layout
 	if ($loguser['viewsig'] != 0) {
-		return "
-		<div style='position:relative'>
-		$tblstart
-		$set[tdbg] rowspan=2>
-		  $set[userlink]$smallfont<br>
-		  $set[userrank]$reinf<br>
-	        $level$bar<br>
-		  $set[userpic]<br>
-		  ". (filter_bool($hacks['noposts']) ? "" : "$poststext$postnum$posttotal<br>") ."
-		  $experience<br><br>
-		  $since<br>
-		  ". (isset($set['pronouns']) ? "<br>".$set['pronouns'] : "")."
-		  ". (isset($set['location']) ? "<br>".$set['location'] : "")."
-		  <br>
-		  <br>
-		  $sincelastpost<br>$lastactivity<br>
-		  </font>
-		  <br><img src={$GLOBALS['jul_base_dir']}/images/_.gif width=200 height=1>
-		</td>
-		$set[tdbg] height=1 width=100%>
-		  <table cellspacing=0 cellpadding=2 width=100% class=fonts>
-		    <td>Posted on $postdate$threadlink$post[edited]</td>
-		    <td width=255><nobr>$quote$edit$ip
-		  </table><tr>
-		$set[tdbg] height=220 id=\"post". $post['id'] ."\">$post[headtext]$post[text]$post[signtext]</td>
-		$tblend
-		</div>";
+		return array(
+			// Before
+			"<div style='position:relative'>
+			$tblstart
+			$set[tdbg] rowspan=2>
+			  $set[userlink]$smallfont<br>
+			  $set[userrank]$reinf<br>
+		        $level$bar<br>
+			  $set[userpic]<br>
+			  ". (filter_bool($hacks['noposts']) ? "" : "$poststext$postnum$posttotal<br>") ."
+			  $experience<br><br>
+			  $since<br>
+			  ". (isset($set['pronouns']) ? "<br>".$set['pronouns'] : "")."
+			  ". (isset($set['location']) ? "<br>".$set['location'] : "")."
+			  <br>
+			  <br>
+			  $sincelastpost<br>$lastactivity<br>
+			  </font>
+			  <br><img src={$GLOBALS['jul_base_dir']}/images/_.gif width=200 height=1>
+			</td>
+			$set[tdbg] height=1 width=100%>
+			  <table cellspacing=0 cellpadding=2 width=100% class=fonts>
+			    <td>Posted on $postdate$threadlink$post[edited]</td>
+			    <td width=255><nobr>$quote$edit$ip
+			  </table><tr>
+			$set[tdbg] height=220 class='jul-post-content' id=\"post". $post['id'] ."\">",
+			// Post
+			"$post[headtext]$post[text]$post[signtext]",
+			// After
+			"</td>$tblend
+			</div>"
+		);
 	}
 
   // Non-defined / Blank
   // (Adelheid uses this)
 	else {
-		return "
-		$tblstart
-		$set[tdbg] rowspan=2>
-		  $set[userlink]$smallfont<br>
-		  $set[userrank]$reinf<br>
-		  <br><img src={$GLOBALS['jul_base_dir']}/images/_.gif width=200 height=1>
-		</td>
-		$set[tdbg] height=1 width=100%>
-		  <table cellspacing=0 cellpadding=2 width=100% class=fonts>
-		    <td>Posted on $postdate$threadlink$post[edited]</td>
-		    <td width=255><nobr>$quote$edit$ip
-		  </table><tr>
-		$set[tdbg] height=220 id=\"post". $post['id'] ."\">$post[headtext]$post[text]$post[signtext]</td>
-		$tblend";
+		return array(
+			// Before
+			"$tblstart
+			$set[tdbg] rowspan=2>
+			  $set[userlink]$smallfont<br>
+			  $set[userrank]$reinf<br>
+			  <br><img src={$GLOBALS['jul_base_dir']}/images/_.gif width=200 height=1>
+			</td>
+			$set[tdbg] height=1 width=100%>
+			  <table cellspacing=0 cellpadding=2 width=100% class='fonts'>
+			    <td>Posted on $postdate$threadlink$post[edited]</td>
+			    <td width=255><nobr>$quote$edit$ip
+			  </table><tr>
+			$set[tdbg] height=220 class='jul-post-content' id=\"post". $post['id'] ."\">",
+			// Post
+			"$post[headtext]$post[text]$post[signtext]",
+			// After
+			"</td>
+			$tblend"
+		);
 	}
 }

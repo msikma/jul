@@ -59,7 +59,7 @@
 				$tccellh>Message<tr>
 				$tcellbg><a href={$GLOBALS['jul_views_path']}/profile.php?id=$user[id]>$user[name]</a>$smallfont<br>
 				Posts: $postnum$user[posts]</td>
-				$tcellbg>".doreplace2($msg[text])."<tr>
+				$tcellbg>".dofilters(array('', $msg[text], '')."<tr>
 			";
 		}
 		else

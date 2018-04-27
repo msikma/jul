@@ -67,9 +67,9 @@
 				$tcellbg="<td class='tbl $bg font' valign=top>";
 				$namecolor=getnamecolor($post['sex'],$post['powerlevel']);
 				$postlist.="<tr>
-					$tcellbg<a href={$GLOBALS['jul_views_path']}/profile.php?id=$post[user]><font $namecolor>$post[name]</font></a>$smallfont<br>
+					{$tcellbg}<a href={$GLOBALS['jul_views_path']}/profile.php?id=$post[user]><font $namecolor>$post[name]</font></a>$smallfont<br>
 					Posts: $postnum$post[posts]</td>
-					$tcellbg".doreplace2(dofilters($post['text']), $post['options'])."</tr>
+					$tcellbg".(dofilters(array('', $post['text'], ''), $post['options']))."</tr>
 				";
 			}
 			else{
