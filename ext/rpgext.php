@@ -1,6 +1,6 @@
 <?php
-	require 'ajaxen.php';
+	require_once 'ajaxen.php';
 	chdir("../");
-	require 'lib/function.php';
+	require_once 'lib/actions/function.php';
 
 	print '{test: "test"}';

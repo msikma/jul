@@ -3,8 +3,8 @@
 .well-known/
 board/
 xkeeper/
-version.txt
-lib/config.php
+/version.txt
+/config.php
 lib/firewall.php
 *.DS_Store
 .AppleDouble
