@@ -31,7 +31,7 @@ if ($me) {
 						document.getElementById(\'prev\').src=moodav.replace("$", pic);
 			}
 			else {
-				document.getElementById(\'prev\').src="images/_.gif";
+				document.getElementById(\'prev\').src="'.$GLOBALS['jul_base_dir'].'/static/images/spacer.gif";
 			}
 		}
 	</script>

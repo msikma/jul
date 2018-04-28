@@ -1,7 +1,7 @@
 <?php
   $formcss=1;  
   $inputborder='501111';  
-  $bgimage='images/starsbg-r.png';
+  $bgimage=$theme_base.'images/starsbg-r.png';
   $bgcolor='180000';
   $textcolor='EEDDDD;';
   $linkcolor='FFBBBB';

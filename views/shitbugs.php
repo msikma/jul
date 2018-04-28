@@ -57,7 +57,7 @@ if (!in_array($loguser['id'], array(175, 1)) && $loguser['powerlevel'] < 1) {
 	$banflagnames[ 1024]	= "non-int<br>userid";
 
 	$cells	= count($banflagnames) + 4;
-		
+
 	print "
 		$tblstart
 			<tr>$tccellh>Shitbug detection system</td></tr>
@@ -69,7 +69,7 @@ if (!in_array($loguser['id'], array(175, 1)) && $loguser['powerlevel'] < 1) {
 		<br>
 		$tblstart
 	";
-			
+
 	$colheaders	= "<tr>$tccellh width='180'>Time</td>$tccellh width='50'>Count</td>$tccellh>IP</td>$tccellh width='50'>&nbsp</td>";
 
 	foreach ($banflagnames as $flag => $name)
@@ -79,30 +79,30 @@ if (!in_array($loguser['id'], array(175, 1)) && $loguser['powerlevel'] < 1) {
 	print $colheaders;
 
 	$query	= $sql -> query("SELECT *, (SELECT COUNT(`ip`) FROM `ipbans` WHERE `ip` = `minilog`.`ip`) AS `banned` FROM `minilog` ORDER BY `time` DESC");
-	
+
 	$rowcnt		= 0;
 	$lastflag	= 0;
 	$combocount	= 0;
 	$lastip		= "";
-	
+
 	while ($data = $sql -> fetch($query)) {
 		if (($lastip != $data['ip'] || $lastflag != $data['banflags']) && $lastflag != 0) {
 			$rowcnt++;
 			print str_replace("%%%COMBO%%%", ($combocount > 1 ? " &times;$combocount" : ""), $tempout);
-			
+
 			if (!($rowcnt % 50))
 				print $colheaders;
 			elseif ($lastip != $data['ip'])
-				print "<tr>$tccellh colspan='$cells'><img src='images/_.gif' height=5 width=5></td></tr>";
+				print "<tr>$tccellh colspan='$cells'><img src='{$GLOBALS['jul_base_dir']}/static/images/spacer.gif' height=5 width=5></td></tr>";
 
 			$tempout	= "";
 			$combocount	= 0;
 		}
-		
+
 		$lastip		= $data['ip'];
 		$lastflag	= $data['banflags'];
 		$combocount++;
-		
+
 		if ($combocount == 1) {
 			$tempout	= "<tr>$tccell1>". date("m-d-y H:i:s", $data['time']) ."</td>$tccell1>%%%COMBO%%%</td>$tccell1><a href='{$GLOBALS['jul_views_path']}/ipsearch.php?ip=". $data['ip'] ."'>". $data['ip'] ."</a></td>";
 
@@ -122,7 +122,7 @@ if (!in_array($loguser['id'], array(175, 1)) && $loguser['powerlevel'] < 1) {
 			$tempout .= "</tr>";
 		}
 	}
-	
+
 	print str_replace("%%%COMBO%%%", ($combocount > 1 ? " &times;$combocount" : ""), $tempout);
 
 	print "$tblend $footer";

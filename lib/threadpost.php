@@ -19,7 +19,7 @@ function threadpost($post,$bg,$pthread='') {
 	if($post['pronouns']) { $set['pronouns']="Pronouns: ". htmlspecialchars($post['pronouns']); }
 
 	if($post['picture'] || ($post['moodid'] && $post['moodurl'])){
-		$post['picture']  = str_replace('>','%3E',$post['picture']);
+		$post['picture']  = htmlspecialchars($post['picture']);
 		$set['userpic']   = "<img class='avatar' src=\"{$post['picture']}\">";
 		$set['picture']   = $post['picture'];
 
@@ -136,7 +136,7 @@ function syndrome($num, $double=false, $bar=true){
 			}
 
 			if ($next	>= 100) $barimg	= "special.gif";
-			$bar	= "<br><nobr>". generatenumbergfx($num, 3, $double) ."<img src={$GLOBALS['jul_base_dir']}/images/num1/barleft.png height=$hi><img src={$GLOBALS['jul_base_dir']}/images/num1/bar-on$barimg width=$barw1 height=$hi><img src={$GLOBALS['jul_base_dir']}/images/num1/bar-off.png width=$barw2 height=$hi><img src={$GLOBALS['jul_base_dir']}/images/num1/barright.png height=$hi>". generatenumbergfx($next - ($num - $last), 3, $double) ."</nobr>";
+			$bar	= "<br><nobr>". generatenumbergfx($num, 3, $double) ."<img src={$ui_images['bar_left']} height=$hi><img src={$ui_images['bar_on']} width=$barw1 height=$hi><img src={$ui_images['bar_off']} width=$barw2 height=$hi><img src={$ui_images['bar_right']} height=$hi>". generatenumbergfx($next - ($num - $last), 3, $double) ."</nobr>";
 		}
 		$syn="<br><i><font color=$syn</font></i>$bar<br>";
 	}

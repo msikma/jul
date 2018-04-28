@@ -185,8 +185,7 @@
 
 	function digits($x, $y, $n, $l = 4, $d = 2, $overlay = false) {
 		global $image;
-
-		$numimage	= imagecreatefrompng("images/digits4.png");
+		$numimage	= imagecreatefrompng($GLOBALS['jul_base_path']."/static/images/digits.png");
 		$n			= number_format($n, $d);
 		$n			= str_replace(",", "", $n);
 		$n2			= explode(".", $n);

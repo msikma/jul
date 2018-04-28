@@ -2,8 +2,8 @@
 	$formcss		= 0;		# formcss makes forms black with tableborder borders; using cssextra below is easier
 	$numcols		= 100;		# same thing, more or less
 
-	$bgimage		= 'images/gn/gstarsbg.png';
-	#$GLOBALS['jul_settings']['board_title']		= '<img src="images/gn/boobies.png" title="Green Night">';	# comment this out for normal banner
+	$bgimage		= 'images/greennight/gstarsbg.png';
+	#$GLOBALS['jul_settings']['board_title']		= '<img src="images/greennight/boobies.png" title="Green Night">';	# comment this out for normal banner
 
 	$bgcolor		= '40806a';   
 	$textcolor		= 'DDDDFF';   

@@ -284,7 +284,7 @@
 			}
 			else {
 				$linkact = 'add';
-				$dot = "<img src=\"images/_.gif\" width=8 height=8 align=\"absmiddle\"> ";
+				$dot = "<img src=\"{$GLOBALS['jul_base_dir']}/static/images/spacer.gif\" width=8 height=8 align=\"absmiddle\"> ";
 			}
 
 			$link = '';

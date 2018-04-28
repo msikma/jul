@@ -9,7 +9,7 @@
    floor($c[$n][b]*$pct2+$c[$n+1][b]*$pct);
    return $ret;
  }
- $bgimage='images/back09.gif';
+ $bgimage=$theme_base.'images/back09.gif';
  $bgcolor='000000';
  $tableheadtext='FFFFFF';
  $curtime=getdate(ctime()+$tzoff);

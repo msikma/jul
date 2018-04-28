@@ -34,10 +34,10 @@
 			<li><a href='{$GLOBALS['jul_views_path']}/sigsize.php'>Biggest posters</a></li>
 			<li><a href='{$GLOBALS['jul_views_path']}/sigsize.php'>Largest post layouts</a></li>
 			<li><a href='{$GLOBALS['jul_views_path']}/sigsize.php?bio=1'>Largest bios</a></li>
-			<li><a href='{$GLOBALS['jul_views_path']}/activity.php?u=". ($loguserid ? $loguserid : 1) ."'>Graph of your posting history</a> (change the ID in the URL to see others)</li>
-			<li><a href='{$GLOBALS['jul_views_path']}/activity2.php'>Graph of the top 10 posters</a></li>
-			<li><a href='{$GLOBALS['jul_views_path']}/activity3.php'>Graph of total post count and posts per day</a></li>
-			<li><a href='{$GLOBALS['jul_views_path']}/activity3u.php'>Graph of active users per day</a></li>
+			<li><a href='{$GLOBALS['jul_views_path']}/ext/activity.png?u=". ($loguserid ? $loguserid : 1) ."'>Graph of your posting history</a> (change the ID in the URL to see others)</li>
+			<li><a href='{$GLOBALS['jul_views_path']}/ext/activity2.png'>Graph of the top 10 posters</a></li>
+			<li><a href='{$GLOBALS['jul_views_path']}/ext/activity3.png'>Graph of total post count and posts per day</a></li>
+			<li><a href='{$GLOBALS['jul_views_path']}/ext/activity3u.png'>Graph of active users per day</a></li>
 			<li><a href='{$GLOBALS['jul_views_path']}/avatar.php'>Mood avatars</a></li>
 		</ul>
 	</td>

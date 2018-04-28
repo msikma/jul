@@ -140,18 +140,18 @@
 				$tccell1l>". linkbar($effects, $item['effect'], 1, "effect") ."</td>
 			</tr>
 
-			<tr>$tccellc colspan=6><img src=\"images/_.gif\" height=6 width=6></td></tr>
+			<tr>$tccellc colspan=6><img src=\"{$GLOBALS['jul_base_dir']}/static/images/spacer.gif\" height=6 width=6></td></tr>
 			<tr>". $stbox['sHP'] . $stbox['sMP'] . $stbox['sLck'] ."</tr>
 			<tr>". $stbox['sAtk'] . $stbox['sInt'] . $stbox['sDex'] ."</tr>
 			<tr>". $stbox['sDef'] . $stbox['sMDf'] . $stbox['sSpd'] ."</tr>
-			<tr>$tccellc colspan=6><img src=\"images/_.gif\" height=6 width=6></td></tr>
+			<tr>$tccellc colspan=6><img src=\"{$GLOBALS['jul_base_dir']}/static/images/spacer.gif\" height=6 width=6></td></tr>
 
 			<tr>
 				$tccellc colspan=2><input type=\"submit\" name=\"edit\" value=\"Save\"></td>
 				$tccellh> Coins </td>
-				$tccell1l><input type=\"text\" name=\"coins\" maxlength=\"8\" size=\"10\" value=\"". $item['coins'] ."\" class=\"right\"> <img src=\"images/coin.gif\" align=\"absmiddle\"></td>
+				$tccell1l><input type=\"text\" name=\"coins\" maxlength=\"8\" size=\"10\" value=\"". $item['coins'] ."\" class=\"right\"> <img src=\"{$ui_images['coinyellow']}\" align=\"absmiddle\"></td>
 				$tccellh> G.Coins </td>
-				$tccell1l><input type=\"text\" name=\"gcoins\" maxlength=\"8\" size=\"10\" value=\"". $item['gcoins'] ."\" class=\"right\"> <img src=\"images/coin2.gif\" align=\"absmiddle\"></td>
+				$tccell1l><input type=\"text\" name=\"gcoins\" maxlength=\"8\" size=\"10\" value=\"". $item['gcoins'] ."\" class=\"right\"> <img src=\"{$ui_images['coingreen']}\" align=\"absmiddle\"></td>
 			</tr>
 
 		</table></form><br>";

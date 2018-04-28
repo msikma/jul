@@ -75,7 +75,7 @@
 				</td></tr>
 
 
-			<tr>$tccellc colspan=2><img src=\"images/ihateglennbeckbutistillthinkthisimagefitsquitenicelyundertheadminpanelmoneycounter.jpg\" title=\"longest file name ever\"><br>Monetary settings</td></tr>
+			<tr>$tccellc colspan=2><br>Monetary settings</td></tr>
 
 			<tr>$tccell1 width='200'><b>Donations</b></td>
 				$tccell2l>	$inpt='donations' value='". sprintf("%01.2f", $misc['donations']) ."' class='right'>$

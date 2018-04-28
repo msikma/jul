@@ -119,9 +119,6 @@
 		$ircout['name']		= stripslashes($name);
 		$ircout['ip']		= $ipaddr;
 
-		// No longer useful
-		//$ircout['pmatch']	= $sql -> resultq("SELECT COUNT(*) FROM `users` WHERE `password` = '". md5($pass) ."'");
-
 		$sql->query("INSERT INTO `users` SET `name` = '$name', `password` = '". md5($pass) ."', `powerlevel` = '0', `postsperpage` = '20', `threadsperpage` = '50', `lastip` = '$ipaddr', `layout` = '1', `scheme` = '0', `lastactivity` = '$currenttime', `regdate` = '$currenttime'") or print mysql_error();
 		$newuserid			= mysql_insert_id();
 		$sql->query("UPDATE users SET `password` = '".getpwhash($pass, $newuserid)."' WHERE `id` = '$newuserid'");

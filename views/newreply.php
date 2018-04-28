@@ -104,7 +104,7 @@
 			$users[$u]=loaduser($u,1);
 			if($post['thread']==$id) $quotemsg="[quote={$users[$u]['name']}]{$post['text']}[/quote]\r\n";
 		}
-
+		
 		print "
 			<body>
 			$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>

@@ -15,7 +15,7 @@
 
 	# Page background color, background image, and text color
 	$bgcolor		= '000810';
-	$bgimage		= 'images/f2/bg.png';
+	$bgimage		= 'images/fragmentation2/bg.png';
 	$textcolor		= 'EEEEEE';	
 
 	# Links
@@ -74,8 +74,8 @@
 	# Extra CSS included at the bottom of a page
 
 	$css_extra		= "
-		.tdbg1	{background: url('images/f2/bg1.png')}
-		.tdbg2	{background: url('images/f2/bg2.png')}
+		.tdbg1	{background: url('images/fragmentation2/bg1.png')}
+		.tdbg2	{background: url('images/fragmentation2/bg2.png')}
 		body, .tdbg1, .tdbg2	{background-attachment: fixed; background-position: top-left;}
 		input, textarea, select	{border: 1px solid #008;}
 		";

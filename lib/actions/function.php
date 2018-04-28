@@ -2,6 +2,7 @@
 
 use Coduo\PHPHumanizer\DateTimeHumanizer;
 
+$theme_base = $GLOBALS['jul_base_dir']."/themes/default/";
 require_once 'themes/default/settings.php';
 
 $startingtime = microtime(true);
@@ -66,6 +67,10 @@ if (filter_int($die) || filter_int($_GET['sec'])) {
 if ($sql->resultq('SELECT `disable` FROM `misc` WHERE 1')) {
     downtime_die();
 }
+
+// Include the hex color JS file.
+$js_include = array();
+$js_include[] = $GLOBALS['jul_base_path'].'/static/js/hex.js';
 
 $dateformat = $GLOBALS['jul_settings']['date_format_long'];
 $dateshort = $GLOBALS['jul_settings']['date_format_short'];
@@ -165,20 +170,38 @@ if (isset($_GET['scheme']) && is_numeric($_GET['scheme'])) {
     $scheme = 0;
 }
 
-// Load theme settings.
+// Load the default theme first. All themes inherit it and can override it.
+$theme_base = $GLOBALS['jul_base_dir']."/themes/default/";
+include "themes/default/settings.php";
+$theme_base = $GLOBALS['jul_base_dir']."/themes/default/";
+include "themes/default/layout.php";
+
+// Load theme settings. 'Night' is the default theme.
 $schemerow = $sql->fetchq("SELECT `name`, `file` FROM schemes WHERE id='$scheme'");
 $theme = $schemerow ? $schemerow['file'] : 'night';
 
 // Include the chosen theme settings, which sets up its variables/colors.
-include "themes/$theme/settings.php";
+$theme_base = $GLOBALS['jul_base_dir']."/themes/$theme/";
+if (file_exists($GLOBALS['jul_base_path']."/themes/$theme/settings.php")) {
+  include "themes/$theme/settings.php";
+}
 
 // Load the theme's layout file, which determines how the posts get rendered.
-// If the theme doesn't have this file, load the default theme's version.
 if (file_exists($GLOBALS['jul_base_path']."/themes/$theme/layout.php")) {
+  $theme_base = $GLOBALS['jul_base_dir']."/themes/$theme/";
   include "themes/$theme/layout.php";
 }
-else {
-  include "themes/default/layout.php";
+
+// Special theme that activates when a user is viewing a specific forum.
+if ($specialscheme) {
+  $theme_base = $GLOBALS['jul_base_dir']."/themes/$specialscheme/";
+  if (file_exists($GLOBALS['jul_base_path']."/themes/$specialscheme/settings.php")) {
+    include "themes/$specialscheme/settings.php";
+  }
+  if (file_exists($GLOBALS['jul_base_path']."/themes/$specialscheme/layout.php")) {
+    $theme_base = $GLOBALS['jul_base_dir']."/themes/$specialscheme/";
+    include "themes/$specialscheme/layout.php";
+  }
 }
 
 
@@ -379,7 +402,7 @@ function generatenumbergfx($num, $minlen = 0, $double = false)
     $img_base = base_dir().'/';
 
     if ($minlen > 1 && strlen($num) < $minlen) {
-        $gfxcode = "<img class='pointresize' src=\"{$img_base}images/_.gif\" width=".($nw * ($minlen - strlen($num))).' height='.$nw.'>';
+        $gfxcode = "<img class='pointresize' src=\"{$img_base}static/images/spacer.gif\" width=".($nw * ($minlen - strlen($num))).' height='.$nw.'>';
     }
 
     for ($i = 0; $i < strlen($num); ++$i) {
@@ -390,7 +413,7 @@ function generatenumbergfx($num, $minlen = 0, $double = false)
                 break;
         }
         if (' ' == $code) {
-            $gfxcode .= "<img class='pointresize' src={$img_base}images/_.gif width=$nw height=$nw>";
+            $gfxcode .= "<img class='pointresize' src={$img_base}static/images/spacer.gif width=$nw height=$nw>";
         } else {
             $gfxcode .= "<img class='pointresize' src={$img_base}numgfx/$numdir$code.png width=$nw height=$nw>";
         }
@@ -1106,7 +1129,7 @@ function moodlist($sel = 0, $return = false)
 					}
 					else
 					{
-						document.getElementById(\'prev\').src="'.$img_base.'images/_.gif";
+						document.getElementById(\'prev\').src="'.$img_base.'static/images/spacer.gif";
 					}
 				}
 			</script>
@@ -1122,7 +1145,7 @@ function moodlist($sel = 0, $return = false)
     }
 
     if (!$sel || !$log || !$loguser['moodurl']) {
-        $startimg = $img_base.'images/_.gif';
+        $startimg = $img_base.'static/images/spacer.gif';
     } else {
         $startimg = htmlspecialchars(str_replace('$', $sel, $loguser['moodurl']));
     }

@@ -74,7 +74,7 @@
 			if ($user['cnt'] <= 1 && $rcount >= $r)
 				$rcount = $r-1;
 
-			if($rr<=$rcount && $r>$rcount && $view==0) print "<tr>$tccellc colspan=4><img src='images/_.gif' height='4' width='1'></td></tr>";
+			if($rr<=$rcount && $r>$rcount && $view==0) print "<tr>$tccellc colspan=4><img src='{$GLOBALS['jul_base_dir']}/static/images/spacer.gif' height='4' width='1'></td></tr>";
 			$rr=$r;
 			$b = $slashb = '';
 			$td=$tccell1;

@@ -1,5 +1,5 @@
 <?php
-
+$theme_base = $GLOBALS['jul_base_dir']."/themes/default/";
 require_once 'themes/default/settings.php';
 
 // Check for scheme settings. Initial value of $scheme comes from function.php.
@@ -15,11 +15,27 @@ $schemerow = $sql->fetchq("SELECT `name`, `file` FROM schemes WHERE id='$scheme'
 $theme = $schemerow ? $schemerow['file'] : 'night';
 
 // Include the chosen theme settings, which sets up its variables/colors.
-include "themes/$theme/settings.php";
+$theme_base = $GLOBALS['jul_base_dir']."/themes/$theme/";
+if (file_exists($GLOBALS['jul_base_path']."/themes/$theme/settings.php")) {
+  include "themes/$theme/settings.php";
+}
+
+// Load the theme's layout file, which determines how the posts get rendered.
+if (file_exists($GLOBALS['jul_base_path']."/themes/$theme/layout.php")) {
+  $theme_base = $GLOBALS['jul_base_dir']."/themes/$theme/";
+  include "themes/$theme/layout.php";
+}
 
 // Special theme that activates when a user is viewing a specific forum.
 if ($specialscheme) {
-  include "themes/$specialscheme/settings.php";
+  $theme_base = $GLOBALS['jul_base_dir']."/themes/$specialscheme/";
+  if (file_exists($GLOBALS['jul_base_path']."/themes/$specialscheme/settings.php")) {
+    include "themes/$specialscheme/settings.php";
+  }
+  if (file_exists($GLOBALS['jul_base_path']."/themes/$specialscheme/layout.php")) {
+    $theme_base = $GLOBALS['jul_base_dir']."/themes/$specialscheme/";
+    include "themes/$specialscheme/layout.php";
+  }
 }
 
 $bgimage = isset($bgimage) && $bgimage ? " url('$bgimage')" : '';
@@ -37,15 +53,18 @@ if ($loguser['powerlevel'] < 3) {
 // Now output the CSS.
 header('Content-type: text/css');
 
-// If the current theme wishes only to include its own CSS, skip the standard rules.
-if (isset($schemetype) && $schemetype === 1) {
-  $content = file_get_contents($GLOBALS['jul_base_path']."/themes/$theme/style.css");
+$style_path = $GLOBALS['jul_base_path']."/themes/$theme/css/style.css";
+if (file_exists($style_path)) {
+  $content = file_get_contents($style_path);
   print($content);
+}
+// If the current theme wishes only to include its own CSS, skip the standard rules.
+if (isset($dont_include_standard_css) && $dont_include_standard_css === true) {
   exit;
 }
 
 // 10/18/08 - hydrapheetz: added a small hack for "extra" css goodies.
-if (!isset($nullscheme) && !isset($schemetype) && isset($css_extra)) {
+if (!isset($nullscheme) && !isset($dont_include_standard_css) && isset($css_extra)) {
   print($css_extra);
 }
 

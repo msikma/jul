@@ -1,4 +1,6 @@
 User-agent: *
 Crawl-delay: 120
+Disallow: /calendar
 Disallow: /calendar.php
-Disallow: /board/calendar.php
+Disallow: /views/calendar
+Disallow: /views/calendar.php

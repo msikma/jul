@@ -233,7 +233,7 @@
 	}
 	else for($i=1; $thread=@$sql->fetch($threads, MYSQL_ASSOC); ++$i) {
 		if($sticklast && !$thread['sticky'])
-			$threadlist .= "<tr>$tccellh colspan=7><img src='images/_.gif' height=6 width=6>";
+			$threadlist .= "<tr>$tccellh colspan=7><img src='{$GLOBALS['jul_base_dir']}/static/images/spacer.gif' height=6 width=6>";
 		$sticklast = $thread['sticky'];
 
 		if(!$id && $thread['minpower'] > max(0,$power)) {

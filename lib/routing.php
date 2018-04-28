@@ -110,16 +110,16 @@ $GLOBALS['jul_redirects'] = array(
 
 // I don't know. Maybe someday these can be nice URLs.
 $GLOBALS['jul_routes'] = array(
-  '@home' => "{$GLOBALS['jul_base_dir']}/",
-  '@memberlist' => "{$GLOBALS['jul_views_path']}/memberlist.php",
-  '@activeusers' => "{$GLOBALS['jul_views_path']}/activeusers.php",
-  '@calendar' => "{$GLOBALS['jul_views_path']}/calendar.php",
-  '@irc' => "{$GLOBALS['jul_views_path']}/irc.php",
-  '@online' => "{$GLOBALS['jul_views_path']}/online.php",
-  '@ranks' => "{$GLOBALS['jul_views_path']}/ranks.php",
-  '@faq' => "{$GLOBALS['jul_views_path']}/faq.php",
-  '@stats' => "{$GLOBALS['jul_views_path']}/stats.php",
-  '@latestposts' => "{$GLOBALS['jul_views_path']}/latestposts.php",
-  '@hex' => "{$GLOBALS['jul_views_path']}/hex.php",
-  '@smilies' => "{$GLOBALS['jul_views_path']}/smilies.php",
+  '@home' => array("{$GLOBALS['jul_base_dir']}/"),
+  '@memberlist' => array("{$GLOBALS['jul_views_path']}/memberlist.php"),
+  '@activeusers' => array("{$GLOBALS['jul_views_path']}/activeusers.php"),
+  '@calendar' => array("{$GLOBALS['jul_views_path']}/calendar.php"),
+  '@irc' => array("{$GLOBALS['jul_views_path']}/irc.php"),
+  '@online' => array("{$GLOBALS['jul_views_path']}/online.php"),
+  '@ranks' => array("{$GLOBALS['jul_views_path']}/ranks.php"),
+  '@faq' => array("{$GLOBALS['jul_views_path']}/faq.php"),
+  '@stats' => array("{$GLOBALS['jul_views_path']}/stats.php"),
+  '@latestposts' => array("{$GLOBALS['jul_views_path']}/latestposts.php"),
+  '@hex' => array("javascript:void(0);", "onclick=\"hexidecimalchart()\""),
+  '@smilies' => array("{$GLOBALS['jul_views_path']}/smilies.php"),
 );

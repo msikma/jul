@@ -59,7 +59,7 @@
 		if ($options[1]) $chks[1] = "checked";
 
 		$user=$sql->fetchq("SELECT name FROM users WHERE id=$post[user]");
-
+		
 		print "
 			$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 			$tccell1><b>Header:</td>	 $tccell2l width=800px valign=top>$txta=head ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($head) ."</textarea>

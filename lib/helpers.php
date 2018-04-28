@@ -19,7 +19,15 @@ function to_home() {
  */
 function to_route($route) {
   if ($route[0] !== '@') return $route;
-  return $GLOBALS['jul_routes'][$route];
+  return $GLOBALS['jul_routes'][$route][0];
+}
+
+/**
+ * Returns route parameters, if any.
+ */
+function route_params($route) {
+  if ($route[0] !== '@') return $route;
+  return isset($GLOBALS['jul_routes'][$route][1]) ? $GLOBALS['jul_routes'][$route][1] : '';
 }
 
 /**

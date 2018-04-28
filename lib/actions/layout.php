@@ -99,7 +99,7 @@ $headlinks2 = array();
 foreach ($GLOBALS['jul_settings']['top_menu_items'] as $row) {
     $rowlinks = array();
     foreach ($row as $item) {
-        $rowlinks[] = '<a href="'.to_route($item[0]).'">'.$item[1].'</a>';
+        $rowlinks[] = '<a href="'.to_route($item[0]).'" '.route_params($item[0]).'>'.$item[1].'</a>';
     }
     $headlinks2[] = implode(' - ', $rowlinks);
 }
@@ -187,7 +187,22 @@ window.jul_settings = {$settings_json};
 
 $jscripts = '';
 if ($GLOBALS['jul_settings']['display_ikachan']) { // Ikachan! :D!
-  $ikachan = $GLOBALS['jul_themes_path'].'/default/images/squid.png';
+  // Display ikachan based on chance from second number.
+  // e.g. 99 = 99% chance, 1 = 1% chance
+  $rand = mt_rand(1, 100);
+  $n = 0;
+  foreach ($ikachan_source as $ika) {
+    $n += $ika[1];
+    if ($rand <= $n) {
+      $ikasrc = $ika[0];
+      break;
+    }
+  }
+  if (!isset($ikasrc)) {
+    // oops
+    var_dump('err');
+    $ikasrc = $ikachan_source[0][0];
+  }
   $ikaquotes = array(
     'Capturing turf before it was cool',
     'Someone stole my hat!',
@@ -198,7 +213,7 @@ if ($GLOBALS['jul_settings']['display_ikachan']) { // Ikachan! :D!
     'I just want to let you know that you are getting coal this year. You deserve it.'
   );
   $ikaquote = $ikaquotes[array_rand($ikaquotes)];
-  $yyy = "<img id='f_ikachan' src='$ikachan' style=\"z-index: 999999; position: fixed; left: ".mt_rand(0, 100).'%; top: '.mt_rand(0, 100)."%;\" title=\"$ikaquote\">";
+  $yyy = "<img id='f_ikachan' src='$ikasrc' style=\"z-index: 999999; position: fixed; left: ".mt_rand(0, 100).'%; top: '.mt_rand(0, 100)."%;\" title=\"$ikaquote\">";
 }
 
 $dispviews = $views;
@@ -219,14 +234,24 @@ if (isset($meta['description'])) {
 if (isset($meta['canonical'])) {
     $metatag .= "<link rel='canonical' href='{$meta['canonical']}'>";
 }
+$favicon = $favicons[array_rand($favicons)];
+$jsfiles = '';
+foreach ($js_include as $js_file_include) {
+  $ct = file_get_contents($js_file_include);
+  $jsfiles .= "
+  <script type='text/javascript'>
+  $ct
+  </script>";
+}
 
 $header1 = "<html><head><meta http-equiv='Content-type' content='text/html; charset=utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>$windowtitle</title>
 {$GLOBALS['jul_js_vars']}
 $metatag
-<link rel=\"shortcut icon\" href=\"{$GLOBALS['jul_base_dir']}/images/favicons/favicon".(!$x_hacks['host'] ? rand(1, 8).'' : '').".ico\" type=\"image/x-icon\">
-<link rel='stylesheet' href='{$GLOBALS['jul_base_dir']}/css/base.css' type='text/css'>
+<link rel=\"shortcut icon\" href=\"{$favicon}\" type=\"image/x-icon\">
+<link rel='stylesheet' href='{$GLOBALS['jul_base_dir']}/static/css/base.css' type='text/css'>
 <link rel='stylesheet' href='{$GLOBALS['jul_views_path']}/theme/style.css' type='text/css'>
 $css
+$jsfiles
 </head>
 $body
 $yyy
@@ -234,19 +259,13 @@ $yyy
 $tblstart
 <form action='{$GLOBALS['jul_views_path']}/login.php' method='post' name='logout'><input type='hidden' name='action' value='logout'></form>
 <td class='tbl tdbg1 center' colspan=3>{$GLOBALS['jul_settings']['board_title']}";
+
 $header2 = '
-'.(!$x_hacks['smallbrowse'] ? "
+'."
 </td><tr>
-  <td width='120px' class='tbl tdbg2 center fonts'><nobr>Views: $dispviews<br><img src={$GLOBALS['jul_base_dir']}/images/_.gif width=120 height=1></td>
+  <td width='120px' class='tbl tdbg2 center fonts'><nobr>Views: $dispviews<br><img src={$GLOBALS['jul_base_dir']}/static/images/spacer.gif width=120 height=1></td>
   <td width='100%' class='tbl tdbg2 center fonts'>$headlinks2</td>
-  <td width='120px' class='tbl tdbg2 center fonts'><nobr>".date($dateformat, ctime() + $tzoff)."<br><img src={$GLOBALS['jul_base_dir']}/images/_.gif width=120 height=1><tr>"
-    : "<br>$dispviews views, ".date($dateformat, ctime() + $tzoff)."
-  </td><tr>
-	<td width=100% class='tbl tdbg2 center fonts' colspan=3>$headlinks2</td><tr>")."
-<td colspan=3 class='tbl tdbg1 center fonts'>$race
-$privatebox
-$tblend
-</center>";
+  <td width='120px' class='tbl tdbg2 center fonts'><nobr>".date($dateformat, ctime() + $tzoff)."<br><img src={$GLOBALS['jul_base_dir']}/static/images/spacer.gif width=120 height=1></table>";
 
 $headlinks = "$smallfont<br>$headlinks";
 
@@ -347,7 +366,7 @@ $smallfont
 <br>
 <table cellpadding=0 border=0 cellspacing=2><tr>
 <td>
-	<img class=\"pointresize\" src={$GLOBALS['jul_base_dir']}/images/poweredbyacmlm.gif>
+	<img class=\"pointresize\" src={$GLOBALS['jul_base_dir']}/static/images/poweredbyacmlm.gif>
 </td>
 <td>
 	".version_footer().'

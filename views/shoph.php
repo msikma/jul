@@ -29,7 +29,7 @@
 	    ";
 	  print "
 		<table width=100%><td valign=top width=120>
-		 <img src={$GLOBALS['jul_views_path']}/status.php?u=$loguserid>
+		 <img src={$GLOBALS['jul_views_path']}/ext/status.png?u=$loguserid>
 		</td><td valign=top>
 		$tblstart
 		 $tccellh><b>???</b><tr>
@@ -50,7 +50,7 @@
         print "
 		<script>
 		  function preview(user,item,cat,name){
-		    document.getElementById('prev').src='{$GLOBALS['jul_views_path']}/status.php?u='+user+'&it='+item+'&ct='+cat+'&'+Math.random();
+		    document.getElementById('prev').src='{$GLOBALS['jul_views_path']}/ext/status.png?u='+user+'&it='+item+'&ct='+cat+'&'+Math.random();
 		    document.getElementById('pr').innerHTML='Equipped with<br>'+name+'<br>---------->';
 		  }
 		</script>
@@ -65,13 +65,13 @@
 		$tblend
 		<a name=status>
 		<table><td width=256>
-		 <img src={$GLOBALS['jul_views_path']}/status.php?u=$loguserid>
+		 <img src={$GLOBALS['jul_views_path']}/ext/status.png?u=$loguserid>
 		</td><td width=150>
 		 <center><font class=fonts>
 		  <div id=pr></div>
 		 </font></center>
 		</td><td>
-		 <img src=images/_.gif id=prev>
+		 <img src={$GLOBALS['jul_base_dir']}/static/images/spacer.gif id=prev>
 		</table>
 		<br>
 	  ";
@@ -83,8 +83,8 @@
 		$tccellh width=110 colspan=2>Commands</td>$tccellct width=1 rowspan=10000>&nbsp;</td>
 		$tccellh colspan=1>Item</td>
 		$atrlist
-		$tccellh width=6%><img src=images/coin.gif></td>
-		$tccellh width=5%><img src=images/coin2.gif></td>
+		$tccellh width=6%><img src={$ui_images['coinyellow']}></td>
+		$tccellh width=5%><img src={$ui_images['coingreen']}></td>
 	  ";
 	  while($item=mysql_fetch_array($items)){
 	    $preview="<a href=#status onclick='preview($loguserid,$item[id],$cat,\"$item[name]\")'>Preview</a>";

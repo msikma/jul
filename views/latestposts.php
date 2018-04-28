@@ -64,10 +64,6 @@
 	}
 
 	if (!$_GET['raw']) {
-/* Doesn't work, as far as I'm aware?
-		if ($_GET['fungies']) {
-			$jscripts	= '<script type="text/javascript" src="/js/jquery.min.js"></script><script type="text/javascript" src="/js/latestposts.js"></script>';
-		} */
 		print "
 			$header
 			Show:$smallfont

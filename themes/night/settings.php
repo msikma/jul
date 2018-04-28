@@ -1,8 +1,8 @@
 <?php
 $formcss=1;
 $inputborder='663399';
-$bgimage=$GLOBALS['jul_base_dir'].'/images/nightscheme_starsbg.png';
-$bgimage=$GLOBALS['jul_base_dir'].'/images/starsbg.png';
+$bgimage=$theme_base.'nightscheme_starsbg.png';
+$bgimage=$theme_base.'images/starsbg.png';
 $bgcolor='000F1F';
 $textcolor='DDDDDD';
 $brightlinkcolor='F0C413';
@@ -30,3 +30,8 @@ $scr4='524fad';
 $scr5='312d7d';
 $scr6='210456';
 $scr7='000020';
+
+$ui_images['bar_off'] = $theme_base.'images/bar-off.gif';
+$ui_images['bar_on'] = $theme_base.'images/bar-on.gif';
+$ui_images['bar_left'] = $theme_base.'images/barleft.gif';
+$ui_images['bar_right'] = $theme_base.'images/barright.gif';

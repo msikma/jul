@@ -104,13 +104,16 @@ if($log) {
     $namelink = getuserlink($pmsg, array('id'=>'uid'));
     $lastmsg = "Last ". (($pms[0]) ? "unread " : "") ."message from $namelink on ".date($dateformat,$pmsg['date']+$tzoff);
   }
-  $privatebox="
+  $privatebox="<br>
     $tblstart<tr>
     $tccellhs colspan=2>Private messages</tr><tr>
     $tccell1>$new</td>
     $tccell2l><a href='{$GLOBALS['jul_views_path']}/private.php'>Private messages</a> -- You have $totalpms private messages (".intval($pms[0])." new). $lastmsg</td></tr>
     $tblend<br>
   ";
+  if (intval($pms[0]) === 0) {
+    $privatebox = '';
+  }
 
 }
 
@@ -212,7 +215,7 @@ foreach ($categories as $category) {
   }
 }
 
-print "$tblend<br>$privatebox
+print "$tblend$privatebox
 
 ". adbox() ."<br>
 

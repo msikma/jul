@@ -28,5 +28,5 @@
 	$scr6='dd7800';
 	$scr7='190401';
 
-	$css_extra = " a { text-shadow: 1px 1px 1px #000; } .tdbgh { color: #ccc !important; } .tdbgc { color: #000; background: #$categorybg url('images/jul/header_shade.png') bottom center repeat-x; }";
+	$css_extra = " a { text-shadow: 1px 1px 1px #000; } .tdbgh { color: #ccc !important; } .tdbgc { color: #000; background: #$categorybg url('images/cuppycakes/header_shade.png') bottom center repeat-x; }";
 ?>
