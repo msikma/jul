@@ -75,7 +75,6 @@
    squot(0,$user['title']);
     $user['minipic'] = htmlspecialchars($user['minipic'], ENT_QUOTES);
     $user['picture'] = htmlspecialchars($user['picture'], ENT_QUOTES);
-    $user['moodurl'] = htmlspecialchars($user['moodurl'], ENT_QUOTES);
    squot(0,$user['realname']);
    squot(0,$user['aka']);
    squot(0,$user['location']);
@@ -118,7 +117,6 @@
 				$hlft Appearance		$hrgt
 				$lft Mini picture		$rgt$inpt=minipic VALUE=\"$user[minipic]\" SIZE=60 MAXLENGTH=100>
 				$lft User picture		$rgt$inpt=picture VALUE=\"$user[picture]\" SIZE=60 MAXLENGTH=100>
-				$lft Mood avatar		$rgt$inpt=moodurl VALUE=\"$user[moodurl]\" SIZE=60 MAXLENGTH=100>
 				$lft Post background	$rgt$inpt=postbg VALUE=\"$user[postbg]\" SIZE=60 MAXLENGTH=100>
 				$lft Post header		$rgt$txta=postheader ROWS=5 COLS=60>". htmlspecialchars($user['postheader']) ."</TEXTAREA>
 				$lft Signature		$rgt$txta=signature ROWS=5 COLS=60>". htmlspecialchars($user['signature']) ."</TEXTAREA>
@@ -214,7 +212,6 @@
 		`scheme` = '$sscheme',
 		`threadsperpage` = '$threadsperpage',
 		`viewsig` = '$viewsig',
-		`moodurl` = '$moodurl',
 		`profile_locked` = '$profile_locked',
 		`editing_locked` = '$editing_locked',
 		`pronouns` = '$pronouns',

@@ -16,7 +16,7 @@
 				$name=$user[name];
 				$namecolor=getnamecolor($user[sex],$user[powerlevel]);
 				mysql_query("INSERT INTO `delusers` ( SELECT * FROM `users` WHERE `id` = '$id' )");
-				$line="<br><br>===================<br>[Posted by <font $namecolor><b>". addslashes($name) ."</b></font>]<br>";
+				$line="<br><br>===================<br>[Posted by <font $namecolor><b>". mysql_real_escape_string($name) ."</b></font>]<br>";
 				$ups=mysql_query("SELECT id FROM posts WHERE user=$id");
 				while($up=mysql_fetch_array($ups)) mysql_query("UPDATE posts_text SET signtext=CONCAT_WS('','$line',signtext) WHERE pid=$up[id]") or print mysql_error();
 				mysql_query("UPDATE threads SET user=89 WHERE user=$id");

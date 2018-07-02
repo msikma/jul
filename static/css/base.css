@@ -10,6 +10,21 @@
   -ms-interpolation-mode:nearest-neighbor;
 }
 
+/* Styling for the emoticon list. */
+.emoticon-table {
+  border-collapse: collapse;
+}
+.emoticon-table th, .emoticon-table td {
+  border: 1px solid black;
+}
+.emoticon-table th {
+  font-weight: normal;
+  font-family: monospace;
+}
+.emoticon-table td {
+  padding: 4px 6px;
+}
+
 /* Centered bulleted list. */
 ul.center li {
   list-style-position: inside;

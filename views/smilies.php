@@ -1,11 +1,11 @@
 <?php
-  require_once 'lib/actions/function.php';
-  require_once 'lib/actions/layout.php';
+require_once 'lib/actions/function.php';
+require_once 'lib/actions/layout.php';
 
-   $s	= readsmilies();
-   $base = base_dir().'/';
+ $s	= readsmilies();
+ $base = base_dir().'/';
 
-  print "
+print "
 $body
 <title>Smilies</title>
 $css
@@ -21,4 +21,3 @@ $css
  print "$tblend
  </td></table>
 ";
-?>

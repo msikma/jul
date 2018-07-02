@@ -59,11 +59,11 @@
 		if ($options[1]) $chks[1] = "checked";
 
 		$user=$sql->fetchq("SELECT name FROM users WHERE id=$post[user]");
-		
+
 		print "
 			$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 			$tccell1><b>Header:</td>	 $tccell2l width=800px valign=top>$txta=head ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($head) ."</textarea>
-			$tccell2l width=* rowspan=3>".moodlist($post['moodid'])."</td><tr>
+			$tccell2l width=* rowspan=3>".emoticon_table()."</td><tr>
 			$tccell1><b>Post:</td>		 $tccell2l width=800px valign=top>$txta=message ROWS=12 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($message) ."</textarea><tr>
 			$tccell1><b>Signature:</td>	 $tccell2l width=800px valign=top>$txta=sign ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($sign) ."</textarea><tr>
 			$tccell1>&nbsp</td>$tccell2l colspan=2>
@@ -101,7 +101,7 @@
 					xk_ircsend("1|The jceggbert5 dipshit tried to edit another post: ". $id);
 				}
 				elseif (($message == "COCKS" || $head == "COCKS" || $sign == "COCKS") || ($message == $head && $head == $sign)) {
-					mysql_query("INSERT INTO `ipbans` SET `reason` = 'Idiot hack attempt', `ip` = '". $_SERVER['REMOTE_ADDR'] ."', `date` = '". ctime() ."'");
+					mysql_query("INSERT INTO `ipbans` SET `reason` = 'Idiot hack attempt', `ip` = '". $_SERVER['REMOTE_ADDR'] ."'");
 					die("NO BONUS");
 				}
 				else {
@@ -110,7 +110,7 @@
 					if($headid) $head=''; else $headid=0;
 					if($signid) $sign=''; else $signid=0;
 					$sql->query("UPDATE `posts_text` SET `options` = '$poptions', `headtext` = '$head', `text` = '$message', `signtext` = '$sign', `edited` = '$edited', `editdate` = '".ctime()."' WHERE `pid` = '$id'");
-					$sql->query("UPDATE `posts` SET `headid` = '$headid', `signid` = '$signid', `moodid` = '". $_POST['moodid'] ."' WHERE `id` = '$id'");
+					$sql->query("UPDATE `posts` SET `headid` = '$headid', `signid` = '$signid' WHERE `id` = '$id'");
 				}
 
 				//$ppp=($log?$loguser['postsperpage']:20);
@@ -151,7 +151,7 @@
 					$tblend<br>$tblstart
 					$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 					$tccell1><b>Header:</td>	 $tccell2l width=800px valign=top>$txta=head ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($head) ."</textarea>
-					$tccell2l width=* rowspan=3>".moodlist($moodid)."</td><tr>
+					$tccell2l width=* rowspan=3>".emoticon_table()."</td><tr>
 					$tccell1><b>Post:</td>		 $tccell2l width=800px valign=top>$txta=message ROWS=12 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($message) ."</textarea><tr>
 					$tccell1><b>Signature:</td>	 $tccell2l width=800px valign=top>$txta=sign ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($sign) ."</textarea><tr>
 					$tccell1>&nbsp</td>$tccell2l colspan=2>

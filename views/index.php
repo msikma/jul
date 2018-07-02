@@ -64,7 +64,7 @@ $misc = $sql->fetchq('SELECT * FROM misc');
 
 if($posts['d']>$misc['maxpostsday'])  $sql->query("UPDATE misc SET maxpostsday=$posts[d],maxpostsdaydate=".ctime());
 if($posts['h']>$misc['maxpostshour']) $sql->query("UPDATE misc SET maxpostshour=$posts[h],maxpostshourdate=".ctime());
-if($numonline>$misc['maxusers'])      $sql->query("UPDATE misc SET maxusers=$numonline,maxusersdate=".ctime().",maxuserstext='".addslashes($onlineusers)."'");
+if($numonline>$misc['maxusers'])      $sql->query("UPDATE misc SET maxusers=$numonline,maxusersdate=".ctime().",maxuserstext='".mysql_real_escape_string($onlineusers)."'");
 
 if (filter_bool($_GET['oldcounter']))
   $statsblip	= "$posts[d] posts during the last day, $posts[h] posts during the last hour.";

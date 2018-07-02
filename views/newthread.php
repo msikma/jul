@@ -80,7 +80,7 @@
 		<tr>$tccell1><b>Thread title:</td>$tccell2l colspan=2>$inpt=subject SIZE=40 MAXLENGTH=100 VALUE=\"". stripslashes($subject) ."\"></td></tr>
 		<tr>$tccell1><b>Post:</td>$tccell2l width=800px valign=top>".replytoolbar(2)."
 		$txta=message ROWS=21 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". stripslashes(htmlspecialchars($message)) ."</TEXTAREA></td>
-		$tccell2l width=*>".moodlist($moodid)."</td></tr>
+		$tccell2l width=*>".emoticon_table()."</td></tr>
 		<tr>$tccell1>&nbsp</td>$tccell2l colspan=2>
 		$inph=action VALUE=postthread>
 		$inph=id VALUE=$id>
@@ -101,7 +101,7 @@
 		<tr>$tccell1><b>Choices:</td>	$tccell2l colspan=2>$choices</td></tr>
 		<tr>$tccell1><b>Post:</td>$tccell2l width=800px valign=top>".replytoolbar(2)."
 		$txta=message ROWS=21 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". stripslashes(htmlspecialchars($message)) ."</TEXTAREA></td>
-		$tccell2l width=*>".moodlist($moodid)."</td></tr>
+		$tccell2l width=*>".emoticon_table()."</td></tr>
 
 		<tr>
 		$tccell1>&nbsp</td>$tccell2l colspan=2>
@@ -168,7 +168,7 @@
 		if ($log && !$password)
 			$userid = $loguserid;
 		else
-			$userid = checkuser($username,$password);
+			$userid = check_login($username,$password);
 
 		$user=$sql->fetchq("SELECT * FROM users WHERE id=$userid");
 		if($user['powerlevel']<0) $userid=-1;
@@ -219,7 +219,7 @@
 				mysql_query("INSERT INTO `threads` (`forum`, `user`, `views`, `closed`, `title`, `icon`, `replies`, `firstpostdate`, `lastpostdate`, `lastposter`) ".
 							"VALUES ('$id', '$userid', '0', '0', '$subject', '$posticon', '0', '$currenttime', '$currenttime', '$userid')");
 				$t = mysql_insert_id();
-				mysql_query("INSERT INTO `posts` (`thread`, `user`, `date`, `ip`, `num`, `headid`, `signid`, `moodid`) VALUES ('$t', '$userid', '$currenttime', '$userip', '$postnum', '$headid', '$signid','". $_POST['moodid'] ."')");
+				mysql_query("INSERT INTO `posts` (`thread`, `user`, `date`, `ip`, `num`, `headid`, `signid`) VALUES ('$t', '$userid', '$currenttime', '$userip', '$postnum', '$headid', '$signid')");
 				$pid=mysql_insert_id();
 				$options = intval($nosmilies) . "|" . intval($nohtml);
 				if($pid) mysql_query("INSERT INTO `posts_text` (`pid`, `text`, `tagval`, `options`) VALUES ('$pid', '$msg', '$tagval', '$options')");
@@ -302,7 +302,6 @@
 					$ppost['headtext']=$rhead;
 					$ppost['signtext']=$rsign;
 				}
-				$ppost['moodid']=$_POST['moodid'];
 				$ppost['text']=stripslashes($message);
 				$ppost['options'] = $_POST['nosmilies'] . "|" . $_POST['nohtml'];
 				if($isadmin) $ip=$userip;

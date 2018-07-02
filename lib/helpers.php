@@ -56,7 +56,7 @@ function addslashes_array($data) {
 		}
 		return $data;
 	} else {
-		return addslashes($data);
+		return mysql_real_escape_string($data);
 	}
 }
 

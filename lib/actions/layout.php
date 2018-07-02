@@ -314,7 +314,7 @@ if ($q) {
 }
 
 if ($ref && 'jul.rus' != substr($ref, 7, 7)) {
-    $sql->query('INSERT INTO referer (time,url,ref,ip) VALUES ('.ctime().", '".addslashes($url)."', '".addslashes($ref)."', '".$_SERVER['REMOTE_ADDR']."')");
+    $sql->query('INSERT INTO referer (time,url,ref,ip) VALUES ('.ctime().", '".mysql_real_escape_string($url)."', '".mysql_real_escape_string($ref)."', '".$_SERVER['REMOTE_ADDR']."')");
 }
 
 $sql->query("DELETE FROM guests WHERE ip='$userip' OR date<".(ctime() - 300));
@@ -342,10 +342,10 @@ if ($log) {
             report_notice("User $loguser[name] (id $loguserid) changed from IP {$loguser['lastip']} to {$_SERVER['REMOTE_ADDR']}.");
         }
 
-        $sql->query('UPDATE users SET lastactivity='.ctime().",lastip='$userip',lasturl='".addslashes($url)."',lastforum=0,`influence`='$influencelv' WHERE id=$loguserid");
+        $sql->query('UPDATE users SET lastactivity='.ctime().",lastip='$userip',lasturl='".mysql_real_escape_string($url)."',lastforum=0,`influence`='$influencelv' WHERE id=$loguserid");
     }
 } else {
-    $sql->query("INSERT INTO guests (ip,date,useragent,lasturl) VALUES ('$userip',".ctime().",'".addslashes($_SERVER['HTTP_USER_AGENT'])."','".addslashes($url)."')");
+    $sql->query("INSERT INTO guests (ip,date,useragent,lasturl) VALUES ('$userip',".ctime().",'".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($url)."')");
 }
 
 $header = makeheader($header1, $headlinks, $header2);

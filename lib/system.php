@@ -5,16 +5,23 @@ set_include_path('./');
 
 ini_set('default_charset', 'UTF-8');
 
+// These need to be included in order.
 require_once 'lib/paths.php';
 require_once 'lib/error.php';
 require_once 'lib/check-install.php';
 require_once 'lib/defaults.php';
 require_once 'lib/config.php';
+
+// These can be included in any order. Add new libraries here.
 require_once 'lib/helpers.php';
 require_once 'lib/install.php';
 require_once 'lib/mysql.php';
+require_once 'lib/registration.php';
 require_once 'lib/routing.php';
 require_once 'lib/rpg.php';
+require_once 'lib/actions/connect.php';
+require_once 'lib/settings.php';
+require_once 'lib/emoticons.php';
 require_once 'lib/security.php';
 require_once 'lib/threadpost.php';
 require_once 'lib/version.php';

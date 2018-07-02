@@ -104,7 +104,7 @@
 			$users[$u]=loaduser($u,1);
 			if($post['thread']==$id) $quotemsg="[quote={$users[$u]['name']}]{$post['text']}[/quote]\r\n";
 		}
-		
+
 		print "
 			<body>
 			$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
@@ -121,7 +121,7 @@
 			$tccell1><b>Reply:</td>
 			$tccell2l width=800px valign=top>
 			$txta=message ROWS=21 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($quotemsg, ENT_QUOTES) ."</TEXTAREA></td>
-		$tccell2l width=*>".moodlist(filter_int($moodid))."</td><tr>
+		$tccell2l width=*>".emoticon_table()."</td><tr>
 		<tr>
 			$tccell1>&nbsp</td>$tccell2l colspan=2>
 			$inph=action VALUE=postreply>
@@ -151,7 +151,7 @@
 		if ($log && !$password)
 			$userid = $loguserid;
 		else
-			$userid = checkuser($username,$password);
+			$userid = check_login($username,$password);
 
 
 		$error='';
@@ -206,7 +206,7 @@
 						else $stickq = "`sticky` = '0',";
 				}
 
-				$sql->query("INSERT INTO posts (thread,user,date,ip,num,headid,signid,moodid) VALUES ($id,$userid,$currenttime,'$userip',$numposts,$headid,$signid,'". $_POST['moodid'] ."')");
+				$sql->query("INSERT INTO posts (thread,user,date,ip,num,headid,signid) VALUES ($id,$userid,$currenttime,'$userip',$numposts,$headid,$signid)");
 				$pid=mysql_insert_id();
 
 				$options = filter_int($nosmilies) . "|" . filter_int($nohtml);
@@ -241,7 +241,6 @@
 				$ppost['num']			= $numposts;
 				$ppost['lastposttime']	= $currenttime;
 				$ppost['date']			= $currenttime;
-				$ppost['moodid']		= $_POST['moodid'];
 
 				if (filter_bool($nolayout)) {
 					$ppost['headtext'] = "";
@@ -271,7 +270,7 @@
 				$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 				$tccell1><b>Reply:</td>
 				$tccell2l width=800px valign=top>$txta=message ROWS=21 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($message, ENT_QUOTES) ."</TEXTAREA></td>
-				$tccell2l width=*>".moodlist($moodid)."</td><tr>
+				$tccell2l width=*>".emoticon_table()."</td><tr>
 				$tccell1>&nbsp</td>$tccell2l colspan=2>
 				$inps=submit VALUE=\"Submit reply\">
 				$inps=preview VALUE=\"Preview reply\"></td>

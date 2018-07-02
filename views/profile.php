@@ -54,7 +54,6 @@ $user['signature']=doreplace($user['signature'],$user['posts'],$numdays,$user['n
 $user['postheader']=doreplace($user['postheader'],$user['posts'],$numdays,$user['name']);
 
 if ($user['picture']) $picture = "<img src=\"$user[picture]\">";
-if ($user['moodurl']) $moodavatar = " | <a href='{$GLOBALS['jul_views_path']}/avatar.php?id=$id' class=\"popout\" target=\"_blank\">Preview mood avatar</a>";
 
 $icqicon="<a href=http://wwp.icq.com/$user[icq]#pager><img src=http://wwp.icq.com/scripts/online.dll?icq=$user[icq]&img=5 border=0></a>";
 

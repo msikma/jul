@@ -18,15 +18,10 @@ function threadpost($post,$bg,$pthread='') {
 	if($post['location']) { $set['location']="From: ". htmlspecialchars($post['location']); }
 	if($post['pronouns']) { $set['pronouns']="Pronouns: ". htmlspecialchars($post['pronouns']); }
 
-	if($post['picture'] || ($post['moodid'] && $post['moodurl'])){
+	if($post['picture']){
 		$post['picture']  = htmlspecialchars($post['picture']);
 		$set['userpic']   = "<img class='avatar' src=\"{$post['picture']}\">";
 		$set['picture']   = $post['picture'];
-
-		if ($post['moodid'] && $post['moodurl']) {
-			$set['userpic'] = "<img class='avatar' src=\"". str_replace(array('$', '>', '"'), array($post['moodid'], '%3E', '%22'), $post['moodurl']) ."\">";
-			$set['picture'] = str_replace(array('$', '>', '"'), array($post['moodid'], '%3E', '%22'), $post['moodurl']);
-		}
 	}
 
 	if($post['signtext']) {

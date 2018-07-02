@@ -137,6 +137,20 @@ CREATE TABLE `defines` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `settings`
+--
+
+DROP TABLE IF EXISTS `settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settings` (
+  `name` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `events`
 --
 
@@ -289,7 +303,7 @@ CREATE TABLE `ipbans` (
   `ip` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `reason` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `perm` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  `date` int(10) unsigned NOT NULL DEFAULT '0',
+  `datetime_utc` datetime NULL DEFAULT NULL,
   `banner` smallint(5) unsigned NOT NULL DEFAULT '1',
   UNIQUE KEY `ip` (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -984,6 +998,10 @@ CREATE TABLE `users` (
   `dateformat` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dateshort` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pronouns` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `banned` tinyint(4) NOT NULL DEFAULT '0',
+  `banreason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `banperm` tinyint(4) NOT NULL DEFAULT '0',
+  `bandatetime_utc` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `posts` (`posts`),
   KEY `name` (`name`),

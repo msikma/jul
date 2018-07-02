@@ -5,7 +5,7 @@
  * All of these files can be used directly as route.
  */
 function find_route_dir($no_index=true, $subdir='') {
-  $path = $GLOBALS['base_dir'].'/views/'.$subdir;
+  $path = $GLOBALS['jul_base_path'].'/views/'.$subdir;
   $dir = new DirectoryIterator($path);
   $routes = array();
   foreach ($dir as $fileinfo) {

@@ -58,7 +58,6 @@
     }
     $loguser['minipic'] = htmlspecialchars($loguser['minipic'], ENT_QUOTES);
     $loguser['picture'] = htmlspecialchars($loguser['picture'], ENT_QUOTES);
-    $loguser['moodurl'] = htmlspecialchars($loguser['moodurl'], ENT_QUOTES);
     squot(0,$loguser['realname']);
 //    squot(0,$loguser['aka']);
     squot(0,$loguser['location']);
@@ -107,8 +106,6 @@
 	 $tccell2l>$rsetlist<tr>
 	 $tccell1><b>Avatar:$descbr The full URL of the image showing up below your username in posts. Leave it blank if you don't want to use a avatar. Anything over 200&times;200 pixels will be removed.</td>
 	 $tccell2l>$inpt=picture VALUE=\"$loguser[picture]\" SIZE=60 MAXLENGTH=100><tr>
-	 $tccell1><b>Mood avatar:$descbr The URL of a mood avatar set. '\$' in the URL will be replaced with the mood, e.g. <b>http://your.page/here/\$.png</b>!</td>
-	 $tccell2l>$inpt=moodurl VALUE=\"$loguser[moodurl]\" SIZE=60 MAXLENGTH=100><tr>
 	 $tccell1><b>Minipic:$descbr The full URL of a small picture showing up next to your username on some pages. Leave it blank if you don't want to use a picture. The picture is resized to 16x16.</td>
 	 $tccell2l>$inpt=minipic VALUE=\"$loguser[minipic]\" SIZE=60 MAXLENGTH=100><tr>
 	 ". ($loguser['postbg'] ? "$tccell1><b>Post background:$descbr The full URL of a picture showing up in the background of your posts. Leave it blank for no background. Please make sure your text is readable on the background!</td>
@@ -270,7 +267,6 @@
       `scheme` = '$sscheme',
       `threadsperpage` = '$threadsperpage',
       `viewsig` = '$viewsig',
-      `moodurl` = '". $_POST['moodurl'] ."',
       `imood` = '$imood',
       `pronouns` = '{$_POST['pronouns']}',
       `signsep` = '$signsep',

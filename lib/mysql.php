@@ -174,8 +174,6 @@ class mysql {
 		return mysql_set_charset($s, $this->connection);
 	}
 
-	//private function __construct() {}
-
 	// Debugging shit for admins
 	public static function debugprinter() {
 		global $tccellh, $tccellc, $tccell1, $tccell2, $tblstart, $smallfont, $tblend;

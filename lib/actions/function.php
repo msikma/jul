@@ -20,16 +20,10 @@ if (null === $id) {
     $id = 0;
 }
 
-$sql = new mysql();
-
-$sql->connect($GLOBALS['jul_sql_settings']['host'], $GLOBALS['jul_sql_settings']['user'], $GLOBALS['jul_sql_settings']['pass']) or
-    early_html_die('The MySQL server has exploded.', true);
-$sql->selectdb($sql_settings['name']) or early_html_die('Another stupid MySQL error happened, panic', true);
-
 // This array will contain our post filters.
 // We load every PHP file inside 'filters' and let them populate this.
 $GLOBALS['jul_postfilters'] = array();
-$path = $GLOBALS['base_dir'].'/lib/filters/';
+$path = $GLOBALS['jul_base_path'].'/lib/filters/';
 $dir = new DirectoryIterator($path);
 $filters = array();
 foreach ($dir as $fileinfo) {
@@ -480,7 +474,7 @@ function doreplace($msg, $posts, $days, $username, &$tags = null)
     global $tagval, $sql;
 
     // This should probably go off of user ID but welp
-    $user = $sql->fetchq("SELECT * FROM `users` WHERE `name` = '".addslashes($username)."'", MYSQL_BOTH, true);
+    $user = $sql->fetchq("SELECT * FROM `users` WHERE `name` = '".mysql_real_escape_string($username)."'", MYSQL_BOTH, true);
 
     $userdata = array(
         'id' => $user['id'],
@@ -649,10 +643,10 @@ function updategb()
     }
 }
 
-function checkusername($name)
+function username_to_user_id($name)
 {
     global $sql;
-    $u = $sql->resultq("SELECT id FROM users WHERE name='".addslashes($name)."'");
+    $u = $sql->resultq("SELECT id FROM users WHERE name='".mysql_real_escape_string($name)."'");
     if ($u < 1) {
         $u = -1;
     }
@@ -660,28 +654,18 @@ function checkusername($name)
     return $u;
 }
 
-function checkuser($name, $pass)
+function check_login($name, $pass)
 {
     global $hacks, $sql;
 
-    $user = $sql->fetchq("SELECT id,password FROM users WHERE name='$name'");
+    $esc_name = mysql_real_escape_string($name);
+    $user = $sql->fetchq("SELECT id,password FROM users WHERE name='{$esc_name}'");
 
     if (!$user) {
         return -1;
     }
     if (!password_verify("{$pass}{$user['id']}", $user['password'])) {
-        // Also check for the old md5 hash, allow a login and update it if successful
-        // This shouldn't impact security (in fact it should improve it)
-        if (!$hacks['password_compatibility']) {
-            return -1;
-        } else {
-            if ($user['password'] === md5($pass)) { // Uncomment the lines below to update password hashes
-                $sql->query("UPDATE users SET `password` = '".getpwhash($pass, $user['id'])."' WHERE `id` = '$user[id]'");
-                xk_ircsend('102|'.xk(3).'Password hash for '.xk(9).$name.xk(3).' (uid '.xk(9).$user['id'].xk(3).') has been automatically updated.');
-            } else {
-                return -1;
-            }
-        }
+        return -1;
     }
 
     return $user['id'];
@@ -1045,9 +1029,9 @@ function loaduser($id, $type)
 function getpostlayoutid($text)
 {
     global $sql;
-    $id = @$sql->resultq("SELECT id FROM postlayouts WHERE text='".addslashes($text)."' LIMIT 1", 0, 0);
+    $id = @$sql->resultq("SELECT id FROM postlayouts WHERE text='".mysql_real_escape_string($text)."' LIMIT 1", 0, 0);
     if (!$id) {
-        $sql->query("INSERT INTO postlayouts (text) VALUES ('".addslashes($text)."')");
+        $sql->query("INSERT INTO postlayouts (text) VALUES ('".mysql_real_escape_string($text)."')");
         $id = mysql_insert_id();
     }
 
@@ -1082,77 +1066,6 @@ function mysql_get($query)
     global $sql;
 
     return $sql->fetchq($query);
-}
-function sizelimitjs()
-{
-    // where the fuck is this used?!
-    return '';
-    /*return '
-      <script>
-        function sizelimit(n,x,y){
-          rx=n.width/x;
-          ry=n.height/y;
-          if(rx>1 && ry>1){
-          if(rx>=ry) n.width=x;
-          else n.height=y;
-          }else if(rx>1) n.width=x;
-          else if(ry>1) n.height=y;
-        }
-      </script>
-    '; */
-}
-
-function moodlist($sel = 0, $return = false)
-{
-    global $loguserid, $log, $loguser;
-    $img_base = base_dir().'/';
-    $sel = floor($sel);
-
-    $a = array('None', 'neutral', 'angry', 'tired/upset', 'playful', 'doom', 'delight', 'guru', 'hope', 'puzzled', 'whatever', 'hyperactive', 'sadness', 'bleh', 'embarrassed', 'amused', 'afraid');
-    //if ($loguserid == 1) $a[99] = "special";
-    if ($return) {
-        return $a;
-    }
-
-    $c[$sel] = ' checked';
-    $ret = '';
-
-    if ($log && $loguser['moodurl']) {
-        $ret = '
-			<script type="text/javascript">
-				function avatarpreview(uid,pic)
-				{
-					if (pic > 0)
-					{
-						var moodav="'.htmlspecialchars($loguser['moodurl']).'";
-						document.getElementById(\'prev\').src=moodav.replace("$", pic);
-					}
-					else
-					{
-						document.getElementById(\'prev\').src="'.$img_base.'static/images/spacer.gif";
-					}
-				}
-			</script>
-		';
-    }
-
-    $ret .= "<b>Mood avatar list:</b><br><table cellpadding=0 border=0 cellspacing=0><tr><td width=150px style='white-space:nowrap;'>";
-
-    foreach ($a as $num => $name) {
-        $jsclick = (($log && $loguser['moodurl']) ? "onclick='avatarpreview($loguserid,$num)'" : '');
-        $ret .= "<input type='radio' name='moodid' value='$num'".filter_string($c[$num])." id='mood$num' tabindex='".(9000 + $num)."' style=\"height: 12px;\" $jsclick>
-             <label for='mood$num' ".filter_string($c[$sel])." style=\"font-size: 12px;\">&nbsp;$num:&nbsp;$name</label><br>\r\n";
-    }
-
-    if (!$sel || !$log || !$loguser['moodurl']) {
-        $startimg = $img_base.'static/images/spacer.gif';
-    } else {
-        $startimg = htmlspecialchars(str_replace('$', $sel, $loguser['moodurl']));
-    }
-
-    $ret .= "</td><td><img src=\"$startimg\" id=prev></td></table>";
-
-    return $ret;
 }
 
 function admincheck()
@@ -1189,6 +1102,7 @@ function adminlinkbar($sel = 'admin.php')
 //			'admin-todo.php'       => "To-do list",
             "{$GLOBALS['jul_views_path']}/announcement.php" => 'Go to Announcements',
             "{$GLOBALS['jul_views_path']}/admin-editforums.php" => 'Edit Forum List',
+            "{$GLOBALS['jul_views_path']}/admin-editemoticons.php" => 'Edit Emoticons',
             "{$GLOBALS['jul_views_path']}/admin-editmods.php" => 'Edit Forum Moderators',
             "{$GLOBALS['jul_views_path']}/ipsearch.php" => 'IP Search',
             "{$GLOBALS['jul_views_path']}/admin-threads.php" => 'ThreadFix',
