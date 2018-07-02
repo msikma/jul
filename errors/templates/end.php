@@ -3,19 +3,16 @@ if (!$hide_footer) {
 ?>
   <br>
   <font class="fonts">
-    <br><br><a href=http://example.com>Site Name</a>
-    <br>
-    <br>
+  <br><br><a href=<?= $GLOBALS['jul_settings']['site_url'] ?>><?= $GLOBALS['jul_settings']['site_name'] ?></a>
+<br><?= filter_string($affiliatelinks); ?>
+<br>
     <table cellpadding=0 border=0 cellspacing=2><tr>
-      <td>
-        <img class="pointresize" src=/jul/images/poweredbyacmlm.gif>
-      </td>
-      <td>
-        <font class="fonts">
-          Jul v1.0.0 - <a href='https://github.com/msikma/jul'>commit 7bb5af9 [2018-04-18]</a>
-          <br>&copy;2000-2018 Acmlm, Xkeeper, Inuyasha, Dada, et al.
-        </font>
-      </td>
+<td>
+	<img class="pointresize" src=<?= $GLOBALS['jul_base_dir']; ?>/static/images/poweredbyacmlm.gif>
+</td>
+<td>
+	<?= version_footer(); ?>
+</td>
     </tr>
   </table>
 <?php
