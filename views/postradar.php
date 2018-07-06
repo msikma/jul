@@ -1,10 +1,10 @@
 <?php
-  require_once '../lib/function.php';
+  require_once 'lib/actions/function.php';
 
   $windowtitle = "Editing Post Radar";
 
   if (!$log) {
-		require_once '../lib/layout.php';
+		require_once 'lib/actions/layout.php';
 
 		print "$header
 		<br>$tblstart$tccell1>You must be logged in to edit your post radar.<br>
@@ -21,7 +21,7 @@
 		if ($rem) $sql->query("DELETE FROM postradar WHERE user=$loguserid and comp=". intval($rem) ."");
 		if ($add) $sql->query("INSERT INTO postradar (user,comp) VALUES ($loguserid,". intval($add) .")");
 		if ($submit2) {
-			require_once '../lib/layout.php';
+			require_once 'lib/actions/layout.php';
 
 			print "$header
 			<br>$tblstart$tccell1>Thank you, $user, for editing your post radar.<br>
@@ -34,7 +34,7 @@
 
 	// Form
 	// Include layout now so post radar on top of page is properly updated
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	// Deletions before additions
 	$users1 = $sql->query("SELECT p.comp, u.name, u.posts FROM postradar p, users u WHERE u.id=p.comp AND user=$loguserid");
@@ -69,8 +69,8 @@
 
 	$prtable="
 		$tccellh>&nbsp</td>$tccellh>&nbsp<tr>
-		$tccell1><b>Add an user</td>$tccell2l>$addlist<tr>
-		$tccell1><b>Remove an user</td>$tccell2l>$remlist<tr>
+		$tccell1><b>Add a user</td>$tccell2l>$addlist<tr>
+		$tccell1><b>Remove a user</td>$tccell2l>$remlist<tr>
 		$tccellh>&nbsp</td>$tccellh>&nbsp<tr>
 		$tccell1>&nbsp</td>$tccell2l>
 		$inph=action VALUE=dochanges>

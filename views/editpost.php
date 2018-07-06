@@ -1,23 +1,23 @@
 <?php
 	// (fat catgirl here)
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 
 	// Stop this insanity.  Never index editpost...
 	$meta['noindex'] = true;
 
 	if (!$log) {
-		require_once '../lib/layout.php';
-		errorpage("You are not logged in.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
+		require_once 'lib/actions/layout.php';
+		error_page("You are not logged in.",'log in (then try again)',"{$GLOBALS['jul_views_path']}/login.php");
 	}
 	if ($loguser['editing_locked'] == 1) {
-		require_once '../lib/layout.php';
-		errorpage("You are not allowed to edit your posts.",'return to the board','index.php');
+		require_once 'lib/actions/layout.php';
+		error_page("You are not allowed to edit your posts.",'return to the board','index.php');
 	}
 
 	$post     = $sql->fetchq("SELECT * FROM posts,posts_text WHERE id='$id 'AND id=pid");
 	if (!$post) {
-		require_once '../lib/layout.php';
-		errorpage("Post ID #{$id} doesn't exist.",'return to the board','index.php');
+		require_once 'lib/actions/layout.php';
+		error_page("Post ID #{$id} doesn't exist.",'return to the board','index.php');
 	}
 
 	$threadid = $post['thread'];
@@ -33,7 +33,7 @@
 	$specialscheme = $forum['specialscheme'];
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- $forum[title]: $thread[title] -- Editing Post";
 
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 	print $header;
 
 	if (@mysql_num_rows($sql->query("SELECT user FROM forummods WHERE forum=$forum[id] and user=$loguserid")))
@@ -63,7 +63,7 @@
 		print "
 			$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 			$tccell1><b>Header:</td>	 $tccell2l width=800px valign=top>$txta=head ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($head) ."</textarea>
-			$tccell2l width=* rowspan=3>".moodlist($post['moodid'])."</td><tr>
+			$tccell2l width=* rowspan=3>".emoticon_table()."</td><tr>
 			$tccell1><b>Post:</td>		 $tccell2l width=800px valign=top>$txta=message ROWS=12 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($message) ."</textarea><tr>
 			$tccell1><b>Signature:</td>	 $tccell2l width=800px valign=top>$txta=sign ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($sign) ."</textarea><tr>
 			$tccell1>&nbsp</td>$tccell2l colspan=2>
@@ -101,7 +101,7 @@
 					xk_ircsend("1|The jceggbert5 dipshit tried to edit another post: ". $id);
 				}
 				elseif (($message == "COCKS" || $head == "COCKS" || $sign == "COCKS") || ($message == $head && $head == $sign)) {
-					mysql_query("INSERT INTO `ipbans` SET `reason` = 'Idiot hack attempt', `ip` = '". $_SERVER['REMOTE_ADDR'] ."', `date` = '". ctime() ."'");
+					mysql_query("INSERT INTO `ipbans` SET `reason` = 'Idiot hack attempt', `ip` = '". $_SERVER['REMOTE_ADDR'] ."'");
 					die("NO BONUS");
 				}
 				else {
@@ -110,7 +110,7 @@
 					if($headid) $head=''; else $headid=0;
 					if($signid) $sign=''; else $signid=0;
 					$sql->query("UPDATE `posts_text` SET `options` = '$poptions', `headtext` = '$head', `text` = '$message', `signtext` = '$sign', `edited` = '$edited', `editdate` = '".ctime()."' WHERE `pid` = '$id'");
-					$sql->query("UPDATE `posts` SET `headid` = '$headid', `signid` = '$signid', `moodid` = '". $_POST['moodid'] ."' WHERE `id` = '$id'");
+					$sql->query("UPDATE `posts` SET `headid` = '$headid', `signid` = '$signid' WHERE `id` = '$id'");
 				}
 
 				//$ppp=($log?$loguser['postsperpage']:20);
@@ -121,7 +121,6 @@
 					".redirect("{$GLOBALS['jul_views_path']}/thread.php?pid=$id#$id",'return to the thread',0).'</table></table>';
 			}
 			else {
-				loadtlayout();
 				$ppost=$sql->fetchq("SELECT * FROM users WHERE id=$post[user]");
 				$head = stripslashes($head);
 				$sign = stripslashes($sign);
@@ -152,7 +151,7 @@
 					$tblend<br>$tblstart
 					$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 					$tccell1><b>Header:</td>	 $tccell2l width=800px valign=top>$txta=head ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($head) ."</textarea>
-					$tccell2l width=* rowspan=3>".moodlist($moodid)."</td><tr>
+					$tccell2l width=* rowspan=3>".emoticon_table()."</td><tr>
 					$tccell1><b>Post:</td>		 $tccell2l width=800px valign=top>$txta=message ROWS=12 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($message) ."</textarea><tr>
 					$tccell1><b>Signature:</td>	 $tccell2l width=800px valign=top>$txta=sign ROWS=8 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($sign) ."</textarea><tr>
 					$tccell1>&nbsp</td>$tccell2l colspan=2>

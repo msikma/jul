@@ -1,8 +1,8 @@
 <?php
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- Biggest posters";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	if ($_GET['sort'] == "posts")   { $sort = "posts";   $headertext = 'sorted by post count'; }
 	elseif ($_GET['sort'] == "avg") { $sort = "average"; $headertext = 'by average post size'; }

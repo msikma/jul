@@ -1,13 +1,13 @@
 <?php
 	// die("Disabled.");
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 	$thread=$sql->fetchq("SELECT forum, closed, sticky,title,lastposter FROM threads WHERE id=$id");
 
 	// Stop this insanity.  Never index newreply.
 	$meta['noindex'] = true;
 
 	if (!$thread) {
-		require_once '../lib/layout.php';
+		require_once 'lib/actions/layout.php';
 		print "
 			$header<br>$tblstart
 			$tccell1>Nice try. Next time, wait until someone makes the thread <i>before</i> trying to reply to it.<br>".redirect("{$GLOBALS['jul_base_dir']}/index.php", 'return to the index page', 0)."
@@ -28,7 +28,7 @@
 
 	$thread['title']=str_replace('<','&lt;',$thread['title']);
 
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 
 	$smilies=readsmilies();
@@ -67,9 +67,9 @@
 				$tcellbg="<td class='tbl $bg font' valign=top>";
 				$namecolor=getnamecolor($post['sex'],$post['powerlevel']);
 				$postlist.="<tr>
-					$tcellbg<a href={$GLOBALS['jul_views_path']}/profile.php?id=$post[user]><font $namecolor>$post[name]</font></a>$smallfont<br>
+					{$tcellbg}<a href={$GLOBALS['jul_views_path']}/profile.php?id=$post[user]><font $namecolor>$post[name]</font></a>$smallfont<br>
 					Posts: $postnum$post[posts]</td>
-					$tcellbg".doreplace2(dofilters($post['text']), $post['options'])."</tr>
+					$tcellbg".(dofilters(array('', $post['text'], ''), $post['options']))."</tr>
 				";
 			}
 			else{
@@ -121,7 +121,7 @@
 			$tccell1><b>Reply:</td>
 			$tccell2l width=800px valign=top>
 			$txta=message ROWS=21 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($quotemsg, ENT_QUOTES) ."</TEXTAREA></td>
-		$tccell2l width=*>".moodlist(filter_int($moodid))."</td><tr>
+		$tccell2l width=*>".emoticon_table()."</td><tr>
 		<tr>
 			$tccell1>&nbsp</td>$tccell2l colspan=2>
 			$inph=action VALUE=postreply>
@@ -151,7 +151,7 @@
 		if ($log && !$password)
 			$userid = $loguserid;
 		else
-			$userid = checkuser($username,$password);
+			$userid = check_login($username,$password);
 
 
 		$error='';
@@ -206,7 +206,7 @@
 						else $stickq = "`sticky` = '0',";
 				}
 
-				$sql->query("INSERT INTO posts (thread,user,date,ip,num,headid,signid,moodid) VALUES ($id,$userid,$currenttime,'$userip',$numposts,$headid,$signid,'". $_POST['moodid'] ."')");
+				$sql->query("INSERT INTO posts (thread,user,date,ip,num,headid,signid) VALUES ($id,$userid,$currenttime,'$userip',$numposts,$headid,$signid)");
 				$pid=mysql_insert_id();
 
 				$options = filter_int($nosmilies) . "|" . filter_int($nohtml);
@@ -234,7 +234,6 @@
 
 			} else {
 
-				loadtlayout();
 				$message				= stripslashes($message);
 				$ppost					= $user;
 				$ppost['posts']++;
@@ -242,7 +241,6 @@
 				$ppost['num']			= $numposts;
 				$ppost['lastposttime']	= $currenttime;
 				$ppost['date']			= $currenttime;
-				$ppost['moodid']		= $_POST['moodid'];
 
 				if (filter_bool($nolayout)) {
 					$ppost['headtext'] = "";
@@ -272,7 +270,7 @@
 				$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 				$tccell1><b>Reply:</td>
 				$tccell2l width=800px valign=top>$txta=message ROWS=21 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($message, ENT_QUOTES) ."</TEXTAREA></td>
-				$tccell2l width=*>".moodlist($moodid)."</td><tr>
+				$tccell2l width=*>".emoticon_table()."</td><tr>
 				$tccell1>&nbsp</td>$tccell2l colspan=2>
 				$inps=submit VALUE=\"Submit reply\">
 				$inps=preview VALUE=\"Preview reply\"></td>

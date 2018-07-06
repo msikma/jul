@@ -1,6 +1,6 @@
 <?php
-	require_once '../lib/function.php';
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/function.php';
+	require_once 'lib/actions/layout.php';
 
 	if(!$isadmin) die();
 
@@ -58,16 +58,6 @@
 	}
 	$schlist="<select name=sscheme>$schlist</select>";
 
-
-	$tlayouts=$sql->query('SELECT id,name FROM tlayouts ORDER BY ord');
-	while($lay=$sql->fetch($tlayouts)){
-		$sel="";
-		if($lay['id']==$user['layout']) $sel=' selected';
-		$used=$sql->resultq("SELECT count(id) as cnt FROM users WHERE layout=$lay[id]",0,'cnt');
-		$laylist.="<option value=$lay[id]$sel>$lay[name] ($used)";
-	}
-	$laylist="<select name=tlayout>$laylist</select>";
-
 	$rsets=$sql->query('SELECT id,name FROM ranksets ORDER BY id');
 	while($set=$sql->fetch($rsets)) {
 		$sel=($set['id']==$user['useranks']?' selected':'');
@@ -85,7 +75,6 @@
    squot(0,$user['title']);
     $user['minipic'] = htmlspecialchars($user['minipic'], ENT_QUOTES);
     $user['picture'] = htmlspecialchars($user['picture'], ENT_QUOTES);
-    $user['moodurl'] = htmlspecialchars($user['moodurl'], ENT_QUOTES);
    squot(0,$user['realname']);
    squot(0,$user['aka']);
    squot(0,$user['location']);
@@ -128,7 +117,6 @@
 				$hlft Appearance		$hrgt
 				$lft Mini picture		$rgt$inpt=minipic VALUE=\"$user[minipic]\" SIZE=60 MAXLENGTH=100>
 				$lft User picture		$rgt$inpt=picture VALUE=\"$user[picture]\" SIZE=60 MAXLENGTH=100>
-				$lft Mood avatar		$rgt$inpt=moodurl VALUE=\"$user[moodurl]\" SIZE=60 MAXLENGTH=100>
 				$lft Post background	$rgt$inpt=postbg VALUE=\"$user[postbg]\" SIZE=60 MAXLENGTH=100>
 				$lft Post header		$rgt$txta=postheader ROWS=5 COLS=60>". htmlspecialchars($user['postheader']) ."</TEXTAREA>
 				$lft Signature		$rgt$txta=signature ROWS=5 COLS=60>". htmlspecialchars($user['signature']) ."</TEXTAREA>
@@ -155,7 +143,6 @@
 				$lft Posts per page                   $rgt $inpt=postsperpage SIZE=5 MAXLENGTH=5 VALUE=$user[postsperpage]>
 				$lft Threads per page                 $rgt $inpt=threadsperpage SIZE=4 MAXLENGTH=4 VALUE=$user[threadsperpage]>
 				$lft View signatures and post headers $rgt $vsig
-				$lft Thread layout                    $rgt $laylist
 				$lft Color scheme / layout            $rgt $schlist
 
 				$lft &nbsp</td>$tccell2l>
@@ -225,9 +212,6 @@
 		`scheme` = '$sscheme',
 		`threadsperpage` = '$threadsperpage',
 		`viewsig` = '$viewsig',
-		`layout` = '$tlayout',".
-//	`posttool` = '$posttool',
-	 "`moodurl` = '$moodurl',
 		`profile_locked` = '$profile_locked',
 		`editing_locked` = '$editing_locked',
 		`pronouns` = '$pronouns',

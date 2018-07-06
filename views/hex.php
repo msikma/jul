@@ -1,6 +1,6 @@
 <?php
-	require_once '../lib/function.php';
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/function.php';
+	require_once 'lib/actions/layout.php';
 	$base = base_dir().'/';
 
 	print "$body
@@ -36,9 +36,9 @@
 		<table height=100% valign=middle align='center'><td>
 		$tblstart
 		$tccell1>
-		<a><img usemap=#colmap src={$base}images/hexchart.png border=0 width=289 height=67></a><br>
+		<a><img usemap=#colmap src={$base}static/images/hexchart.png border=0 width=289 height=67></a><br>
 		Click a color to get its HTML color value.<br>
-		<span style='border: 1px solid #fff;' id='colordisp'><img src='{$base}images/_.gif' height=20 width=60'></span> - #$inpt=hexval size=6 value='000000' id='hexval' onkeyup='hex(value)' maxlength=6>
+		<span style='border: 1px solid #fff;' id='colordisp'><img src='{$base}static/images/spacer.gif' height=20 width=60'></span> - #$inpt=hexval size=6 value='000000' id='hexval' onkeyup='hex(value)' maxlength=6>
 		$tblend
 		</form>
 		$tblend";

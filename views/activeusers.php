@@ -1,8 +1,8 @@
 <?php
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 
 	$windowtitle	= "{$GLOBALS['jul_settings']['board_name']} -- Active users";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	if (($type == 'pm' || $type == 'pms') && !$log)
 		unset($type);
@@ -131,7 +131,7 @@
 			$tccell2l>{$ulink}</td>
 			$tccell1>".date($dateformat, $user['regdate'] + $tzoff) ."</td>
 			$tccell2 width=30><b>". $user['cnt'] ."</b></td>
-			$tccell2 width=100>". number_format($user['cnt'] / $max * 100, 1) ."%<br><img src=images/minibar.png width=\"". number_format($user['cnt'] / $max * 100) ."%\" align=left height=3> </td>
+			$tccell2 width=100>". number_format($user['cnt'] / $max * 100, 1) ."%<br><img src={$ui_images['minibar']} width=\"". number_format($user['cnt'] / $max * 100) ."%\" align=left height=3> </td>
 			</tr>";
 
 		$total	+= $user['cnt'];

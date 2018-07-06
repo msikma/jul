@@ -1,0 +1,1 @@
+		<link rel='stylesheet' href='/jul/static/css/install.css' type='text/css'>

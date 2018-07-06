@@ -1,6 +1,6 @@
 <?php
-  require_once '../lib/function.php';
-  require_once '../lib/layout.php';
+  require_once 'lib/actions/function.php';
+  require_once 'lib/actions/layout.php';
   if(!$f) $f=0;
   if(@mysql_num_rows(mysql_query("SELECT user FROM forummods WHERE forum=$f and user=$loguserid"))) $ismod=1;
   $canpost=($isadmin or ($ismod && $f>0));
@@ -10,7 +10,6 @@
   }
   $smilies=readsmilies();
   if(!$action){
-    loadtlayout();
     $ppp=($log?$loguser[postsperpage]:20);
     $min=$ppp*$page;
 	if ($loguser['id'] && $f == 0) {
@@ -106,7 +105,6 @@
 		$tccell1>Thank you, $user[name], for posting your announcement.<br>
 	     ".redirect("{$GLOBALS['jul_views_path']}/announcement.php?f=$f","the announcements",0)."</table></table>";
 	  }else{
-	    loadtlayout();
 	    $ppost=$user;
 	    $ppost[uid]=$userid;
 	    $ppost[date]=$currenttime;
@@ -156,7 +154,6 @@
 	    $tccell1>Thank you, ".$loguser[name].", for editing the announcement.<br>
 	    ".redirect("{$GLOBALS['jul_views_path']}/announcement.php?f=$f","go to the announcements",0);
 	}else{
-	  loadtlayout();
 	  $annc=mysql_fetch_array(mysql_query("SELECT * FROM announcements WHERE id=$id"));
 	  $ppost=mysql_fetch_array(mysql_query("SELECT * FROM users WHERE id=$annc[user]"));
 	$subject = stripslashes($subject);

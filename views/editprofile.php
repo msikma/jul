@@ -1,11 +1,10 @@
 <?php
-  require_once '../lib/function.php';
-  require_once '../lib/layout.php';
-  if(!$log) errorpage('You must be logged in to edit your profile.');
-  if($_GET['lol'] || ($loguserid == 1420)) errorpage('<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;"><object width="100%" height="100%"><param name="movie" value="http://www.youtube.com/v/lSNeL0QYfqo&hl=en_US&fs=1&color1=0x2b405b&color2=0x6b8ab6&autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/lSNeL0QYfqo&hl=en_US&fs=1&color1=0x2b405b&color2=0x6b8ab6&autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="100%" height="100%"></embed></object></div>');
-  if($banned) errorpage('Sorry, but banned users aren\'t allowed to edit their profile.');
+  require_once 'lib/actions/function.php';
+  require_once 'lib/actions/layout.php';
+  if(!$log) error_page('You must be logged in to edit your profile.');
+  if($banned) error_page('Sorry, but banned users aren\'t allowed to edit their profile.');
 	if($loguser['profile_locked'] == 1) {
-		errorpage("You are not allowed to edit your profile.");
+		error_page("You are not allowed to edit your profile.");
 	}
   if($loguser['posts']>=500 or ($loguser[posts]>=250 && (ctime()-$loguser[regdate])>=100*86400)) $postreq=1;
   if($loguser['titleoption']==0 || $banned) $titleopt=0;
@@ -59,7 +58,6 @@
     }
     $loguser['minipic'] = htmlspecialchars($loguser['minipic'], ENT_QUOTES);
     $loguser['picture'] = htmlspecialchars($loguser['picture'], ENT_QUOTES);
-    $loguser['moodurl'] = htmlspecialchars($loguser['moodurl'], ENT_QUOTES);
     squot(0,$loguser['realname']);
 //    squot(0,$loguser['aka']);
     squot(0,$loguser['location']);
@@ -78,13 +76,6 @@
 			$schlist.="<option value=$sch[id]$sel>$sch[name] ($sch[used])";
     }
     $schlist="<select name=sscheme>$schlist</select>";
-
-    $tlayouts=$sql->query('SELECT tl.id as id, tl.name, COUNT(u.layout) as used FROM tlayouts tl LEFT JOIN users u ON (u.layout = tl.id) GROUP BY u.layout ORDER BY tl.ord');
-    while($lay=$sql->fetch($tlayouts)){
-			$sel=($lay['id']==$loguser['layout']?' selected':'');
-			$laylist.="<option value=$lay[id]$sel>$lay[name] ($lay[used])";
-    }
-    $laylist="<select name=tlayout>$laylist</select>";
 
     $used = $sql->getresultsbykey('SELECT signsep, count(*) as cnt FROM users GROUP BY signsep', 'signsep', 'cnt');
     for($i=0;$sepn[$i];$i++){
@@ -115,8 +106,6 @@
 	 $tccell2l>$rsetlist<tr>
 	 $tccell1><b>Avatar:$descbr The full URL of the image showing up below your username in posts. Leave it blank if you don't want to use a avatar. Anything over 200&times;200 pixels will be removed.</td>
 	 $tccell2l>$inpt=picture VALUE=\"$loguser[picture]\" SIZE=60 MAXLENGTH=100><tr>
-	 $tccell1><b>Mood avatar:$descbr The URL of a mood avatar set. '\$' in the URL will be replaced with the mood, e.g. <b>http://your.page/here/\$.png</b>!</td>
-	 $tccell2l>$inpt=moodurl VALUE=\"$loguser[moodurl]\" SIZE=60 MAXLENGTH=100><tr>
 	 $tccell1><b>Minipic:$descbr The full URL of a small picture showing up next to your username on some pages. Leave it blank if you don't want to use a picture. The picture is resized to 16x16.</td>
 	 $tccell2l>$inpt=minipic VALUE=\"$loguser[minipic]\" SIZE=60 MAXLENGTH=100><tr>
 	 ". ($loguser['postbg'] ? "$tccell1><b>Post background:$descbr The full URL of a picture showing up in the background of your posts. Leave it blank for no background. Please make sure your text is readable on the background!</td>
@@ -177,9 +166,6 @@
 	 $tccell2l>$pagestyle<tr>
 	 $tccell1><b>Poll vote system:$descbr Normal (based on users) or Influence (based on levels)</td>
 	 $tccell2l>$pollstyle<tr>
-
-	 $tccell1><b>Thread layout:$descbr You can choose from a few thread layouts here.</td>
-	 $tccell2l>$laylist<tr>
 	 $tccell1><b>Signature separator:$descbr You can choose from a few signature separators here.</td>
 	 $tccell2l>$seplist<tr>
 	 $tccell1><b>Color scheme / layout:$descbr You can select from a few color schemes here.</td>
@@ -281,8 +267,6 @@
       `scheme` = '$sscheme',
       `threadsperpage` = '$threadsperpage',
       `viewsig` = '$viewsig',
-      `layout` = '$tlayout',
-      `moodurl` = '". $_POST['moodurl'] ."',
       `imood` = '$imood',
       `pronouns` = '{$_POST['pronouns']}',
       `signsep` = '$signsep',

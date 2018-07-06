@@ -1,8 +1,8 @@
 <?php
 
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 	$windowtitle	= "Admin Cruft -- {$GLOBALS['jul_settings']['board_name']}";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	print "$header<br>";
 
@@ -75,7 +75,7 @@
 				</td></tr>
 
 
-			<tr>$tccellc colspan=2><img src=\"images/ihateglennbeckbutistillthinkthisimagefitsquitenicelyundertheadminpanelmoneycounter.jpg\" title=\"longest file name ever\"><br>Monetary settings</td></tr>
+			<tr>$tccellc colspan=2><br>Monetary settings</td></tr>
 
 			<tr>$tccell1 width='200'><b>Donations</b></td>
 				$tccell2l>	$inpt='donations' value='". sprintf("%01.2f", $misc['donations']) ."' class='right'>$

@@ -1,7 +1,7 @@
 <?php
-	require_once '../lib/function.php';
-	require_once '../lib/rpg.php';
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/function.php';
+	require_once 'lib/rpg.php';
+	require_once 'lib/actions/layout.php';
 
 	function sortbyexp($a,$b) {
 		$cmpa = (($a['exp'] === 'NaN') ? -1 : intval($a['exp']));
@@ -100,7 +100,7 @@
 		</tr>$tblend<br>$tblstart
 		<tr>
 		$tccellh width=30>#</td>
-		$tccellh width=16><img src=images/_.gif width=16 height=8></td>
+		$tccellh width=16><img src={$GLOBALS['jul_base_dir']}/static/images/spacer.gif width=16 height=8></td>
 		$tccellh>Username</td>
 	";
 
@@ -119,8 +119,8 @@
 		print "$tccellh width=35>Level</td>";
 		print "$tccellh width=90>Class</td>";
 		for($i=0;$i<9;$i++) print "$tccellh width=65>".$stat[$i].'</td>';
-		print "$tccellh width=80><img src=images/coin.gif></td>";
-		print "$tccellh width=60><img src=images/coin2.gif></td>";
+		print "$tccellh width=80><img src={$ui_images['coinyellow']}></td>";
+		print "$tccellh width=60><img src={$ui_images['coingreen']}></td>";
 		print "</tr>";
 	}
 

@@ -1,8 +1,8 @@
 <?php
 
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 	$windowtitle	= "FAQ / Rules -- {$GLOBALS['jul_settings']['board_name']}";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 
 	$topiclist	= "";
@@ -114,7 +114,7 @@
 		  </tr>
 		  <tr>
 		    <td class='tbl tdbg2'>&amp;expgaintime&amp;</td>
-		    <td class='tbl tdbg1'>Seconds for 1 EXP when idle</td>
+		    <td class='tbl tdbg1'>for 1 EXP when idle</td>
 		  </tr>
 		  <tr>
 		    <td class='tbl tdbg2'>&amp;expdone&amp;</td>
@@ -163,7 +163,7 @@
 		</table>
 	");
 
-	$faq	.= faqformat("bbcode", "What is BBcode?", doreplace2("
+	$faq	.= faqformat("bbcode", "What is BBcode?", bbcode_format("
 		BBcode is a simple syntax which you can use on your posts to format the text or add images and videos. Below is a list of the supported tags:
 		<br>
 		<br>

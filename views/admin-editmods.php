@@ -1,8 +1,8 @@
 <?php
 
-require_once '../lib/function.php';
+require_once 'lib/actions/function.php';
 $windowtitle = "{$GLOBALS['jul_settings']['board_name']} - Forum Moderators";
-require_once '../lib/layout.php';
+require_once 'lib/actions/layout.php';
 
 print $header."<br>";
 

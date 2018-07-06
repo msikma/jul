@@ -1,10 +1,10 @@
 <?php
-	require_once '../lib/function.php';
+	require_once 'lib/actions/function.php';
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- Private Messages";
-	require_once '../lib/layout.php';
+	require_once 'lib/actions/layout.php';
 
 	if (!$log)
-		errorpage("You need to be logged in to read your private messages.", 'log in (then try again)', "{$GLOBALS['jul_views_path']}/login.php");
+		error_page("You need to be logged in to read your private messages.", 'log in (then try again)', "{$GLOBALS['jul_views_path']}/login.php");
 
 	// Viewing someone else?
 	$u = $loguserid;
