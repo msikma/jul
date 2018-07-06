@@ -15,8 +15,14 @@ function emoticon_table() {
 function get_active_emoticon_set() {
   global $active_emoticon_set;
   if ($active_emoticon_set === '') {
-    $set = forum_setting_get('emoticon_set');
-    return $GLOBALS['jul_emoticon_sets'][$set];
+    try {
+      $set = forum_setting_get('emoticon_set');
+      return $GLOBALS['jul_emoticon_sets'][$set];
+    }
+    catch (Exception $e) {
+      // If we can't connect to the database (e.g. before install).
+      return 'phpbb';
+    }
   }
   else {
     return $active_emoticon_set;

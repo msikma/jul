@@ -1,6 +1,6 @@
 <?php
 include('templates/start.php');
-$install_link = $GLOBALS['jul_base_dir']."/install.php";
+$install_link = $GLOBALS['jul_base_dir']."/views/install";
 $error_header = 'Installation error';
 $error_content = "
   It does not seem like Jul has been installed yet.<br />

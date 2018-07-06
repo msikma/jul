@@ -7,8 +7,18 @@ require_once 'themes/default/settings.php';
 
 $startingtime = microtime(true);
 
+// Just check whether we're using the 'install' route.
+// If so, don't check for the install.
+$r = get_request_route();
 error_on_bad_db();
-error_on_bad_install();
+if ($r['file'] !== 'install') {
+    error_on_bad_install();
+}
+else {
+    // Load the installer directly.
+    include("views/install.php");
+    exit;
+}
 
 // Awful old legacy thing. Too much code relies on register globals,
 // and doesn't distinguish between _GET and _POST, so we have to do it here. fun
@@ -58,8 +68,12 @@ if (filter_int($die) || filter_int($_GET['sec'])) {
     suspicious_die();
 }
 
-if ($sql->resultq('SELECT `disable` FROM `misc` WHERE 1')) {
-    downtime_die();
+try {
+    if ($sql->resultq('SELECT `disable` FROM `misc` WHERE 1')) {
+        downtime_die();
+    }
+}
+catch (Exception $e) {
 }
 
 // Include the hex color JS file.

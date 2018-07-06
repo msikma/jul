@@ -22,7 +22,12 @@ if (!isset($windowtitle)) {
 $home = base_dir().'/';
 $GLOBALS['jul_settings']['board_title'] = "<a href='{$home}'>{$GLOBALS['jul_settings']['board_title']}</a>";
 
-$race = $loguserid ? postradar($loguserid) : '';
+try {
+    $race = $loguserid ? postradar($loguserid) : '';
+}
+catch (Exception $e) {
+    $race = '';
+}
 
 $tablewidth = '100%';
 $fonttag = '<font class="font">';
@@ -82,19 +87,6 @@ if ($loguserid) {
 - <a href=\"{$GLOBALS['jul_views_path']}/login.php\">Login</a>";
 }
 
-// TODO: make this show up for all admins? Test it.
-if (in_array($loguserid, array(1, 5, 2100))) {
-    $xminilog = $sql->fetchq('SELECT COUNT(*) as count, MAX(`time`) as time FROM `minilog`');
-    if ($xminilog['count']) {
-        $xminilogip = $sql->fetchq('SELECT `ip`, `banflags` FROM `minilog` ORDER BY `time` DESC LIMIT 1');
-        $GLOBALS['jul_settings']['board_title'] .= "<br><a href='{$GLOBALS['jul_views_path']}/shitbugs.php'><span class=font style=\"color: #f00\"><b>".$xminilog['count'].'</b> suspicious request(s) logged, last at <b>'.date($dateformat, $xminilog['time'] + $tzoff).'</b> by <b>'.$xminilogip['ip'].' ('.$xminilogip['banflags'].')</b></span></a>';
-    }
-    $xminilog = $sql->fetchq('SELECT COUNT(*) as count, MAX(`time`) as time FROM `pendingusers`');
-    if ($xminilog['count']) {
-        $xminilogip = $sql->fetchq('SELECT `username`, `ip` FROM `pendingusers` ORDER BY `time` DESC LIMIT 1');
-        $GLOBALS['jul_settings']['board_title'] .= "<br><span class='font' style=\"color: #ff0\"><b>".$xminilog['count']."</b> pending user(s), last <b>'".$xminilogip['username']."'</b> at <b>".date($dateformat, $xminilog['time'] + $tzoff).'</b> by <b>'.$xminilogip['ip'].'</b></span>';
-    }
-}
 $headlinks2 = array();
 foreach ($GLOBALS['jul_settings']['top_menu_items'] as $row) {
     $rowlinks = array();
@@ -114,12 +106,13 @@ if ('XXXXXXXXXXXXXXXXX' !== $forwardedip) {
 if ('XXXXXXXXXXXXXXXXX' !== $clientip) {
     $checkips .= " OR INSTR('$clientip',ip)=1";
 }
-
-if ($sql->resultq("SELECT count(*) FROM ipbans WHERE $checkips")) {
-    $ipbanned = 1;
-}
-if ($sql->resultq("SELECT count(*) FROM `tor` WHERE `ip` = '".$_SERVER['REMOTE_ADDR']."' AND `allowed` = '0'")) {
-    $torbanned = 1;
+if (!$GLOBALS['jul_installing']) {
+    if ($sql->resultq("SELECT count(*) FROM ipbans WHERE $checkips")) {
+        $ipbanned = 1;
+    }
+    if ($sql->resultq("SELECT count(*) FROM `tor` WHERE `ip` = '".$_SERVER['REMOTE_ADDR']."' AND `allowed` = '0'")) {
+        $torbanned = 1;
+    }
 }
 
 if ($ipbanned || $torbanned) {
@@ -135,24 +128,17 @@ if ($torbanned) {
     $sql->query("UPDATE `tor` SET `hits` = `hits` + 1 WHERE `ip` = '".$_SERVER['REMOTE_ADDR']."'");
 }
 
-$views = $sql->resultq('SELECT views FROM misc') + 1;
+if (!$GLOBALS['jul_installing']) {
+    $views = $sql->resultq('SELECT views FROM misc') + 1;
 
-if (!$ipbanned && !$torbanned && (!defined('IS_AJAX_REQUEST') || !IS_AJAX_REQUEST)) {
-    // Don't increment the view counter for bots
-    // Todo: Actually check for bots and disable it because hdurfs
-    $sql->query("UPDATE misc SET views=$views");
-
-    if ($views % 10000000 > 9999000 or $views % 10000000 < 1000) {
-        $u = ($loguserid ? $loguserid : 0);
-        $ct = ctime();
-        $sql->query("INSERT INTO hits VALUES ({$views},{$u},'{$userip}',{$ct})");
-    }
+    // Dailystats update in one query
+    $sql->query('INSERT INTO dailystats (date, users, threads, posts, views) '.
+    "VALUES ('".date('m-d-y', ctime())."', (SELECT COUNT( * ) FROM users), (SELECT COUNT(*) FROM threads), (SELECT COUNT(*) FROM posts), $views) ".
+    "ON DUPLICATE KEY UPDATE users=VALUES(users), threads=VALUES(threads), posts=VALUES(posts), views=$views");
 }
-
-// Dailystats update in one query
-$sql->query('INSERT INTO dailystats (date, users, threads, posts, views) '.
-             "VALUES ('".date('m-d-y', ctime())."', (SELECT COUNT( * ) FROM users), (SELECT COUNT(*) FROM threads), (SELECT COUNT(*) FROM posts), $views) ".
-             "ON DUPLICATE KEY UPDATE users=VALUES(users), threads=VALUES(threads), posts=VALUES(posts), views=$views");
+else {
+    $views = 0;
+}
 
 $new = '&nbsp;';
 $privatebox = '';
@@ -317,7 +303,9 @@ if ($ref && 'jul.rus' != substr($ref, 7, 7)) {
     $sql->query('INSERT INTO referer (time,url,ref,ip) VALUES ('.ctime().", '".mysql_real_escape_string($url)."', '".mysql_real_escape_string($ref)."', '".$_SERVER['REMOTE_ADDR']."')");
 }
 
-$sql->query("DELETE FROM guests WHERE ip='$userip' OR date<".(ctime() - 300));
+if (!$GLOBALS['jul_installing']) {
+    $sql->query("DELETE FROM guests WHERE ip='$userip' OR date<".(ctime() - 300));
+}
 
 if ($log) {
     if (($loguser['powerlevel'] <= 5) && (!defined('IS_AJAX_REQUEST') || !IS_AJAX_REQUEST)) {
@@ -344,7 +332,7 @@ if ($log) {
 
         $sql->query('UPDATE users SET lastactivity='.ctime().",lastip='$userip',lasturl='".mysql_real_escape_string($url)."',lastforum=0,`influence`='$influencelv' WHERE id=$loguserid");
     }
-} else {
+} else if (!$GLOBALS['jul_installing']) {
     $sql->query("INSERT INTO guests (ip,date,useragent,lasturl) VALUES ('$userip',".ctime().",'".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($url)."')");
 }
 

@@ -70,7 +70,7 @@ class mysql {
       $trace = ob_get_contents();
       ob_end_clean();
 			error_log($trace);
-			trigger_error(mysql_error(), E_USER_ERROR);
+			throw new Exception('MySQL error: '.mysql_error());
 		}
 
 		$t = microtime(true)-$start;

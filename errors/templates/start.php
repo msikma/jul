@@ -22,6 +22,11 @@ function render_error_header($data) {
     <meta name="robots" content="noindex,follow" />
 		<link rel='stylesheet' href='<?= $GLOBALS['jul_base_dir'] ?>/static/css/base.css' type='text/css'>
 		<link rel='stylesheet' href='<?= $GLOBALS['jul_base_dir'] ?>/views/theme/style.css' type='text/css'>
+<?php
+if ($data['static_css']) {
+  include('css.php');
+}
+?>
   </head>
   <body>
     <center>

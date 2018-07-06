@@ -1,20 +1,21 @@
 <?php
-require_once 'lib/config.example.php';
-var_dump($sql_settings);
-die('a');
 
+$GLOBALS['jul_installing'] = true;
+
+require_once 'config.example.php';
+require_once 'lib/helpers.php';
 require_once 'lib/actions/function.php';
 require_once 'lib/actions/layout.php';
 require_once 'lib/check-install.php';
 require_once 'lib/install.php';
-
-$self = 'installer.php';
 
 $config_ready = check_config();
 $db_ready = check_db();
 #$already_installed = check_already_installed();
 $already_installed = false;
 $installer_step = !isset($_POST['step']) ? 1 : intval($_POST['step']);
+
+$self = base_dir().'/views/install';
 
 ?>
 <html>
@@ -23,8 +24,9 @@ $installer_step = !isset($_POST['step']) ? 1 : intval($_POST['step']);
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title><?= $GLOBALS['jul_settings']['board_name']; ?> -- Installer</title>
     <meta name="robots" content="noindex,follow" />
+		<link rel='stylesheet' href='/jul/static/css/base.css' type='text/css'>
+		<link rel='stylesheet' href='/jul/static/css/install.css' type='text/css'>
     <?= $GLOBALS['jul_js_vars']; ?>
-    <?= $css; ?>
   </head>
   <body>
     <form action="install.php" method="post">
@@ -42,12 +44,12 @@ $installer_step = !isset($_POST['step']) ? 1 : intval($_POST['step']);
 <?php
 if (!$config_ready) {
   render_box("
-  In order to set up Jul, make sure you make a <a>lib/config.php</a> file with your own custom settings.
+  In order to set up Jul, make sure you make a <a>config.php</a> file with your own custom settings.
   ");
 }
 if ($config_ready && !$db_ready[0]) {
   render_box("
-  Could not connect to the database. Make sure your <a>lib/config.php</a> file has the correct settings to connect to MySQL.<br /><br />
+  Could not connect to the database. Make sure your <a>config.php</a> file has the correct settings to connect to MySQL.<br /><br />
 
   {$db_ready[1]}
   ");
@@ -128,7 +130,7 @@ else if ($config_ready && $db_ready[0] && $installer_step === 1) {
   $set = get_data_table($GLOBALS['jul_settings'], $GLOBALS['jul_common_settings']);
   $db = get_data_table($GLOBALS['jul_sql_settings']);
   render_box("
-  Ready to begin installing Jul. Please check if the following settings are correct.<br />Edit your <a>lib/config.php</a> file to fix any problems.
+  Ready to begin installing Jul. Please check if the following settings are correct.<br />Edit your <a>config.php</a> file to fix any problems.
   ");
   $content = array(
     array('---'),
