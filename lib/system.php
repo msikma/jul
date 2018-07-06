@@ -17,6 +17,7 @@ require_once 'lib/config.php';
 // These can be included in any order. Add new libraries here.
 require_once 'lib/helpers.php';
 require_once 'lib/install.php';
+require_once 'lib/management.php';
 require_once 'lib/mysql.php';
 require_once 'lib/registration.php';
 require_once 'lib/routing.php';

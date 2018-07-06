@@ -1,36 +1,53 @@
 <?php
 require_once 'lib/actions/function.php';
 
+// Edit or create a new forum.
 if ($_POST['edit'] || $_POST['edit2']) {
 	if (!$isadmin) die("You aren't an admin!");
+
+	$editing_category = isset($_GET['categoryedit']);
+	if ($editing_category) {
+		if ($_GET['id'] <= -1) {
+			$id	= create_category($forumtitle);
+			trigger_error("Created new category \"$forumtitle\" with ID $id", E_USER_NOTICE);
+		} else {
+			$id	= edit_category($_GET['id'], $forumtitle);
+			trigger_error("Edited category ID $id", E_USER_NOTICE);
+		}
+		if ($_POST['edit']) {
+			header("Location: ?id=". $id);
+		}
+		else {
+			header("Location: ?");
+		}
+		exit;
+	}
 
 	if (isset($_GET['preview']))
 		$prevtext = "&preview=" . $_GET['preview'];
 
 	$hidden = (($_POST['hidden']) ? 1 : 0);
 
-	$values .= "`title`          = '$forumtitle',     ";
-	$values .= "`description`    = '$description',    ";
-	$values .= "`catid`          = '$catid',          ";
-	$values .= "`minpower`       = '$minpower',       ";
-	$values .= "`minpowerthread` = '$minpowerthread', ";
-	$values .= "`minpowerreply`  = '$minpowerreply',  ";
-	$values .= "`numthreads`     = '$numthreads',     ";
-	$values .= "`numposts`       = '$numposts',       ";
-	$values .= "`forder`         = '$forder',         ";
-	$values .= "`specialscheme`  = '$edspecialscheme',";
-	$values .= "`hidden`         = '$hideforum',      ";
-	$values .= "`pollstyle`      = '$pollstyle'       ";
+	$attributes = array(
+		'title' => $forumtitle,
+		'description' => $description,
+		'catid' => $catid,
+		'minpower' => $minpower,
+		'minpowerthread' => $minpowerthread,
+		'minpowerreply' => $minpowerreply,
+		'numthreads' => $numthreads,
+		'numposts' => $numposts,
+		'forder' => $forder,
+		'specialscheme' => $edspecialscheme,
+		'hidden' => $hideforum,
+		'pollstyle' => $pollstyle,
+	);
 
 	if ($_GET['id'] <= -1) {
-		$sql->query("INSERT INTO `forums` SET $values, `lastpostid` = '0'");
-		if (mysql_error()) die(mysql_error());
-		$id	= mysql_insert_id();
+		$id	= create_forum($attributes);
 		trigger_error("Created new forum \"$forumtitle\" with ID $id", E_USER_NOTICE);
 	} else {
-		$sql->query("UPDATE `forums` SET $values WHERE `id` = '". $_GET['id'] ."'");
-		if (mysql_error()) die(mysql_error());
-		$id	= $_GET['id'];
+		$id	= edit_forum($_GET['id'], $attributes);
 		trigger_error("Edited forum ID $id", E_USER_NOTICE);
 	}
 
@@ -41,6 +58,7 @@ if ($_POST['edit'] || $_POST['edit2']) {
 
 	die();
 }
+// Delete a forum. Needs a forum to put its posts in.
 elseif ($_POST['delete']) {
 	if (!$isadmin)
 		die("You aren't an admin!");
@@ -53,20 +71,7 @@ elseif ($_POST['delete']) {
 	if (!isset($_POST['mergeid']) || $mergeid < 0)
 		die("No forum selected to merge to.");
 
-	$counts = $sql->fetchq("SELECT `numthreads`, `numposts` FROM `forums` WHERE `id`='$id'");
-	$sql->query("UPDATE `threads` SET `forum`='$mergeid' WHERE `forum`='$id'") or die(mysql_error());
-	$sql->query("UPDATE `announcements` SET `forum`='$mergeid' WHERE `forum`='$id'") or die(mysql_error());
-	$sql->query("DELETE FROM `forummods` WHERE `forum`='$id'") or die(mysql_error());
-	$sql->query("DELETE FROM `forums` WHERE `id`='$id'") or die(mysql_error());
-
-	$lastthread = $sql->fetchq("SELECT * FROM `threads` WHERE `forum`='$mergeid' ORDER BY `lastpostdate` DESC LIMIT 1");
-	$sql->query("UPDATE `forums` SET
-		`numthreads`=`numthreads`+'{$counts['numthreads']}',
-		`numposts`=`numposts`+'{$counts['numposts']}',
-		`lastpostdate`='{$lastthread['lastpostdate']}',
-		`lastpostuser`='{$lastthread['lastposter']}',
-		`lastpostid`='{$lastthread['id']}'
-	WHERE `id`='$mergeid'") or die(mysql_error());
+	delete_forum($id, $mergeid);
 
 	if (isset($_GET['preview']))
 		$prevtext = "preview=" . $_GET['preview'];
@@ -128,8 +133,9 @@ if (isset($_GET['delete'])) {
 }
 else if (isset($_GET['id'])) {
 	$catquery = $sql->query("SELECT id,name FROM categories ORDER BY id");
-	while ($catres = $sql->fetch($catquery))
+	while ($catres = $sql->fetch($catquery)) {
 		$categories[$catres['id']] = $catres['name'];
+	}
 
 	$forum = $sql->fetchq("SELECT * FROM `forums` WHERE `id` = '". $_GET['id'] . "'", MYSQL_ASSOC);
 	if (!$forum)
@@ -141,7 +147,29 @@ else if (isset($_GET['id'])) {
 	if (isset($_GET['preview']))
 		$prevtext = "&preview=" . $_GET['preview'];
 
-	echo  "
+	if (isset($_GET['categoryedit'])) {
+		print("
+		<form method='post' action='?categoryedit&id=". $_GET['id'] . "$prevtext'>
+		$tblstart
+
+		<tr>
+			$tccellh colspan=6>Editing <b>". ($forum ? htmlspecialchars($forum['title']) : "a new category") . "</b></td>
+		</tr>
+
+		<tr>
+			$tccellh>Category Name</td>
+			$tccell1l colspan=4><input type=\"text\" name=\"forumtitle\" value=\"". htmlspecialchars($forum['title']) ."\"  style=\"width: 100%;\" maxlength=\"250\"></td>
+		</tr>
+
+		<tr>
+			$tccellc colspan=6><input type=\"submit\" name=\"edit\" value=\"Save and continue\">&nbsp;<input type=\"submit\" name=\"edit2\" value=\"Save and close\"></td>
+		</tr>
+
+		</table></form><br>
+		");
+	}
+	else {
+		echo  "
 	<form method=\"post\" action=\"?id=". $_GET['id'] . "$prevtext\">
 	$tblstart
 		<tr>
@@ -198,6 +226,8 @@ else if (isset($_GET['id'])) {
 		</tr>
 
 	</table></form><br>";
+	}
+
 }
 
 	$forumlist="
@@ -233,7 +263,8 @@ else if (isset($_GET['id'])) {
 	while ($res = $sql->fetch($modquery))
 		$mods[] = $res;
 
-	$forumlist .= "<tr><td class='tbl tdbgc center font' colspan=5>&lt; <a href='{$GLOBALS['jul_views_path']}/admin-editforums.php?id=-1$prevtext'>Create a new forum</a> &gt;</td></tr>";
+		$forumlist .= "<tr><td class='tbl tdbgc center font' colspan=5>&lt; <a href='{$GLOBALS['jul_views_path']}/admin-editforums.php?categoryedit&id=-1$prevtext'>Create a new category</a> &gt;</td></tr>";
+		$forumlist .= "<tr><td class='tbl tdbgc center font' colspan=5>&lt; <a href='{$GLOBALS['jul_views_path']}/admin-editforums.php?id=-1$prevtext'>Create a new forum</a> &gt;</td></tr>";
 
 	foreach ($categories as $category) {
 		$forumlist.="<tr><td class='tbl tdbgc center font' colspan=5><b>$category[name]</b></td></tr>";
@@ -351,7 +382,9 @@ if (!isset($_GET['preview']) && count($forums)) {
 	}
 }
 
-print "<center><b>Preview forums with powerlevel:</b> ".previewbox()."</center>\n";
+if (!isset($_GET['categoryedit'])) {
+	print "<center><b>Preview forums with powerlevel:</b> ".previewbox()."</center>\n";
+}
 print "$tblstart$forumlist$tblend$footer";
 printtimedif($startingtime);
 

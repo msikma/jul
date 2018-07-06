@@ -14,6 +14,7 @@ $db_ready = check_db();
 $already_installed = check_installed();
 $installer_step = !isset($_POST['step']) ? 1 : intval($_POST['step']);
 
+$home = to_home();
 $self = base_dir().'/views/install';
 
 ?>
@@ -54,15 +55,17 @@ if ($config_ready && !$db_ready[0]) {
   ");
 }
 // TODO
-if ($already_installed) {
+if ($already_installed && $installer_step !== 3) {
   render_box("
-  Jul is already installed.
+  <p>Jul is already installed.</p>
+  <p><a href='{$home}'>Go to the forum homepage.</a></p>
   ");
 }
 else if ($config_ready && $db_ready[0] && $installer_step === 3) {
   // ----- Step 3 ------
   render_box("
-    We're all done installing! Now you can log in to your forum for the first time.
+    <p>We're all done installing! Now you can log in to your forum for the first time.</p>
+    <p><a href='{$home}'>Go to the forum homepage.</a></p>
   ", 'Installation result');
   ob_start();
   // Huge hack here.
@@ -74,8 +77,6 @@ else if ($config_ready && $db_ready[0] && $installer_step === 3) {
 }
 else if ($config_ready && $db_ready[0] && $installer_step === 2) {
   // ----- Step 2 ------
-  $admin_username = $_POST['admin_username'];
-  $admin_password = $_POST['admin_password'];
   $success = run_installer_sql();
   if (!$success) {
     print("
@@ -93,7 +94,9 @@ else if ($config_ready && $db_ready[0] && $installer_step === 2) {
     ");
     exit;
   }
-  $made_admin = register_admin_account();
+  $admin_username = $_POST['admin_username'];
+  $admin_password = $_POST['admin_password'];
+  $made_admin = register_admin_account($admin_username, $admin_password);
   $install_sql = get_installer_sql();
   $tables = get_sql_create_tables($install_sql);
   $tableamount = count($tables);
@@ -130,11 +133,18 @@ else if ($config_ready && $db_ready[0] && $installer_step === 2) {
     <td class='tbl tdbg2 font'>
       Done. Inserted admin user with username <strong><a>{$admin_username}</a></strong>.
     </td>
-  </tr>
+  </tr>");
+  $cat_id = create_category('Main forums');
+  $id = create_forum(array(
+    'title' => 'General chat',
+    'description' => 'This is the ジェネラル chat',
+    'catid' => $cat_id,
+  ));
+  print("
   <tr>
     <td class='tbl tdbg1 font center label'>Creating first forum...</td>
     <td class='tbl tdbg2 font'>
-      Done. Created '<strong><a>General Chat</a></strong>' forum.<br />Click 'Continue'.
+      Done. Created '<strong><a>General Chat</a></strong>' forum.
     </td>
   </tr>
   <tr>
