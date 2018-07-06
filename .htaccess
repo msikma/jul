@@ -15,7 +15,7 @@ RewriteRule views/.+? index.php [L]
 # Redirects all root files to the /views/ directory.
 # e.g. /thread.php?id=1 redirects to /views/thread.php?id=1.
 # (All files in /views/ used to be in the root.)
-RewriteRule ^(acs|activeusers|activity|activity2|activity3|activity3u|admin-editforums|admin-editmods|admin-slammer|admin-threads|admin-threads2|admin|adnonsense|announcement|avatar|biggestposters|calendar|del|doomcounter|editpost|editprofile|editthread|edituser|faq|forum|hex|install|ipsearch|irc|latestposts|login|memberlist|milestones|newreply|newthread|numgfx|numgfxbig|online|postradar|postsbyforum|postsbythread|postsbytime|postsbyuser|private|profile|ranks|register|sendprivate|shitbugs|shop|shoped|shoph|showprivate|sigsize|smilies|stats|status|thread)\.php views/$1.php [R,L]
+RewriteRule ^(activeusers|activity|activity2|activity3|activity3u|admin-editforums|admin-editmods|admin-slammer|admin-threads|admin-threads2|admin|adnonsense|announcement|avatar|biggestposters|calendar|del|doomcounter|editpost|editprofile|editthread|edituser|faq|forum|hex|install|ipsearch|irc|latestposts|login|memberlist|milestones|newreply|newthread|numgfx|numgfxbig|online|postradar|postsbyforum|postsbythread|postsbytime|postsbyuser|private|profile|ranks|register|sendprivate|shitbugs|shop|shoped|shoph|showprivate|sigsize|smilies|stats|status|thread)\.php views/$1.php [R,L]
 
 # Pretty URL redirects:
 

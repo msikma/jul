@@ -14,7 +14,6 @@ $header
 	<img src='{$GLOBALS['jul_base_dir']}/ext/ppdgauge.png' width='256' height='256' alt='Posts in last 24 hours' title='Posts in last 24 hours' style='display: block; float: right;'>
 	<ul>
 		<li><a href='{$GLOBALS['jul_views_path']}/activeusers.php'>Recently active posters</a></li>
-		<li><a href='{$GLOBALS['jul_views_path']}/acs.php'>Daily poster rankings</a></li>
 		<li><a href='{$GLOBALS['jul_views_path']}/milestones.php'>Post milestones</a></li>
 		<li><a href='{$GLOBALS['jul_views_path']}/sigsize.php'>Biggest posters</a></li>
 		<li><a href='{$GLOBALS['jul_views_path']}/sigsize.php'>Largest post layouts</a></li>
