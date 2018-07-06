@@ -24,24 +24,31 @@ function is_using_proxy() {
 }
 
 /**
+ * Registers the main admin account. Used only once during install.
+ */
+function register_admin_account($username, $password) {
+  return register_account($username, $password, $_SERVER['REMOTE_ADDR'], 3);
+}
+
+/**
  * Registers a new user.
  */
-function register_account($username, $password, $ip) {
+function register_account($username, $password, $ip, $powerlevel = 0) {
   global $sql;
 
   $esc_username = mysql_real_escape_string($username);
   $esc_ip = mysql_real_escape_string($ip);
+  $esc_powerlevel = intval($powerlevel);
   $reason = '';
 
   $q = $sql->query("
     insert into `users` set
     `name` = '{$esc_username}',
     `password` = '',
-    `powerlevel` = '0',
+    `powerlevel` = '{$esc_powerlevel}',
     `postsperpage` = '20',
     `threadsperpage` = '50',
     `lastip` = '{$esc_ip}',
-    `layout` = '1',
     `scheme` = '0',
     `lastactivity` = utc_timestamp(),
     `regdate` = utc_timestamp()

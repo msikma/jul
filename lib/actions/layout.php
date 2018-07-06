@@ -298,9 +298,12 @@ $q = getenv('QUERY_STRING');
 if ($q) {
     $url .= "?$q";
 }
-
 if ($ref && 'jul.rus' != substr($ref, 7, 7)) {
-    $sql->query('INSERT INTO referer (time,url,ref,ip) VALUES ('.ctime().", '".mysql_real_escape_string($url)."', '".mysql_real_escape_string($ref)."', '".$_SERVER['REMOTE_ADDR']."')");
+    try {
+        $sql->query('INSERT INTO referer (time,url,ref,ip) VALUES ('.ctime().", '".mysql_real_escape_string($url)."', '".mysql_real_escape_string($ref)."', '".$_SERVER['REMOTE_ADDR']."')");
+    }
+    catch (Exception $e) {
+    }
 }
 
 if (!$GLOBALS['jul_installing']) {
@@ -341,12 +344,6 @@ $header = makeheader($header1, $headlinks, $header2);
 $footer = '	</textarea></form></embed></noembed></noscript></noembed></embed></table></table>
 <br>'.($loguser['id'] && false === strpos($PHP_SELF, 'index.php') ? adbox().'<br>' : '')."
 <center>
-
-<!--
-<img src='{$GLOBALS['jul_views_path']}/adnonsense.php?m=d' title='generous donations to the first national bank of bad jokes and other dumb crap people post' style='margin-left: 44px;'><br>
-<img src='{$GLOBALS['jul_views_path']}/adnonsense.php' title='hotpod fund' style='margin: 0 22px;'><br>
-<img src='{$GLOBALS['jul_views_path']}/adnonsense.php?m=v' title='VPS slushie fund' style='margin-right: 44px;'>
--->
 <br>
 $smallfont
 <br><br><a href={$GLOBALS['jul_settings']['site_url']}>{$GLOBALS['jul_settings']['site_name']}</a>

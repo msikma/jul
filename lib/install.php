@@ -21,6 +21,27 @@ function get_data_table($data, $items) {
   return $html;
 }
 
+// Actually runs the installer SQL to install the database.
+function run_installer_sql() {
+  global $sql;
+
+  $all_ok = true;
+
+  // Split the installer SQL by statements.
+  $installer_sql = get_installer_sql();
+  $installer_lines = explode(';', $installer_sql);
+  foreach ($installer_lines as $line) {
+    $line = trim($line);
+    if (substr($line, 0, 2) === '--' || substr($line, 0, 3) === '/*!' || $line === '') {
+      continue;
+    }
+    // Execute one statement.
+    $query = $sql->query($line);
+    $all_ok = $all_ok === false ? false : $query === true;
+  }
+  return $all_ok;
+}
+
 // Returns the installer SQL dump.
 function get_installer_sql() {
   $file = $GLOBALS['jul_base_path'].'/sql/jul.sql';

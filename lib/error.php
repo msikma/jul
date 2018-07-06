@@ -62,6 +62,7 @@ function early_html_die($reason, $use_mysql_error=false) {
   $sql_error = $use_mysql_error ? "<br><font style=\"color: #f55;\">". mysql_error() ."</font>" : '';
   include_error('generic-error', true, array(
     'reason' => $reason,
+    'static_css' => true,
     'sql_error' => $sql_error
   ));
 }

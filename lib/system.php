@@ -2,6 +2,8 @@
 
 // Set the include path - allows us to import from the perspective of the Git root.
 set_include_path('./');
+// Prevent entry without going through the system.
+$GLOBALS['jul_system'] = true;
 
 ini_set('default_charset', 'UTF-8');
 

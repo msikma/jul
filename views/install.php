@@ -11,8 +11,7 @@ require_once 'lib/install.php';
 
 $config_ready = check_config();
 $db_ready = check_db();
-#$already_installed = check_already_installed();
-$already_installed = false;
+$already_installed = check_installed();
 $installer_step = !isset($_POST['step']) ? 1 : intval($_POST['step']);
 
 $self = base_dir().'/views/install';
@@ -29,7 +28,7 @@ $self = base_dir().'/views/install';
     <?= $GLOBALS['jul_js_vars']; ?>
   </head>
   <body>
-    <form action="install.php" method="post">
+    <form action="<?= $self; ?>" method="post">
     <center>
       <?= $tblstart; ?>
       <tr>
@@ -55,12 +54,13 @@ if ($config_ready && !$db_ready[0]) {
   ");
 }
 // TODO
-if (false && $already_installed) {
+if ($already_installed) {
   render_box("
   Jul is already installed.
   ");
 }
 else if ($config_ready && $db_ready[0] && $installer_step === 3) {
+  // ----- Step 3 ------
   render_box("
     We're all done installing! Now you can log in to your forum for the first time.
   ", 'Installation result');
@@ -73,8 +73,27 @@ else if ($config_ready && $db_ready[0] && $installer_step === 3) {
   print($html);
 }
 else if ($config_ready && $db_ready[0] && $installer_step === 2) {
+  // ----- Step 2 ------
   $admin_username = $_POST['admin_username'];
   $admin_password = $_POST['admin_password'];
+  $success = run_installer_sql();
+  if (!$success) {
+    print("
+    <tr>
+      <td class='tbl tdbg1 font center label'>
+      <p>Something went wrong while installing.</p>
+      <p>Check the SQL log for more information. <a href='{$self}'>Go back to step one.</a></p></td>
+    </tr>
+    </table>
+    </center>
+    </form>
+    {$footer}
+  </body>
+</html>
+    ");
+    exit;
+  }
+  $made_admin = register_admin_account();
   $install_sql = get_installer_sql();
   $tables = get_sql_create_tables($install_sql);
   $tableamount = count($tables);
@@ -109,7 +128,13 @@ else if ($config_ready && $db_ready[0] && $installer_step === 2) {
   <tr>
     <td class='tbl tdbg1 font center label'>Inserting admin user...</td>
     <td class='tbl tdbg2 font'>
-      Done. Inserted admin user with username <strong><a>{$admin_username}</a></strong>.<br />Click 'Continue'.
+      Done. Inserted admin user with username <strong><a>{$admin_username}</a></strong>.
+    </td>
+  </tr>
+  <tr>
+    <td class='tbl tdbg1 font center label'>Creating first forum...</td>
+    <td class='tbl tdbg2 font'>
+      Done. Created '<strong><a>General Chat</a></strong>' forum.<br />Click 'Continue'.
     </td>
   </tr>
   <tr>
@@ -127,6 +152,7 @@ else if ($config_ready && $db_ready[0] && $installer_step === 2) {
   ");
 }
 else if ($config_ready && $db_ready[0] && $installer_step === 1) {
+  // ----- Step 1 ------
   $set = get_data_table($GLOBALS['jul_settings'], $GLOBALS['jul_common_settings']);
   $db = get_data_table($GLOBALS['jul_sql_settings']);
   render_box("
