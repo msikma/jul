@@ -646,34 +646,6 @@ function updategb()
     }
 }
 
-function username_to_user_id($name)
-{
-    global $sql;
-    $u = $sql->resultq("SELECT id FROM users WHERE name='".mysql_real_escape_string($name)."'");
-    if ($u < 1) {
-        $u = -1;
-    }
-
-    return $u;
-}
-
-function check_login($name, $pass)
-{
-    global $hacks, $sql;
-
-    $esc_name = mysql_real_escape_string($name);
-    $user = $sql->fetchq("SELECT id,password FROM users WHERE name='{$esc_name}'");
-
-    if (!$user) {
-        return -1;
-    }
-    if (!password_verify("{$pass}{$user['id']}", $user['password'])) {
-        return -1;
-    }
-
-    return $user['id'];
-}
-
 function create_verification_hash($n, $pw)
 {
     $ipaddr = explode('.', $_SERVER['REMOTE_ADDR']);

@@ -1,11 +1,13 @@
 <?php
 
+// TODO: move?
 function check_config() {
   // Check to see if the user has set up their settings.
   $config = $GLOBALS['jul_base_path'].'/lib/config.php';
   return is_file($config);
 }
 
+// TODO: move?
 function get_data_table($data, $items = array()) {
   $html = "<table class='table data-table'>";
   foreach ($data as $k => $v) {
