@@ -8,28 +8,6 @@ function base_path() {
   return $GLOBALS['jul_base_path'];
 }
 
-function to_home() {
-  return base_dir();
-}
-
-/**
- * Returns the destination of a route string, as defined in lib/routing.php.
- * Routes start with a @ character. Anything other than a route is returned verbatim.
- * This means you can pass either a @route and get the proper route URL, or just pass a full URL by itself.
- */
-function to_route($route) {
-  if ($route[0] !== '@') return $route;
-  return $GLOBALS['jul_routes'][$route][0];
-}
-
-/**
- * Returns route parameters, if any.
- */
-function route_params($route) {
-  if ($route[0] !== '@') return $route;
-  return isset($GLOBALS['jul_routes'][$route][1]) ? $GLOBALS['jul_routes'][$route][1] : '';
-}
-
 /**
  * Returns an absolute link to an image file.
  */
@@ -61,58 +39,44 @@ function addslashes_array($data) {
 }
 
 /**
- * Renders a simple table based on an array.
+ * Retrieves information about image sets for emoticons or posticons.
+ * These are directories containing an info.json file and sets of images.
+ * Used in lib/emoticons.php and lib/posticons.php.
  */
-function render_form_table($content) {
-  $html = "
-    <table class='table form-table table-margin' cellspacing='0'>
-      <tbody>
-  ";
-  for ($a = 0; $a < count($content); ++$a) {
-    $val = $content[$a];
-    if ($val[0] === '---') {
-      // Separator
-      $html .= "
-        <tr>
-          <td class='tbl tdbgh font center'>&nbsp;</td>
-          <td class='tbl tdbgh font center'>&nbsp;</td>
-        </tr>
-      ";
+function get_image_set($base, $local_dir) {
+  $dir = new DirectoryIterator($base);
+  $sets = array();
+  foreach ($dir as $item) {
+    if ($item->isDot()) {
+      continue;
     }
-    else {
-      $label = $val[0];
-      $val = $val[1];
-      $html .= "
-        <tr>
-          <td class='tbl tdbg1 font center label'><b>{$label}</b></td>
-          <td class='tbl tdbg2 font'>{$val}</td>
-        </tr>
-      ";
+    if (!$item->isDir()) {
+      continue;
     }
-  }
-  $html .= "
-      </tbody>
-    </table>
-  ";
-  print($html);
-}
 
-/**
- * Renders a box with title and content.
- */
-function render_box($content, $title='Notice') {
-  $html = '
-    <table class="table brightlinks table-margin" cellspacing="0">
-      <tbody>
-      '.($title ? ('
-        <tr>
-          <td class="tbl tdbgh font center">'.$title.'</td>
-        </tr>
-      ') : ('')).'
-        <tr>
-          <td class="tbl tdbg1 font center">'.$content.'</td>
-        </tr>
-      </tbody>
-    </table>';
-  print($html);
+    // Check whether an info.json is present in the directory.
+    // If so it's a valid item.
+    $name = $item->getFilename();
+    $path = $local_dir.$name;
+    $info = $base.$name.'/info.json';
+
+    if (!is_file($info)) {
+      continue;
+    }
+
+    // Extract info from the item.
+    $data = json_decode(file_get_contents($info), true);
+    if (empty($data) || !isset($data['name']) || empty($data['sets'])) {
+      continue;
+    }
+    $data['slug'] = $name;
+    $data['path'] = $path;
+    $data['amount'] = 0;
+    foreach ($data['sets'] as $set) {
+      $data['amount'] += count($set['items']);
+    }
+    $sets[$name] = $data;
+  }
+
+  return $sets;
 }

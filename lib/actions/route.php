@@ -1,12 +1,23 @@
 <?php
 
-// We use this instead of a function, because we need to run routes
-// in the global context.
+// If, during initialization, we found some kind of error (the database doesn't exist, or is invalid,
+// or the forum isn't installed yet, etc.) we will end the 
+
+// We use this instead of a function, because we need to run routes in the global context.
 $route = get_request_route();
+
+// There are two special routes: the installer, and the theme CSS generator.
+// They both circumvent the regular error handling that occurs when the database
+// is not in a valid state.
+if ($route['file'] !== 'install' && $route['file'] !== 'theme/style.css' && !$route['error']) {
+  error_on_bad_db();
+  error_on_bad_install();
+}
 
 // Run a standard route file.
 if ($route['file']) {
   $file = $route['file'];
+  $request = $route['request']['data'];
   include("views/{$file}.php");
   exit;
 }

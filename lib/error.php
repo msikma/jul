@@ -6,7 +6,7 @@
  */
 function include_error($name, $print=true, $data=array()) {
   ob_start();
-  include($GLOBALS['jul_base_path'].'/errors/'.$name.'.php');
+  include('errors/'.$name.'.php');
   $output = ob_get_clean();
 
   if ($print) {
@@ -21,7 +21,7 @@ function error_page($text, $redir = '', $redirurl = '') {
 
   print("{$header}<br>{$tblstart}{$tccell1}>{$text}");
   if ($redir) {
-    print('<br>'.redirect($redirurl, $redir, 0));
+    print('<br>');
   }
   print("{$tblend}{$footer}");
   printtimedif($startingtime);
@@ -40,7 +40,7 @@ function error_500() {
   header('HTTP/1.1 500 Internal Server Error', true, 500);
   include_error('generic-error', true, array(
     'reason' => "
-    <a href=\"{$GLOBALS['jul_home']}\"><br><img src='errors/500.png' /><br><br></a>
+    <a href=\"{$GLOBALS['jul_home']}\"><br><img src='{$GLOBALS['jul_base_dir']}/static/errors/500.png' /><br><br></a>
     ",
     'header' => '500 - Internal Server Error'
   ));
@@ -50,7 +50,7 @@ function error_404() {
   header('HTTP/1.1 404 Not Found');
   include_error('generic-error', true, array(
     'reason' => "
-    <a href=\"{$GLOBALS['jul_home']}\"><br><img src='{$GLOBALS['jul_base_dir']}/errors/404.png' /><br><br></a>
+    <a href=\"{$GLOBALS['jul_home']}\"><br><img src='{$GLOBALS['jul_base_dir']}/static/errors/404.png' /><br><br></a>
     ",
     'no_top_bar' => true,
     'header' => null

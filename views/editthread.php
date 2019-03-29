@@ -6,7 +6,7 @@
 
 	$thread  = $sql->fetchq("SELECT forum,closed,title,icon,replies,lastpostdate,lastposter,sticky FROM threads WHERE id=$id");
 	$forumid = $thread['forum'];
-	$posticons = file('posticons.dat');
+	$posticons = get_posticons(); // TODO
 
 	if (@mysql_num_rows($sql->query("SELECT user FROM forummods WHERE forum={$forumid} and user={$loguserid}")))
 		$ismod = 1;

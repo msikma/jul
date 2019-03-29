@@ -18,13 +18,18 @@ function forum_setting_set($name, $value) {
   ");
 }
 
-function forum_setting_get($name) {
+function forum_setting_get($name, $fallback = null) {
   global $sql;
 
   if (!$name) return false;
 
-  $esc_name = mysql_real_escape_string($name);
-  $query = $sql->query("select name, value from `settings` where `name` = '{$esc_name}';");
-  $setting = $sql->fetch($query);
-  return $setting['value'];
+  try {
+    $esc_name = mysql_real_escape_string($name);
+    $query = $sql->query("select name, value from `settings` where `name` = '{$esc_name}';");
+    $setting = $sql->fetch($query);
+    return $setting !== false ? $setting['value'] : $fallback;
+  }
+  catch (Exception $e) {
+    return $fallback;
+  }
 }

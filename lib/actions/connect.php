@@ -10,7 +10,7 @@ $selected_db = $sql->selectdb($sql_settings['name']);
 if (!$selected_db) {
     $sql_name = mysql_real_escape_string($sql_settings['name']);
     $check = $sql->query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{$sql_name}';");
-    $install_link = base_dir().'/views/install';
+    $install_link = base_dir().'/install';
     if ($check->num_rows === 0) {
         early_html_die("
             <p>Connected to MySQL, but couldn't find the configured database.</p>

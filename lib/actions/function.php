@@ -1,5 +1,8 @@
 <?php
 
+// Note: this file contains by far the most garbage of all, because it contains most
+// of the original Jul code that runs on every page.
+
 use Coduo\PHPHumanizer\DateTimeHumanizer;
 
 $theme_base = $GLOBALS['jul_base_dir']."/themes/default/";
@@ -7,18 +10,16 @@ require_once 'themes/default/settings.php';
 
 $startingtime = microtime(true);
 
-// Just check whether we're using the 'install' route.
-// If so, don't check for the install.
-$r = get_request_route();
-error_on_bad_db();
-if ($r['file'] !== 'install') {
-    error_on_bad_install();
-}
-else {
-    // Load the installer directly.
-    include("views/install.php");
-    exit;
-}
+// Run a check on the database to see if the forum is operating normally.
+// If there's something wrong with the setup, certain database actions
+// will not be attempted, such as checking whether the user is banned or not,
+// or updating the stats and views tables.
+//
+// If the database has a problem, the error handling will happen in route.php.
+// There we'll decide whether to display an error or start the installer.
+$GLOBALS['jul_db_status'] = check_db();
+$GLOBALS['jul_installed'] = check_installed();
+$GLOBALS['jul_valid_db'] = $GLOBALS['jul_db_status'][0] === true && $GLOBALS['jul_installed'] === true;
 
 // Awful old legacy thing. Too much code relies on register globals,
 // and doesn't distinguish between _GET and _POST, so we have to do it here. fun
@@ -185,8 +186,13 @@ $theme_base = $GLOBALS['jul_base_dir']."/themes/default/";
 include "themes/default/layout.php";
 
 // Load theme settings. 'Night' is the default theme.
-$schemerow = $sql->fetchq("SELECT `name`, `file` FROM schemes WHERE id='$scheme'");
-$theme = $schemerow ? $schemerow['file'] : 'night';
+try {
+    $schemerow = $sql->fetchq("SELECT `name`, `file` FROM schemes WHERE id='$scheme'");
+    $theme = $schemerow ? $schemerow['file'] : 'night';
+}
+catch (Exception $e) {
+    $theme = 'night';
+}
 
 // Include the chosen theme settings, which sets up its variables/colors.
 $theme_base = $GLOBALS['jul_base_dir']."/themes/$theme/";
@@ -227,8 +233,12 @@ if ($banned) {
 
 $specialscheme = '';
 
-$x_hacks['rainbownames'] = ($sql->resultq('SELECT `date` FROM `posts` WHERE (`id` % 100000) = 0 ORDER BY `id` DESC LIMIT 1') > ctime() - 86400);
-
+try {
+    $x_hacks['rainbownames'] = ($sql->resultq('SELECT `date` FROM `posts` WHERE (`id` % 100000) = 0 ORDER BY `id` DESC LIMIT 1') > ctime() - 86400);
+}
+catch (Exception $e) {
+    $x_hacks['rainbownames'] = false;
+}
 
 function filter_int(&$v)
 {
@@ -267,27 +277,6 @@ function filter_string(&$v)
 function sinc($x) {
 	$ret	= ($x ? sin($x*pi())/($x*pi()) : 1);
 	return $ret;
-}
-
-function readsmilies()
-{
-    global $x_hacks;
-    $smile = base_path().'/resources/smilies.dat';
-    $fpnt = fopen($smile, 'r');
-    for ($i = 0; $smil[$i] = fgetcsv($fpnt, 300, ','); ++$i);
-    $r = fclose($fpnt);
-
-    return $smil;
-}
-
-function numsmilies()
-{
-    $smile = base_path().'/resources/smilies.dat';
-    $fpnt = fopen($smile, 'r');
-    for ($i = 0; fgetcsv($fpnt, 300, ''); ++$i);
-    $r = fclose($fpnt);
-
-    return $i;
 }
 
 function readpostread($userid)

@@ -8,12 +8,11 @@
 	$meta['noindex'] = true;
 
 	require_once 'lib/actions/layout.php';
-
+	
 	$forumid=$id;
 	$fonline=fonlineusers($forumid);
 	$header=makeheader($header1,$headlinks,$header2 ."	$tblstart$tccell1s>$fonline$tblend");
 
-	$smilies=readsmilies();
 	replytoolbar(1);
 
 /*
@@ -56,7 +55,7 @@
 		if($mltvote) $checked1='checked';
 		else $checked0='checked';
 	}
-	$posticons=file('posticons.dat');
+	$posticons=get_posticons(); // TODO
 	for($i=0;$posticons[$i];$i++) {
 		if($iconid==$i) $checked='checked';
 		$posticonlist.="$radio=iconid value=$i $checked>&nbsp<IMG SRC=$posticons[$i] HEIGHT=15 WIDTH=15>&nbsp; &nbsp;";
@@ -119,7 +118,7 @@
 	");
 	if(!$_POST['action'] or $_POST['paction']) {
 		print "
-			$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - <a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forumid'>".$forum[title]."</a>
+			$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - <a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forumid'>".$forum['title']."</a>
 			<form action={$GLOBALS['jul_views_path']}/newthread.php name=replier method=post autocomplete=\"off\">
 			$tblstart
 		";
@@ -160,7 +159,7 @@
 			</table>
 			</table>
 			</form>
-			$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - <a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forumid'>".$forum[title]."</a>
+			$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - <a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forumid'>".$forum['title']."</a>
 			".replytoolbar(4);
 	}
 	if($_POST['action']=='postthread' and !$_POST['paction']) {
@@ -199,7 +198,7 @@
 			$rsign = doreplace($sign, $numposts, $numdays, $username);
 			$rhead = doreplace($head, $numposts, $numdays, $username);
 			$tagval	= $sql->escape(json_encode($tags));
-			$posticons = file('posticons.dat');
+			$posticons = get_posticons(); // TODO
 			$posticon = $posticons[$iconid];
 			$currenttime = ctime();
 			$postnum = $numposts;

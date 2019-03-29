@@ -2,7 +2,6 @@
 require_once 'lib/actions/function.php';
 require_once 'lib/actions/layout.php';
 
- $s	= readsmilies();
  $base = base_dir().'/';
 
 print "

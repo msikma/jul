@@ -15,7 +15,7 @@ $already_installed = check_installed();
 $installer_step = !isset($_POST['step']) ? 1 : intval($_POST['step']);
 
 $home = to_home();
-$self = base_dir().'/views/install';
+$self = base_dir().'/install';
 
 ?>
 <html>
@@ -71,7 +71,7 @@ else if ($config_ready && $db_ready[0] && $installer_step === 3) {
   // Huge hack here.
   $GLOBALS['skip_header'] = true;
   $GLOBALS['skip_footer'] = true;
-  include('./login.php');
+  include('views/login.php');
   $html = ob_get_clean();
   print($html);
 }
@@ -164,7 +164,7 @@ else if ($config_ready && $db_ready[0] && $installer_step === 2) {
 else if ($config_ready && $db_ready[0] && $installer_step === 1) {
   // ----- Step 1 ------
   $set = get_data_table($GLOBALS['jul_settings'], $GLOBALS['jul_common_settings']);
-  $db = get_data_table($GLOBALS['jul_sql_settings']);
+  $db = get_data_table($GLOBALS['jul_sql_settings_safe']);
   render_box("
   Ready to begin installing Jul. Please check if the following settings are correct.<br />Edit your <a>config.php</a> file to fix any problems.
   ");

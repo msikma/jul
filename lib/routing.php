@@ -48,10 +48,7 @@ function get_request_route() {
   // Retrieve the user's requested path, minus the base dir.
   $base = str_replace('/', '\/', preg_quote($GLOBALS['jul_base_dir']));
   $path = preg_replace("/^{$base}/", '', $_SERVER['REQUEST_URI']);
-
-  // Remove the 'views' segment if it's present.
-  $path = preg_replace('/^\/views\//', '', $path);
-
+  
   // Remove any remaining slashes to be sure, unless it's index.
   $path = trim($path, '/');
   $path = $path === '' ? '/' : $path;
@@ -63,6 +60,17 @@ function get_request_route() {
 
   // Finally, remove .php.
   $path = preg_replace('/\.php$/', '', $path);
+
+  // Now we should have a path that we can relate back to a route.
+  // For example, if the path is 'forum/1' then we can see that this is
+  // the @forum path with ID '1'.
+  // Attempt to extract a valid route with data.
+  $route_data = extract_route($path, $query);
+
+  // If a valid route was found, return that.
+  if ($route_data) {
+    return $route_data;
+  }
 
   // Find which route belongs to this path.
   foreach ($GLOBALS['jul_views'] as $view) {
@@ -92,6 +100,108 @@ function get_request_route() {
   );
 }
 
+// Returns a simple route back home.
+function to_home() {
+  return base_dir();
+}
+
+/**
+ * Returns a route string for use in links.
+ * Routes start with a @ character. Anything other than a route is returned verbatim.
+ * This means you can pass either a @route and get the proper route URL, or just pass a full URL by itself.
+ * 
+ * To generate a route with e.g. an ID in it, pass data in the second array;
+ * in most cases this will just be an ID, so this function can be called in one of two ways:
+ * 
+ *    route('@routename', 5);
+ *    route('@routename', array('id' => 5, 'any_other' => 'data'));
+ * 
+ * Any query string data will be tacked on the end from the third argument.
+ */
+function route($route, $data = 0, $query = array()) {
+  if ($route[0] !== '@') return $route;
+  $route_data = $GLOBALS['jul_routes'][$route];
+
+  // Return the data for a 404 if this route isn't found.
+  if (!$route_data) return route('@error', 404);
+
+  // All routes are prefixed with a base part, usually the views_path.
+  $route_base = $route_data['base'] ? $route_data['base'] : $GLOBALS['jul_views_path'];
+
+  // Decorate the route with data, e.g. the ID of a topic or message.
+  // This function can be run either as 
+  $route_path = decorate_route($route_data['path'], $data && is_numeric($data) ? array('id' => $data) : $data);
+
+  return "{$route_base}{$route_path}";
+}
+
+/**
+ * Essentially, this does the opposite of decorate_route().
+ * It takes a path string and returns a matching route with data.
+ * If no valid route is found, false is returned.
+ * 
+ * Note: the path will be given as e.g. 'forum/1', without leading slash.
+ */
+function extract_route($path, $query) {
+  foreach ($GLOBALS['jul_routes'] as $name => $route) {
+    $match_re = $route['match'];
+    $match_segments = $route['match_segments'];
+    if (!$match_re) continue;
+
+    $data = array();
+    $valid = preg_match_all($match_re, $path, $matches);
+    if (!$valid) continue;
+    foreach ($matches[1] as $n => $match) {
+      $data[$match_segments[$n]] = $match;
+    }
+    return array_merge($route, array('request' => array('path' => $path, 'data' => $data, 'query' => $query)));
+  }
+  return false;
+}
+
+/**
+ * Adds data to a route.
+ */
+function decorate_route($tpl, $data = array()) {
+  if (!$data) return $tpl;
+
+  // Replace named variables with our data.
+  $decorated = preg_replace_callback(
+    '/\{(.*)\}/',
+    function ($matches) use (&$data) {
+      $match = $data[$matches[1]];
+      return $match ? $match : '';
+    },
+    $tpl
+  );
+
+  return $decorated;
+}
+
+/**
+ * Returns route parameters, if any.
+ */
+function route_params($route) {
+  if ($route[0] !== '@') return $route;
+  return isset($GLOBALS['jul_routes'][$route][1]) ? $GLOBALS['jul_routes'][$route][1] : '';
+}
+
+// Runs some simple preprocessing on our routes.
+function preprocess_routes($routes) {
+  $processed_routes = array();
+  foreach ($routes as $k => $v) {
+    // Retrieve named path segments. E.g. '/forum/{id}/topic/{topic_id}' yields ['id', 'topic_id'].
+    preg_match_all('/\{(.+?)\}/', $v['path'], $matches);
+    $segments = array();
+    foreach ($matches[1] as $match) {
+      $segments[] = $match;
+    }
+    // Add the path segments and the target filename to the route info.
+    $processed_routes[$k] = array_merge($v, array('match_segments' => $segments, 'file' => ltrim($k, '@')));
+  }
+  return $processed_routes;
+}
+
 // Locate all filenames in the /views/ directory, and add them as routes.
 // All these files are added to the views array like this: array('routename')
 // In doing so, we will simply load them when there is an exact match.
@@ -109,8 +219,11 @@ $GLOBALS['jul_redirects'] = array(
 );
 
 // I don't know. Maybe someday these can be nice URLs.
-$GLOBALS['jul_routes'] = array(
-  '@home' => array("{$GLOBALS['jul_base_dir']}/"),
+$GLOBALS['jul_routes'] = preprocess_routes(array(
+  '@home' => array('path' => '/', 'base' => $GLOBALS['jul_base_dir']),
+  '@forum' => array('path' => '/forum/{id}', 'match' => '/forum\/([0-9]+)/'),
+  '@test' => array('path' => '/zap/{id}', 'match' => '/zap\/([0-9]+)/'),
+  '@error' => array('path' => '/$d'),
   '@memberlist' => array("{$GLOBALS['jul_views_path']}/memberlist.php"),
   '@activeusers' => array("{$GLOBALS['jul_views_path']}/activeusers.php"),
   '@calendar' => array("{$GLOBALS['jul_views_path']}/calendar.php"),
@@ -122,4 +235,4 @@ $GLOBALS['jul_routes'] = array(
   '@latestposts' => array("{$GLOBALS['jul_views_path']}/latestposts.php"),
   '@hex' => array("javascript:void(0);", "onclick=\"hexidecimalchart()\""),
   '@smilies' => array("{$GLOBALS['jul_views_path']}/smilies.php"),
-);
+));

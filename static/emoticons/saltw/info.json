@@ -1,0 +1,1176 @@
+{
+  "name": "saltw",
+  "website": "saltworld.net",
+  "sets": [
+    {
+      "name": "base",
+      "initial": true,
+      "items": [
+        {
+          "fn": "boxed.gif",
+          "code": ":boxed:",
+          "size": [18, 18],
+          "legacy": false
+        },
+        {
+          "fn": "shock.gif",
+          "code": ":shock:",
+          "size": [18, 18],
+          "legacy": false
+        },
+        {
+          "fn": "shocking.gif",
+          "code": ":shocking:",
+          "size": [18, 18],
+          "legacy": false
+        },
+        {
+          "fn": "fingerwag.gif",
+          "code": ":fingerwag:",
+          "size": [20, 18],
+          "legacy": false
+        },
+        {
+          "fn": "angry.gif",
+          "code": ":angry:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "biggrin.gif",
+          "code": ":biggrin:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "blink.gif",
+          "code": ":blink:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "blush.gif",
+          "code": ":blush:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "buddy.gif",
+          "code": ":buddy:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "cheese.gif",
+          "code": ":cheese:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "closedeyes.gif",
+          "code": ":closedeyes:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "confused.gif",
+          "code": ":confused:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "cool.gif",
+          "code": ":cool:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "cool2.gif",
+          "code": ":cool2:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "crazy.gif",
+          "code": ":crazy:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "disgust.gif",
+          "code": ":disgust:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "dry.gif",
+          "code": ":dry:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "emot-brow.gif",
+          "code": ":emot-brow:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "excl.gif",
+          "code": ":excl:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "glare.gif",
+          "code": ":glare:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "gwawesome.gif",
+          "code": ":gwawesome:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "happy.gif",
+          "code": ":happy:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "huh.gif",
+          "code": ":huh:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "kaze.gif",
+          "code": ":kaze:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "laugh.gif",
+          "code": ":laugh:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "mad.gif",
+          "code": ":mad:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "mellow.gif",
+          "code": ":mellow:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "naughty.gif",
+          "code": ":naughty:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "ninja.gif",
+          "code": ":ninja:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "ohgodvomits.gif",
+          "code": ":ohgodvomits:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "ohmy.gif",
+          "code": ":ohmy:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "ph34r.gif",
+          "code": ":ph34r:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "rolleyes.gif",
+          "code": ":rolleyes:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "sad.gif",
+          "code": ":sad:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "shady.gif",
+          "code": ":shady:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "sleep.gif",
+          "code": ":sleep:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "sly.gif",
+          "code": ":sly:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "smile.gif",
+          "code": ":smile:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "sweatdrop.gif",
+          "code": ":sweatdrop:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "tsk.gif",
+          "code": ":tsk:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "mario3et.gif",
+          "code": ":mario3et:",
+          "size": [21, 20],
+          "legacy": false
+        },
+        {
+          "fn": "ssh.gif",
+          "code": ":ssh:",
+          "size": [20, 22],
+          "legacy": false
+        },
+        {
+          "fn": "cursing.gif",
+          "code": ":cursing:",
+          "size": [18, 26],
+          "legacy": false
+        },
+        {
+          "fn": "gwcolbert.gif",
+          "code": ":gwcolbert:",
+          "size": [21, 25],
+          "legacy": false
+        },
+        {
+          "fn": "disdain.gif",
+          "code": ":disdain:",
+          "size": [30, 18],
+          "legacy": false
+        },
+        {
+          "fn": "pimp7ii.gif",
+          "code": ":pimp7ii:",
+          "size": [22, 25],
+          "legacy": false
+        },
+        {
+          "fn": "lightbulb.gif",
+          "code": ":lightbulb:",
+          "size": [22, 26],
+          "legacy": false
+        },
+        {
+          "fn": "emot-hmm.gif",
+          "code": ":emot-hmm:",
+          "size": [25, 23],
+          "legacy": false
+        },
+        {
+          "fn": "argh.gif",
+          "code": ":argh:",
+          "size": [31, 20],
+          "legacy": false
+        },
+        {
+          "fn": "attitude0.gif",
+          "code": ":attitude0:",
+          "size": [31, 20],
+          "legacy": false
+        },
+        {
+          "fn": "f5.gif",
+          "code": ":f5:",
+          "size": [31, 20],
+          "legacy": false
+        },
+        {
+          "fn": "ranting6lk.gif",
+          "code": ":ranting6lk:",
+          "size": [28, 24],
+          "legacy": false
+        },
+        {
+          "fn": "rite.gif",
+          "code": ":rite:",
+          "size": [28, 24],
+          "legacy": false
+        },
+        {
+          "fn": "shrug.gif",
+          "code": ":shrug:",
+          "size": [34, 20],
+          "legacy": false
+        },
+        {
+          "fn": "guns0rh.gif",
+          "code": ":guns0rh:",
+          "size": [38, 18],
+          "legacy": false
+        },
+        {
+          "fn": "cake8fg.gif",
+          "code": ":cake8fg:",
+          "size": [28, 25],
+          "legacy": false
+        },
+        {
+          "fn": "gw_worship.gif",
+          "code": ":gw_worship:",
+          "size": [28, 25],
+          "legacy": false
+        },
+        {
+          "fn": "cry.gif",
+          "code": ":cry:",
+          "size": [40, 18],
+          "legacy": false
+        },
+        {
+          "fn": "woop.gif",
+          "code": ":woop:",
+          "size": [31, 24],
+          "legacy": false
+        },
+        {
+          "fn": "sombrero27ve.gif",
+          "code": ":sombrero27ve:",
+          "size": [30, 25],
+          "legacy": false
+        },
+        {
+          "fn": "emot-gemo.gif",
+          "code": ":emot-gemo:",
+          "size": [40, 20],
+          "legacy": false
+        },
+        {
+          "fn": "gw_words.gif",
+          "code": ":gw_words:",
+          "size": [48, 18],
+          "legacy": false
+        },
+        {
+          "fn": "pope.gif",
+          "code": ":pope:",
+          "size": [30, 30],
+          "legacy": false
+        },
+        {
+          "fn": "emot-ssj.gif",
+          "code": ":emot-ssj:",
+          "size": [33, 29],
+          "legacy": false
+        },
+        {
+          "fn": "afro.gif",
+          "code": ":afro:",
+          "size": [33, 31],
+          "legacy": false
+        },
+        {
+          "fn": "gw_rockon.gif",
+          "code": ":gw_rockon:",
+          "size": [52, 20],
+          "legacy": false
+        },
+        {
+          "fn": "2guns.gif",
+          "code": ":2guns:",
+          "size": [48, 22],
+          "legacy": false
+        }
+      ]
+    },
+    {
+      "name": "base_large",
+      "initial": false,
+      "items": [
+        {
+          "fn": "incredible.gif",
+          "code": ":incredible:",
+          "size": [60, 18],
+          "legacy": false
+        },
+        {
+          "fn": "emot-waycool.gif",
+          "code": ":emot-waycool:",
+          "size": [61, 20],
+          "legacy": false
+        },
+        {
+          "fn": "gayfight.gif",
+          "code": ":gayfight:",
+          "size": [80, 21],
+          "legacy": true
+        },
+        {
+          "fn": "bravo.gif",
+          "code": ":bravo:",
+          "size": [52, 33],
+          "legacy": false
+        },
+        {
+          "fn": "drunk8iz.gif",
+          "code": ":drunk8iz:",
+          "size": [58, 30],
+          "legacy": false
+        },
+        {
+          "fn": "glomp.gif",
+          "code": ":glomp:",
+          "size": [80, 25],
+          "legacy": false
+        },
+        {
+          "fn": "called-joke.png",
+          "code": ":called-joke:",
+          "size": [107, 19],
+          "legacy": false
+        },
+        {
+          "fn": "buttrape.gif",
+          "code": ":buttrape:",
+          "size": [80, 26],
+          "legacy": true
+        },
+        {
+          "fn": "hbd7up.gif",
+          "code": ":hbd7up:",
+          "size": [81, 26],
+          "legacy": false
+        },
+        {
+          "fn": "spamlaser9ol.gif",
+          "code": ":spamlaser9ol:",
+          "size": [120, 20],
+          "legacy": false
+        },
+        {
+          "fn": "throw4jw.gif",
+          "code": ":throw4jw:",
+          "size": [72, 43],
+          "legacy": false
+        },
+        {
+          "fn": "didyouputitinyourfriendshair.gif",
+          "code": ":didyouputitinyourfriendshair:",
+          "size": [187, 19],
+          "legacy": false
+        },
+        {
+          "fn": "ban.gif",
+          "code": ":ban:",
+          "size": [60, 60],
+          "legacy": false
+        },
+        {
+          "fn": "blowup6tr.gif",
+          "code": ":blowup6tr:",
+          "size": [48, 112],
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "name": "etc",
+      "initial": true,
+      "items": [
+        {
+          "fn": "emot-weed.gif",
+          "code": ":emot-weed:",
+          "size": [15, 14],
+          "legacy": false
+        },
+        {
+          "fn": "domo.gif",
+          "code": ":domo:",
+          "size": [15, 15],
+          "legacy": false
+        },
+        {
+          "fn": "eek.gif",
+          "code": ":eek:",
+          "size": [16, 16],
+          "legacy": false
+        },
+        {
+          "fn": "frown.gif",
+          "code": ":frown:",
+          "size": [16, 16],
+          "legacy": false
+        },
+        {
+          "fn": "redface.gif",
+          "code": ":redface:",
+          "size": [16, 16],
+          "legacy": false
+        },
+        {
+          "fn": "tongue.gif",
+          "code": ":tongue:",
+          "size": [16, 16],
+          "legacy": false
+        },
+        {
+          "fn": "wink.gif",
+          "code": ":wink:",
+          "size": [16, 16],
+          "legacy": false
+        },
+        {
+          "fn": "violent-smiley-078.gif",
+          "code": ":violent-smiley-078:",
+          "size": [19, 15],
+          "legacy": false
+        },
+        {
+          "fn": "wilysmilie.gif",
+          "code": ":wilysmilie:",
+          "size": [20, 16],
+          "legacy": false
+        },
+        {
+          "fn": "deepee.gif",
+          "code": ":deepee:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "emot-love.gif",
+          "code": ":emot-love:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "foget.gif",
+          "code": ":foget:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "koolaid.gif",
+          "code": ":koolaid:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "mistery.gif",
+          "code": ":mistery:",
+          "size": [20, 20],
+          "legacy": false
+        },
+        {
+          "fn": "ns.gif",
+          "code": ":ns:",
+          "size": [20, 20],
+          "legacy": true
+        },
+        {
+          "fn": "near-blush.gif",
+          "code": ":near-blush:",
+          "size": [21, 21],
+          "legacy": false
+        },
+        {
+          "fn": "near-mad.gif",
+          "code": ":near-mad:",
+          "size": [21, 21],
+          "legacy": false
+        },
+        {
+          "fn": "near-relief.gif",
+          "code": ":near-relief:",
+          "size": [21, 21],
+          "legacy": false
+        },
+        {
+          "fn": "near.gif",
+          "code": ":near:",
+          "size": [21, 21],
+          "legacy": false
+        },
+        {
+          "fn": "nearhappy.gif",
+          "code": ":nearhappy:",
+          "size": [21, 21],
+          "legacy": false
+        },
+        {
+          "fn": "rockon.gif",
+          "code": ":rockon:",
+          "size": [21, 21],
+          "legacy": false
+        },
+        {
+          "fn": "goose.gif",
+          "code": ":goose:",
+          "size": [24, 19],
+          "legacy": false
+        },
+        {
+          "fn": "rgsmiley.gif",
+          "code": ":rgsmiley:",
+          "size": [24, 20],
+          "legacy": false
+        },
+        {
+          "fn": "bart.gif",
+          "code": ":bart:",
+          "size": [24, 21],
+          "legacy": false
+        },
+        {
+          "fn": "snorlax.gif",
+          "code": ":snorlax:",
+          "size": [24, 21],
+          "legacy": false
+        },
+        {
+          "fn": "emot-quagmire.gif",
+          "code": ":emot-quagmire:",
+          "size": [22, 24],
+          "legacy": false
+        },
+        {
+          "fn": "faust.gif",
+          "code": ":faust:",
+          "size": [25, 22],
+          "legacy": false
+        },
+        {
+          "fn": "joned1.gif",
+          "code": ":joned1:",
+          "size": [44, 14],
+          "legacy": false
+        },
+        {
+          "fn": "captainplanet.gif",
+          "code": ":captainplanet:",
+          "size": [26, 25],
+          "legacy": false
+        },
+        {
+          "fn": "emot-words.gif",
+          "code": ":emot-words:",
+          "size": [46, 15],
+          "legacy": false
+        },
+        {
+          "fn": "emot-rock.gif",
+          "code": ":emot-rock:",
+          "size": [47, 16],
+          "legacy": false
+        },
+        {
+          "fn": "dopefish.gif",
+          "code": ":dopefish:",
+          "size": [30, 27],
+          "legacy": false
+        },
+        {
+          "fn": "niggar_emo1.gif",
+          "code": ":niggar_emo1:",
+          "size": [25, 35],
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "name": "etc_large",
+      "initial": false,
+      "items": [
+        {
+          "fn": "pwemote.gif",
+          "code": ":pwemote:",
+          "size": [30, 30],
+          "legacy": false
+        },
+        {
+          "fn": "he-is-my-friend.gif",
+          "code": ":he-is-my-friend:",
+          "size": [29, 34],
+          "legacy": false
+        },
+        {
+          "fn": "omeg-doom_def_2.gif",
+          "code": ":omeg-doom_def_2:",
+          "size": [34, 40],
+          "legacy": false
+        },
+        {
+          "fn": "soapemote.gif",
+          "code": ":soapemote:",
+          "size": [34, 42],
+          "legacy": false
+        },
+        {
+          "fn": "sport009.gif",
+          "code": ":sport009:",
+          "size": [40, 40],
+          "legacy": false
+        },
+        {
+          "fn": "emot-hurr.gif",
+          "code": ":emot-hurr:",
+          "size": [97, 25],
+          "legacy": false
+        },
+        {
+          "fn": "emot-iceburn.gif",
+          "code": ":emot-iceburn:",
+          "size": [100, 25],
+          "legacy": false
+        },
+        {
+          "fn": "imfree.gif",
+          "code": ":imfree:",
+          "size": [100, 100],
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "name": "foget",
+      "initial": false,
+      "items": [
+        {
+          "fn": "foget-angry.gif",
+          "code": ":foget-angry:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-annoyed.gif",
+          "code": ":foget-annoyed:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-happy.gif",
+          "code": ":foget-happy:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-huh.gif",
+          "code": ":foget-huh:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-naughty.gif",
+          "code": ":foget-naughty:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-ninja.gif",
+          "code": ":foget-ninja:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-sad_1.gif",
+          "code": ":foget-sad_1:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-smile_1.gif",
+          "code": ":foget-smile_1:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-unsure_1.gif",
+          "code": ":foget-unsure_1:",
+          "size": [28, 28],
+          "legacy": false
+        },
+        {
+          "fn": "newfoget.gif",
+          "code": ":newfoget:",
+          "size": [29, 28],
+          "legacy": false
+        },
+        {
+          "fn": "condescending-foget.gif",
+          "code": ":condescending-foget:",
+          "size": [30, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-cool.gif",
+          "code": ":foget-cool:",
+          "size": [30, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-grown-man-crying.gif",
+          "code": ":foget-grown-man-crying:",
+          "size": [30, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-negro.gif",
+          "code": ":foget-negro:",
+          "size": [30, 28],
+          "legacy": true
+        },
+        {
+          "fn": "foget-pout.gif",
+          "code": ":foget-pout:",
+          "size": [30, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-shifty_1.gif",
+          "code": ":foget-shifty_1:",
+          "size": [30, 28],
+          "legacy": false
+        },
+        {
+          "fn": "fogetmmh.gif",
+          "code": ":fogetmmh:",
+          "size": [28, 30],
+          "legacy": false
+        },
+        {
+          "fn": "fogetnuh.gif",
+          "code": ":fogetnuh:",
+          "size": [30, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-shush_1.gif",
+          "code": ":foget-shush_1:",
+          "size": [28, 31],
+          "legacy": false
+        },
+        {
+          "fn": "foget-gasp_1.gif",
+          "code": ":foget-gasp_1:",
+          "size": [30, 29],
+          "legacy": false
+        },
+        {
+          "fn": "foget-laugh.gif",
+          "code": ":foget-laugh:",
+          "size": [30, 29],
+          "legacy": false
+        },
+        {
+          "fn": "fogetfingerwag.gif",
+          "code": ":fogetfingerwag:",
+          "size": [34, 26],
+          "legacy": false
+        },
+        {
+          "fn": "foget-crazy.gif",
+          "code": ":foget-crazy:",
+          "size": [30, 31],
+          "legacy": false
+        },
+        {
+          "fn": "foget-grr.gif",
+          "code": ":foget-grr:",
+          "size": [32, 30],
+          "legacy": false
+        },
+        {
+          "fn": "foget-backflippe.gif",
+          "code": ":foget-backflippe:",
+          "size": [30, 34],
+          "legacy": false
+        },
+        {
+          "fn": "foget-batshit.gif",
+          "code": ":foget-batshit:",
+          "size": [32, 39],
+          "legacy": false
+        },
+        {
+          "fn": "foget-mexican.gif",
+          "code": ":foget-mexican:",
+          "size": [40, 32],
+          "legacy": false
+        },
+        {
+          "fn": "foget-shakefist_1.gif",
+          "code": ":foget-shakefist_1:",
+          "size": [43, 30],
+          "legacy": false
+        },
+        {
+          "fn": "foget-pinecone.gif",
+          "code": ":foget-pinecone:",
+          "size": [44, 30],
+          "legacy": false
+        },
+        {
+          "fn": "foget-fu.gif",
+          "code": ":foget-fu:",
+          "size": [46, 29],
+          "legacy": false
+        },
+        {
+          "fn": "foget-emocut.gif",
+          "code": ":foget-emocut:",
+          "size": [50, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-science.gif",
+          "code": ":foget-science:",
+          "size": [46, 33],
+          "legacy": false
+        },
+        {
+          "fn": "foget-rockin.gif",
+          "code": ":foget-rockin:",
+          "size": [56, 28],
+          "legacy": false
+        },
+        {
+          "fn": "foget-shrug.gif",
+          "code": ":foget-shrug:",
+          "size": [62, 30],
+          "legacy": false
+        },
+        {
+          "fn": "welp.gif",
+          "code": ":welp:",
+          "size": [62, 30],
+          "legacy": false
+        },
+        {
+          "fn": "foget-teach.gif",
+          "code": ":foget-teach:",
+          "size": [52, 38],
+          "legacy": false
+        },
+        {
+          "fn": "foget-gunz.gif",
+          "code": ":foget-gunz:",
+          "size": [64, 32],
+          "legacy": false
+        },
+        {
+          "fn": "foget-resistins.gif",
+          "code": ":foget-resistins:",
+          "size": [76, 27],
+          "legacy": false
+        },
+        {
+          "fn": "foget-pope.gif",
+          "code": ":foget-pope:",
+          "size": [54, 40],
+          "legacy": false
+        },
+        {
+          "fn": "foget-thumbsup.gif",
+          "code": ":foget-thumbsup:",
+          "size": [88, 28],
+          "legacy": false
+        }
+      ]
+    },
+    {
+      "name": "text",
+      "initial": false,
+      "items": [
+        {
+          "fn": "text_sweatdrop.gif",
+          "code": ":text_sweatdrop:",
+          "size": [32, 14],
+          "legacy": true
+        },
+        {
+          "fn": "text_attitude.gif",
+          "code": ":text_attitude:",
+          "size": [34, 14],
+          "legacy": true
+        },
+        {
+          "fn": "ns2.gif",
+          "code": ":ns2:",
+          "size": [34, 16],
+          "legacy": true
+        },
+        {
+          "fn": "text_tsk.gif",
+          "code": ":text_tsk:",
+          "size": [52, 12],
+          "legacy": true
+        },
+        {
+          "fn": "text_domo.gif",
+          "code": ":text_domo:",
+          "size": [31, 21],
+          "legacy": true
+        },
+        {
+          "fn": "text_goose.gif",
+          "code": ":text_goose:",
+          "size": [27, 28],
+          "legacy": true
+        },
+        {
+          "fn": "text_hmm.gif",
+          "code": ":text_hmm:",
+          "size": [32, 26],
+          "legacy": true
+        },
+        {
+          "fn": "text_blarg.gif",
+          "code": ":text_blarg:",
+          "size": [36, 25],
+          "legacy": true
+        },
+        {
+          "fn": "text_ssj.gif",
+          "code": ":text_ssj:",
+          "size": [42, 24],
+          "legacy": true
+        },
+        {
+          "fn": "text_dopefish.gif",
+          "code": ":text_dopefish:",
+          "size": [54, 19],
+          "legacy": true
+        },
+        {
+          "fn": "text_cursing.gif",
+          "code": ":text_cursing:",
+          "size": [32, 34],
+          "legacy": true
+        },
+        {
+          "fn": "text_rite.gif",
+          "code": ":text_rite:",
+          "size": [43, 26],
+          "legacy": true
+        },
+        {
+          "fn": "text_rock.gif",
+          "code": ":text_rock:",
+          "size": [82, 14],
+          "legacy": true
+        },
+        {
+          "fn": "text_jerkoff.gif",
+          "code": ":text_jerkoff:",
+          "size": [55, 25],
+          "legacy": true
+        },
+        {
+          "fn": "text_2guns.gif",
+          "code": ":text_2guns:",
+          "size": [60, 23],
+          "legacy": true
+        },
+        {
+          "fn": "text_doom.gif",
+          "code": ":text_doom:",
+          "size": [41, 34],
+          "legacy": true
+        },
+        {
+          "fn": "text_emo.gif",
+          "code": ":text_emo:",
+          "size": [61, 23],
+          "legacy": true
+        },
+        {
+          "fn": "text_niggar.gif",
+          "code": ":text_niggar:",
+          "size": [36, 39],
+          "legacy": true
+        },
+        {
+          "fn": "text_foget.gif",
+          "code": ":text_foget:",
+          "size": [52, 29],
+          "legacy": true
+        },
+        {
+          "fn": "text_gayfight.gif",
+          "code": ":text_gayfight:",
+          "size": [86, 20],
+          "legacy": true
+        },
+        {
+          "fn": "text_blowup.gif",
+          "code": ":text_blowup:",
+          "size": [36, 52],
+          "legacy": true
+        },
+        {
+          "fn": "text_throw.gif",
+          "code": ":text_throw:",
+          "size": [91, 21],
+          "legacy": true
+        },
+        {
+          "fn": "text_hurrr.gif",
+          "code": ":text_hurrr:",
+          "size": [139, 15],
+          "legacy": true
+        },
+        {
+          "fn": "text_spamgun.gif",
+          "code": ":text_spamgun:",
+          "size": [149, 18],
+          "legacy": true
+        },
+        {
+          "fn": "text_didyouputitinyourfriendshair.gif",
+          "code": ":text_didyouputitinyourfriendshair:",
+          "size": [249, 14],
+          "legacy": true
+        },
+        {
+          "fn": "text_bakedbeans.gif",
+          "code": ":text_bakedbeans:",
+          "size": [50, 75],
+          "legacy": true
+        },
+        {
+          "fn": "text_buttrape.gif",
+          "code": ":text_buttrape:",
+          "size": [120, 32],
+          "legacy": true
+        }
+      ]
+    }
+  ]
+}

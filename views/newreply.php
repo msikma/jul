@@ -31,7 +31,6 @@
 	require_once 'lib/actions/layout.php';
 
 
-	$smilies=readsmilies();
 	if(!filter_int($ppp)) $ppp=(!$log?20:$loguser['postsperpage']);
 	$fonline=fonlineusers($forumid);
 	$header=makeheader($header1,$headlinks,$header2 ."	$tblstart$tccell1s>$fonline$tblend");

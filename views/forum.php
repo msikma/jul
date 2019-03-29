@@ -1,6 +1,7 @@
 <?php
 require_once 'lib/actions/function.php';
-$id = intval($_GET['id']);
+
+$id = $request['id'];
 $user = intval($_GET['user']);
 
 if ($log)

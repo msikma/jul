@@ -4,8 +4,6 @@ require_once 'lib/actions/layout.php';
 
 $meta['noindex'] = true; // Never index
 
-$smilies=readsmilies();
-
 if(!$log) {
 	print "
 		$header$tblstart

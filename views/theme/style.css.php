@@ -1,18 +1,34 @@
 <?php
+error_reporting(0);
+
+// This file is the only entry point other than the main index.php file.
+// We should always render a valid CSS file, so we're going to initialize
+// the system *without* printing errors in case of e.g. no MySQL connection.
+$GLOBALS['jul_external_entry_point'] = true;
+// Set include path as the Git root.
+set_include_path('../../');
+require_once 'vendor/autoload.php';
+require_once 'lib/system.php';
+
 $theme_base = $GLOBALS['jul_base_dir']."/themes/default/";
 require_once 'themes/default/settings.php';
 
 // Check for scheme settings. Initial value of $scheme comes from function.php.
-$scheme = filter_int($scheme);
+$scheme = intval($scheme);
 if (isset($_GET['scheme']) && is_numeric($_GET['scheme'])) {
     $scheme = intval($_GET['scheme']);
 } elseif (isset($_GET['scheme'])) {
     $scheme = 0;
 }
 
-// Load theme settings.
-$schemerow = $sql->fetchq("SELECT `name`, `file` FROM schemes WHERE id='$scheme'");
-$theme = $schemerow ? $schemerow['file'] : 'night';
+// Load theme settings. 'Night' is the default theme.
+try {
+  $schemerow = $sql->fetchq("SELECT `name`, `file` FROM schemes WHERE id='$scheme'");
+  $theme = $schemerow ? $schemerow['file'] : 'night';
+}
+catch (Exception $e) {
+  $theme = 'night';
+}
 
 // Include the chosen theme settings, which sets up its variables/colors.
 $theme_base = $GLOBALS['jul_base_dir']."/themes/$theme/";
@@ -89,7 +105,7 @@ div.lastpost { font: 10px $font2 !important; white-space: nowrap; }
 div.lastpost:first-line { font: 13px $font !important; }
 .sparkline { display: none; }
 .brightlinks a { color: #$brightlinkcolor; font-weight: normal; }
-.brightlinks a:hover { font-weight: normal; }
+.brightlinks a:hover { font-weight: normal; text-decoration: underline; }
 .font {font:13px $font}
 .fonth {font:13px $font;color:$tableheadtext}
 .fonts {font:10px $font2}

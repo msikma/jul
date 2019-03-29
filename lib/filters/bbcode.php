@@ -19,17 +19,6 @@ function jul_postfilter_bbcode($msg, $options='0|0') {
       $msg = str_replace('>', '&gt;', $msg);
   }
 
-  if (!$smiliesoff) {
-      global $smilies;
-      if (!$smilies) {
-          $smilies = readsmilies();
-      }
-      for ($s = 0; $smilies[$s][0]; ++$s) {
-          $smilie = $smilies[$s];
-          $msg = str_replace($smilie[0], "<img src=$smilie[1] align=absmiddle>", $msg);
-      }
-  }
-
   $msg = str_replace('[red]', '<font color=FFC0C0>', $msg);
   $msg = str_replace('[green]', '<font color=C0FFC0>', $msg);
   $msg = str_replace('[blue]', '<font color=C0C0FF>', $msg);

@@ -1,21 +1,9 @@
 RewriteEngine On
 RewriteBase /jul/
 
-# Rewrite all links to index.php, except those that are real files.
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Rewrite all links to index.php except the static files.
+RewriteCond %{REQUEST_FILENAME} !(static|themes)
 RewriteRule . index.php [L]
-
-# Rewrite all views to index.php (and run them using the routing system instead).
-RewriteRule views/.+? index.php [L]
-
-# Legacy redirects:
-
-# Redirects all root files to the /views/ directory.
-# e.g. /thread.php?id=1 redirects to /views/thread.php?id=1.
-# (All files in /views/ used to be in the root.)
-RewriteRule ^(activeusers|activity|activity2|activity3|activity3u|admin-editforums|admin-editmods|admin-slammer|admin-threads|admin-threads2|admin|adnonsense|announcement|avatar|biggestposters|calendar|del|doomcounter|editpost|editprofile|editthread|edituser|faq|forum|hex|install|ipsearch|irc|latestposts|login|memberlist|milestones|newreply|newthread|numgfx|numgfxbig|online|postradar|postsbyforum|postsbythread|postsbytime|postsbyuser|private|profile|ranks|register|sendprivate|shitbugs|shop|shoped|shoph|showprivate|sigsize|smilies|stats|status|thread)\.php views/$1.php [R,L]
 
 # Pretty URL redirects:
 
@@ -26,9 +14,9 @@ RewriteRule ^forum/([0-9]+)/([0-9a-z-]+)$ views/forum.php?id=$1 [L]
 # /jul/views/profile.php?id=1 -> /jul/thread/1/hello-world
 RewriteRule ^thread/([0-9]+)/([0-9a-z-]+)$ views/thread.php?id=$1 [L]
 
-ErrorDocument 403 /errors/static/403.html
-ErrorDocument 404 /errors/static/404.html
-ErrorDocument 500 /errors/static/500.html
+ErrorDocument 403 /static/errors/403.html
+ErrorDocument 404 /static/errors/404.html
+ErrorDocument 500 /static/errors/500.html
 
 Order Allow,Deny
 Allow from all

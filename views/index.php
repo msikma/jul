@@ -200,10 +200,11 @@ foreach ($categories as $category) {
         $new = $statusicons['new'];
       }
     }
+    $forumlink = route('@forum', $forum['id']);//"/forum.php?id=$forum[id]"
     $forumlist.="
     <tr>
       $tccell1>$new</td>
-      $tccell2l><a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forum[id]'>$forum[title]</a><br>
+      $tccell2l><a href='{$forumlink}'>$forum[title]</a><br>
       $smallfont$forum[description]<br>$modlist</td>
       $tccell1>$forum[numthreads]</td>
       $tccell1>$forum[numposts]</td>

@@ -25,6 +25,11 @@
   padding: 4px 6px;
 }
 
+/* The emoticons list initially displays a shorter list. */
+.emoticon-selector.hide-extra .initially-hidden {
+  display: none;
+}
+
 /* Centered bulleted list. */
 ul.center li {
   list-style-position: inside;

@@ -15,6 +15,9 @@ function check_db() {
   // Test to see if we can make any queries at all.
   $sql = "select 'a';";
   $result = mysql_query($sql);
+  if ($result === false) {
+    return array(false, mysql_error());
+  }
   $row = mysql_fetch_assoc($result);
   if (!isset($row['a']) || $row['a'] !== 'a') return array(false, mysql_error());
 
@@ -23,6 +26,10 @@ function check_db() {
   if (!$rights['can_make'] && !$rights['can_drop']) return array(false, "Can't create or drop tables.");
   if (!$rights['can_make']) return array(false, "Can't create new tables.");
   if (!$rights['can_drop']) return array(false, "Can't drop tables.");
+
+  // Check if the configuration is correct.
+  $config_details = has_good_config($c);
+  if ($config_details['strict_tt']) return array(false, "Disable STRICT_TRANS_TABLES in the MySQL config.");
 
   return array(true);
 }
@@ -42,6 +49,7 @@ function check_installed() {
   // Check whether we're installed by seeing whether the admin user exists.
   $sql = "select * from `users` where `id` = 1;";
   $result = mysql_query($sql);
+  if (!$result) return false;
   $row = mysql_fetch_assoc($result);
   if ($row['id'] === '1') return true;
 
@@ -57,7 +65,6 @@ function can_make_tables($connection) {
   ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_unicode_ci;
   ";
   $result = mysql_query($sql);
-  $row = mysql_fetch_assoc($result);
   $can_create_tables = $result;
 
   // Tear down the test table.
@@ -65,7 +72,6 @@ function can_make_tables($connection) {
   drop table `$name`;
   ";
   $result = mysql_query($sql);
-  $row = mysql_fetch_assoc($result);
   $can_drop_tables = $result;
 
   return array('can_make' => $can_create_tables, 'can_drop' => $can_drop_tables);
@@ -88,4 +94,19 @@ function error_on_bad_install() {
     include_error('install-error', true, array('static_css' => true));
     exit;
   }
+}
+
+// Checks whether the config is set properly.
+function has_good_config($connection) {
+  // Only thing we need to check for now.
+  return array(
+    'strict_tt' => has_strict_trans_tables($connection) === true
+  );
+}
+
+// Checks whether STRICT_TRANS_TABLES is enabled (it has to be disabled).
+function has_strict_trans_tables($connection) {
+  $sql = "select @@sql_mode as mode;";
+  $row = mysql_fetch_assoc(mysql_query($sql));
+  return strpos($row['mode'], 'STRICT_TRANS_TABLES') !== false;
 }

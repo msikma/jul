@@ -6,7 +6,7 @@ function check_config() {
   return is_file($config);
 }
 
-function get_data_table($data, $items) {
+function get_data_table($data, $items = array()) {
   $html = "<table class='table data-table'>";
   foreach ($data as $k => $v) {
     if ((!empty($items) && in_array($k, $items)) || empty($items)) {

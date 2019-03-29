@@ -1,0 +1,156 @@
+{
+  "name": "phpbb",
+  "website": "https:\/\/www.phpbb.com\/",
+  "sets": [
+    {
+      "name": "base",
+      "initial": true,
+      "items": [
+        {
+          "fn": "icon_arrow.gif",
+          "code": ":arrow:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_cool.gif",
+          "code": "8-)",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_cry.gif",
+          "code": ":cry:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_biggrin.gif",
+          "code": ":D",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_confused.gif",
+          "code": ":?",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_sad.gif",
+          "code": ":(",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_smile.gif",
+          "code": ":)",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_surprised.gif",
+          "code": ":o",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_wink.gif",
+          "code": ";)",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_eek.gif",
+          "code": ":shock:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_evil.gif",
+          "code": ":evil:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_exclaim.gif",
+          "code": ":!:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_idea.gif",
+          "code": ":idea:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_lol.gif",
+          "code": ":lol:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_mad.gif",
+          "code": ":x",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_mrgreen.gif",
+          "code": ":mrgreen:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_neutral.gif",
+          "code": ":|",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_question.gif",
+          "code": ":?:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_razz.gif",
+          "code": ":P",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_redface.gif",
+          "code": ":oops:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_rolleyes.gif",
+          "code": ":roll:",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_twisted.gif",
+          "code": ":twisted",
+          "size": [15, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_geek.gif",
+          "code": ":geek:",
+          "size": [17, 17],
+          "legacy": false
+        },
+        {
+          "fn": "icon_e_ugeek.gif",
+          "code": ":ugeek:",
+          "size": [17, 18],
+          "legacy": false
+        }
+      ]
+    }
+  ]
+}

@@ -91,7 +91,7 @@ $headlinks2 = array();
 foreach ($GLOBALS['jul_settings']['top_menu_items'] as $row) {
     $rowlinks = array();
     foreach ($row as $item) {
-        $rowlinks[] = '<a href="'.to_route($item[0]).'" '.route_params($item[0]).'>'.$item[1].'</a>';
+        $rowlinks[] = '<a href="'.route($item[0]).'" '.route_params($item[0]).'>'.$item[1].'</a>';
     }
     $headlinks2[] = implode(' - ', $rowlinks);
 }
@@ -106,13 +106,17 @@ if ('XXXXXXXXXXXXXXXXX' !== $forwardedip) {
 if ('XXXXXXXXXXXXXXXXX' !== $clientip) {
     $checkips .= " OR INSTR('$clientip',ip)=1";
 }
-if (!$GLOBALS['jul_installing']) {
+if ($GLOBALS['jul_valid_db']) {
     if ($sql->resultq("SELECT count(*) FROM ipbans WHERE $checkips")) {
         $ipbanned = 1;
     }
     if ($sql->resultq("SELECT count(*) FROM `tor` WHERE `ip` = '".$_SERVER['REMOTE_ADDR']."' AND `allowed` = '0'")) {
         $torbanned = 1;
     }
+}
+else {
+    $ipbanned = 0;
+    $torbanned = 0;
 }
 
 if ($ipbanned || $torbanned) {
@@ -128,7 +132,7 @@ if ($torbanned) {
     $sql->query("UPDATE `tor` SET `hits` = `hits` + 1 WHERE `ip` = '".$_SERVER['REMOTE_ADDR']."'");
 }
 
-if (!$GLOBALS['jul_installing']) {
+if ($GLOBALS['jul_valid_db']) {
     $views = $sql->resultq('SELECT views FROM misc') + 1;
 
     // Dailystats update in one query
@@ -266,23 +270,6 @@ function makeheader($header1, $headlinks, $header2)
     return $header;
 }
 
-function version_footer()
-{
-    global $smallfont;
-    // Take the first part of the name ('dada/jul') to put in front of the version.
-    // So people can see it's not stock Jul.
-    $name = explode('/', $GLOBALS['jul_version']['composer']['name']);
-    $commit = $GLOBALS['jul_version']['commit']['hash']
-        ? " - <a href='{$GLOBALS['jul_version']['commit']['url']}'>{$GLOBALS['jul_version']['commit']['string']}</a>"
-        : '';
-
-    return "
-{$smallfont}
-	Jul v{$GLOBALS['jul_version']['version']}-{$name[0]} r{$GLOBALS['jul_version']['commit']['rev']} {$commit}
-	<br>&copy;{$GLOBALS['jul_version']['copyright_start']}-{$GLOBALS['jul_version']['copyright_end']} {$GLOBALS['jul_version']['authors']}
-</font>";
-}
-
 if (isset($_GET['scheme']) && is_numeric($_GET['scheme'])) {
     $GLOBALS['jul_settings']['board_title'] .= "</a><br><span class='font'>Previewing scheme \"<b>".$schemerow['name'].'</b>"</span>';
 }
@@ -306,7 +293,7 @@ if ($ref && 'jul.rus' != substr($ref, 7, 7)) {
     }
 }
 
-if (!$GLOBALS['jul_installing']) {
+if ($GLOBALS['jul_valid_db']) {
     $sql->query("DELETE FROM guests WHERE ip='$userip' OR date<".(ctime() - 300));
 }
 
@@ -335,7 +322,7 @@ if ($log) {
 
         $sql->query('UPDATE users SET lastactivity='.ctime().",lastip='$userip',lasturl='".mysql_real_escape_string($url)."',lastforum=0,`influence`='$influencelv' WHERE id=$loguserid");
     }
-} else if (!$GLOBALS['jul_installing']) {
+} else if ($GLOBALS['jul_valid_db']) {
     $sql->query("INSERT INTO guests (ip,date,useragent,lasturl) VALUES ('$userip',".ctime().",'".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($url)."')");
 }
 

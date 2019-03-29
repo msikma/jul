@@ -27,8 +27,6 @@
 	$thread['title'] = str_replace('<','&lt;',$thread['title']);
 	$thread['title'] = str_replace('>','&gt;',$thread['title']);
 
-	$smilies = readsmilies();
-
 	$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$thread[forum]");
 	$specialscheme = $forum['specialscheme'];
 	$windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- $forum[title]: $thread[title] -- Editing Post";

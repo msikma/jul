@@ -8,7 +8,6 @@
     $annc=mysql_fetch_array(mysql_query("SELECT * FROM announcements WHERE id=$id"));
     if($annc[forum]>0 && $ismod) $canpost=true;
   }
-  $smilies=readsmilies();
   if(!$action){
     $ppp=($log?$loguser[postsperpage]:20);
     $min=$ppp*$page;
