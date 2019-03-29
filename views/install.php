@@ -6,7 +6,7 @@ require_once 'config.example.php';
 require_once 'lib/helpers.php';
 require_once 'lib/actions/function.php';
 require_once 'lib/actions/layout.php';
-require_once 'lib/check-install.php';
+require_once 'lib/models/check-install.php';
 require_once 'lib/install.php';
 
 $config_ready = check_config();
