@@ -9,13 +9,6 @@ function base_path() {
 }
 
 /**
- * Returns an absolute link to an image file.
- */
-function dir_images($file='') {
-  return "{base_dir()}/images/{$file}";
-}
-
-/**
  * Removes the file extension from a filename or path.
  */
 function remove_extension($fn) {
