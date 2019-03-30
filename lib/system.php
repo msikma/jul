@@ -29,6 +29,7 @@ require_once 'lib/models/user.php';
 require_once 'lib/routing.php';
 require_once 'lib/rpg.php';
 require_once 'lib/security.php';
+require_once 'lib/test.php';
 require_once 'lib/threadpost.php';
 require_once 'lib/emoticons.php';
 require_once 'lib/posticons.php';
