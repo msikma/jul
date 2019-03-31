@@ -48,7 +48,7 @@ function get_request_route() {
   // Retrieve the user's requested path, minus the base dir.
   $base = str_replace('/', '\/', preg_quote($GLOBALS['jul_base_dir']));
   $path = preg_replace("/^{$base}/", '', $_SERVER['REQUEST_URI']);
-  
+
   // Remove any remaining slashes to be sure, unless it's index.
   $path = trim($path, '/');
   $path = $path === '' ? '/' : $path;
@@ -109,13 +109,13 @@ function to_home() {
  * Returns a route string for use in links.
  * Routes start with a @ character. Anything other than a route is returned verbatim.
  * This means you can pass either a @route and get the proper route URL, or just pass a full URL by itself.
- * 
+ *
  * To generate a route with e.g. an ID in it, pass data in the second array;
  * in most cases this will just be an ID, so this function can be called in one of two ways:
- * 
+ *
  *    route('@routename', 5);
  *    route('@routename', array('id' => 5, 'any_other' => 'data'));
- * 
+ *
  * Any query string data will be tacked on the end from the third argument.
  */
 function route($route, $data = 0, $query = array()) {
@@ -129,30 +129,35 @@ function route($route, $data = 0, $query = array()) {
   $route_base = $route_data['base'] ? $route_data['base'] : $GLOBALS['jul_views_path'];
 
   // Decorate the route with data, e.g. the ID of a topic or message.
-  // This function can be run either as 
-  $route_path = decorate_route($route_data['path'], $data && is_numeric($data) ? array('id' => $data) : $data);
+  // This function can be run either as
+  $route_path = decorate_route($route_data, $data && is_numeric($data) ? array('id' => $data) : $data);
 
-  return "{$route_base}{$route_path}";
+  // Add on query data.
+  $query_str = !empty($query) ? '?'.http_build_query($query) : '';
+
+  return "{$route_base}{$route_path}{$query_str}";
 }
 
 /**
  * Essentially, this does the opposite of decorate_route().
  * It takes a path string and returns a matching route with data.
  * If no valid route is found, false is returned.
- * 
+ *
  * Note: the path will be given as e.g. 'forum/1', without leading slash.
  */
 function extract_route($path, $query) {
   foreach ($GLOBALS['jul_routes'] as $name => $route) {
-    $match_re = $route['match'];
+    $match_re = $route['match'] ? $route['match'] : '/'.trim($route['path'], '/').'/';
     $match_segments = $route['match_segments'];
     if (!$match_re) continue;
 
     $data = array();
     $valid = preg_match_all($match_re, $path, $matches);
     if (!$valid) continue;
-    foreach ($matches[1] as $n => $match) {
-      $data[$match_segments[$n]] = $match;
+    if ($matches[1]) {
+      foreach ($matches[1] as $n => $match) {
+        $data[$match_segments[$n]] = $match;
+      }
     }
     return array_merge($route, array('request' => array('path' => $path, 'data' => $data, 'query' => $query)));
   }
@@ -162,8 +167,11 @@ function extract_route($path, $query) {
 /**
  * Adds data to a route.
  */
-function decorate_route($tpl, $data = array()) {
-  if (!$data) return $tpl;
+function decorate_route($route, $data = array()) {
+  if (!$data) {
+    // Return 'clean' variant of the path if no data is passed.
+    return $route['pathClean'] ? $route['pathClean'] : $route['path'];
+  }
 
   // Replace named variables with our data.
   $decorated = preg_replace_callback(
@@ -172,7 +180,7 @@ function decorate_route($tpl, $data = array()) {
       $match = $data[$matches[1]];
       return $match ? $match : '';
     },
-    $tpl
+    $route['path']
   );
 
   return $decorated;
@@ -197,7 +205,8 @@ function preprocess_routes($routes) {
       $segments[] = $match;
     }
     // Add the path segments and the target filename to the route info.
-    $processed_routes[$k] = array_merge($v, array('match_segments' => $segments, 'file' => ltrim($k, '@')));
+    $route_info = array('match_segments' => $segments, 'file' => $v['file'] ? $v['file'] : ltrim($k, '@'));
+    $processed_routes[$k] = array_merge($v, $route_info);
   }
   return $processed_routes;
 }
@@ -220,10 +229,29 @@ $GLOBALS['jul_redirects'] = array(
 
 // I don't know. Maybe someday these can be nice URLs.
 $GLOBALS['jul_routes'] = preprocess_routes(array(
-  '@home' => array('path' => '/', 'base' => $GLOBALS['jul_base_dir']),
-  '@forum' => array('path' => '/forum/{id}', 'match' => '/forum\/([0-9]+)/'),
-  '@test' => array('path' => '/zap/{id}', 'match' => '/zap\/([0-9]+)/'),
-  '@error' => array('path' => '/$d'),
+  '@home' => array('path' => '/', 'base' => $GLOBALS['jul_base_dir'], 'match' => '/^\/$/', 'file' => 'index'),
+  '@forum' => array('path' => '/forum/{id}', 'match' => '/^forum\/([0-9]+)/'),
+  '@thread' => array('path' => '/thread/{id}', 'match' => '/^thread\/([0-9]+)/'),
+
+  // User management
+  '@register' => array('path' => '/register'),
+  '@edit_profile' => array('path' => '/editprofile'),
+  '@login' => array('path' => '/login'),
+
+  // Messages
+  '@new_thread' => array('path' => '/new-thread/{id}', 'pathClean' => '/new-thread/', 'match' => '/^new-thread\/?([0-9]+)?/', 'file' => 'newthread'),
+
+  // Etc.
+  '@error' => array('path' => '/$d'), // TODO: replace?
+  '@post_radar' => array('path' => '/postradar'),
+  '@shop' => array('path' => '/shop'),
+  '@shop_editor' => array('path' => '/shopeditor'),
+
+  // Admin routes
+  '@admin' => array('path' => '/admin', 'admin' => true),
+
+  // Replace these.
+  /*
   '@memberlist' => array("{$GLOBALS['jul_views_path']}/memberlist.php"),
   '@activeusers' => array("{$GLOBALS['jul_views_path']}/activeusers.php"),
   '@calendar' => array("{$GLOBALS['jul_views_path']}/calendar.php"),
@@ -235,4 +263,5 @@ $GLOBALS['jul_routes'] = preprocess_routes(array(
   '@latestposts' => array("{$GLOBALS['jul_views_path']}/latestposts.php"),
   '@hex' => array("javascript:void(0);", "onclick=\"hexidecimalchart()\""),
   '@smilies' => array("{$GLOBALS['jul_views_path']}/smilies.php"),
+  */
 ));

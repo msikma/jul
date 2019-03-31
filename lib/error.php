@@ -22,6 +22,7 @@ function error_page($text, $redir = '', $redirurl = '') {
   print("{$header}<br>{$tblstart}{$tccell1}>{$text}");
   if ($redir) {
     print('<br>');
+    print('<a href="'.$redirurl.'">'.$redir.'</a>');
   }
   print("{$tblend}{$footer}");
   printtimedif($startingtime);

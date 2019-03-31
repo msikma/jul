@@ -90,7 +90,7 @@ print "$header<br>";
 admincheck();
 print adminlinkbar("{$GLOBALS['jul_views_path']}/admin-editforums.php");
 
-foreach($pwlnames as $pwl=>$pwlname) {
+foreach($GLOBALS['jul_user_groups'] as $pwl=>$pwlname) {
 	if ($pwl < 0) continue;
 	$powers[] = $pwlname;
 }
@@ -317,10 +317,11 @@ else if (isset($_GET['id'])) {
 				$tc2l	= $tccell2l;
 			}
 
+			$forum_link = route('@forum', $forum['id']);
 		  $forumlist.="
 			<tr>
 				$tc1><small><a href='{$GLOBALS['jul_views_path']}/admin-editforums.php?id=$forum[id]$prevtext'>Edit</a> / <a href='{$GLOBALS['jul_views_path']}/admin-editforums.php?delete=$forum[id]$prevtext'>Delete</a></small></td>
-				$tc2l><a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forum[id]'>$forum[title]</a>$hidden<br>
+				$tc2l><a href='{$forum_link}'>$forum[title]</a>$hidden<br>
 				$smallfont$forum[description]<br>$modlist</td>
 				$tc1>$forum[numthreads]</td>
 				$tc1>$forum[numposts]</td>
@@ -369,10 +370,11 @@ if (!isset($_GET['preview']) && count($forums)) {
 		else
 			$hidden = "";
 
+		$forum_link = route('@forum', $forum['id']);
 		$forumlist.="
 		<tr>
 			$tccell1><small><a href='{$GLOBALS['jul_views_path']}/admin-editforums.php?id=$forum[id]$prevtext'>Edit</a> / <a href='{$GLOBALS['jul_views_path']}/admin-editforums.php?delete=$forum[id]$prevtext'>Delete</a></small></td>
-			$tccell2l><a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forum[id]'>$forum[title]</a>$hidden<br>
+			$tccell2l><a href='{$forum_link}'>$forum[title]</a>$hidden<br>
 			$smallfont$forum[description]<br>$modlist</td>
 			$tccell1>$forum[numthreads]</td>
 			$tccell1>$forum[numposts]</td>

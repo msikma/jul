@@ -1,5 +1,13 @@
 <?php
 
+/** Returns a forum's information by ID. */
+function get_forum_by_id($id) {
+  global $sql;
+  $esc_id = intval($id);
+  $forum = $sql->fetchq("SELECT * FROM forums WHERE id=$esc_id");
+  return $forum;
+}
+
 /**
  * Returns a string of attributes to be used in an edit/create forum SQL call.
  * The attributes will already be escaped, so the string can be included directly.
@@ -20,8 +28,24 @@ function _forum_attributes($attributes) {
   return implode(",\n", $attr_arr);
 }
 
+function _update_forum_after_post($user_id, $post_id, $forum_id) {
+  $esc_user_id = intval($user_id);
+  $esc_post_id = intval($post_id);
+  $esc_forum_id = intval($forum_id);
+  update_query("
+    update `forums`
+    set `numthreads` = `numthreads` + 1,
+    `numposts` = `numposts` + 1,
+    `lastpostdate` = unix_timestamp(),
+    `lastpostuser` = {$esc_user_id},
+    `lastpostid` = {$esc_post_id}
+    where `id` = {$esc_forum_id};
+  ");
+}
+
 /**
  * Deletes a forum. Requires a 'mergeid', an ID of another forum to move its posts to.
+ * TODO
  */
 function delete_forum($id, $mergeid) {
   global $sql;

@@ -44,7 +44,7 @@
 		$year=$birthday['year'];
 	}
 
-	foreach ($pwlnames as $pwl=>$pwlname) {
+	foreach ($GLOBALS['jul_user_groups'] as $pwl=>$pwlname) {
 		$levellist .= "<option value={$pwl} {$check1[$pwl]}>{$pwlname}</option>";
 	}
 	$levellist="<select name=powerlevel>{$levellist}</select>";
@@ -170,7 +170,7 @@
     //$sql->query("INSERT logs SET useraction ='Edit User ".$user[nick]."(".$user[id]."'");
 
 		if ($password) {
-			$passedit="`password` = '".getpwhash($password, $userid)."', ";
+			$passedit="`password` = '".get_password_hash($password, $userid)."', ";
 		}
 
 		if ($sex == -378) {

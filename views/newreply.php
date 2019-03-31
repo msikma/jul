@@ -68,7 +68,7 @@
 				$postlist.="<tr>
 					{$tcellbg}<a href={$GLOBALS['jul_views_path']}/profile.php?id=$post[user]><font $namecolor>$post[name]</font></a>$smallfont<br>
 					Posts: $postnum$post[posts]</td>
-					$tcellbg".(dofilters(array('', $post['text'], ''), $post['options']))."</tr>
+					$tcellbg".(post_content_to_html($post['text']))."</tr>
 				";
 			}
 			else{
@@ -218,14 +218,7 @@
 				$sql->query("UPDATE `threadsread` SET `read` = '0' WHERE `tid` = '$id'");
 				$sql->query("REPLACE INTO threadsread SET `uid` = '$userid', `tid` = '$id', `time` = ". ctime() .", `read` = '1'");
 
-
-				xk_ircout("reply", $user['name'], array(
-					'forum'		=> $forum['title'],
-					'fid'		=> $forumid,
-					'thread'	=> str_replace("&lt;", "<", $thread['title']),
-					'pid'		=> $pid,
-					'pow'		=> $forum['minpower'],
-				));
+				xk_notify('NEW_REPLY_POSTED', array('has_poll' => false, 'user' => $user));
 
 				return header("Location: {$GLOBALS['jul_views_path']}/thread.php?pid=$pid#$pid");
 

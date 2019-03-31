@@ -228,7 +228,7 @@
     if(!isset($useranks)) $useranks=$loguser['useranks'];
 
 		if ($_POST['password']) {
-			$hash = getpwhash($_POST['password'], $loguserid);
+			$hash = get_password_hash($_POST['password'], $loguserid);
 			$passwordenc = "`password` = '$hash', ";
 
 			if ($loguser['id'] == $loguserid) {

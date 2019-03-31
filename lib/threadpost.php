@@ -32,13 +32,13 @@ function threadpost($post,$bg,$pthread='') {
 		$set['threadlink'] = "<a href={$GLOBALS['jul_views_path']}/thread.php?id={$pthread['id']}>{$pthread['title']}</a>";
 	}
 
-	$post['text']=dofilters(array('', $post['text'], ''), $post['options']);
+	$post['text']=post_content_to_html($post['text']);
 
 	if (filter_int($post['editdate'])) {
 		$post['edited'] = " (last edited by {$post['edited']} at ".date($dateformat,$post['editdate']+$tzoff).")";
 	}
 
-	$return=dofilters(postcode($post,$set), $post['options']);
+	$return=post_table_convert(postcode($post,$set));
 	return $return;
 }
 
@@ -86,15 +86,15 @@ function setlayout($post) {
 		}
 	}
 
-	$post['headtext']=settags($post['headtext'],filter_string($post['tagval']));
-	$post['signtext']=settags($post['signtext'],filter_string($post['tagval']));
+	$post['headtext']=$post['headtext'];
+	$post['signtext']=$post['signtext'];
 
 	if($loguser['viewsig']==2){
 		$post['headtext']=doreplace($post['headtext'],$post['num'],($post['date']-$post['regdate'])/86400,$post['name']);
 		$post['signtext']=doreplace($post['signtext'],$post['num'],($post['date']-$post['regdate'])/86400,$post['name']);
 	}
-	$post['headtext']=dofilters(array('', $post['headtext'], ''), $post['options']);
-	$post['signtext']=dofilters(array('', $post['signtext'], ''), $post['options']);
+	$post['headtext']=post_content_to_html($post['headtext']);
+	$post['signtext']=post_content_to_html($post['signtext']);
 	return $post;
 }
 

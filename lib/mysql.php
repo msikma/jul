@@ -1,5 +1,34 @@
 <?php
 
+/** Simple query helper. */
+function fetch_query($query) {
+	global $sql;
+	try {
+		$results = $sql->query($query);
+		return $sql->fetch($results);
+	}
+	catch (Exception $e) {
+		return false;
+	}
+}
+
+/** Simple insert fetch helper. */
+function insert_query($query) {
+	global $sql;
+	try {
+		mysql_query($query);
+		return mysql_insert_id();
+	}
+	catch (Exception $e) {
+		return false;
+	}
+}
+
+/** Simple update query. FIXME */
+function update_query($query) {
+	insert_query($query);
+}
+
 class mysql {
 	// a 'backport' of my 'static' class in not-as-static form
 	// the statistics remain static so they're global just in case this gets used for >1 connection

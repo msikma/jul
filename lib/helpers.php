@@ -8,6 +8,11 @@ function base_path() {
   return $GLOBALS['jul_base_path'];
 }
 
+/** Return the current person's IP address. */
+function get_current_ip() {
+  return $_SERVER['REMOTE_ADDR'];
+}
+
 /**
  * Removes the file extension from a filename or path.
  */

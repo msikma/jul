@@ -28,14 +28,14 @@ function register_account($username, $password, $ip, $powerlevel = 0) {
     `threadsperpage` = '50',
     `lastip` = '{$esc_ip}',
     `scheme` = '0',
-    `lastactivity` = utc_timestamp(),
-    `regdate` = utc_timestamp()
+    `lastactivity` = unix_timestamp(),
+    `regdate` = unix_timestamp()
   ");
   if (!$q) $reason = mysql_error();
 
   // Fetch the next ID so we can generate the password hash.
   $id = mysql_insert_id();
-  $esc_password_hashed = getpwhash($password, $id);
+  $esc_password_hashed = get_password_hash($password, $id);
 
   // Set the password.
   $q = $sql->query("

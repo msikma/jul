@@ -37,7 +37,8 @@
 	if (@mysql_num_rows($sql->query("SELECT user FROM forummods WHERE forum=$forum[id] and user=$loguserid")))
 		$ismod = 1;
 
-	print "$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - ". ($forum['minpower'] <= $loguser['powerlevel'] ? "<a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forum[id]'>".$forum['title']."</a> - <a href='{$GLOBALS['jul_views_path']}/thread.php?pid=$id#$id'>$thread[title]</a> - Edit post" : "Restricted thread") ."
+	$forum_link = route('@forum', $forum['id']);
+	print "$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - ". ($forum['minpower'] <= $loguser['powerlevel'] ? "<a href='{$forum_link}'>".$forum['title']."</a> - <a href='{$GLOBALS['jul_views_path']}/thread.php?pid=$id#$id'>$thread[title]</a> - Edit post" : "Restricted thread") ."
 		$tblstart
 		<FORM ACTION='{$GLOBALS['jul_views_path']}/editpost.php' NAME=REPLIER METHOD=POST>";
 

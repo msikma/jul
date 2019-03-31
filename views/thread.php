@@ -2,7 +2,7 @@
 
 require_once 'lib/actions/function.php';
 
-$id			= filter_int($_GET['id']);
+$id = intval($request['id']);
 $user		= filter_int($_GET['user']);
 $gotopost	= null;
 
@@ -308,7 +308,7 @@ if ($forum['pollstyle'] != -2 && $thread['poll']) {
 
 	$polltbl = "$tblstart
 		<tr>$tccellc colspan=3><b>".htmlspecialchars($poll['question'])."</td></tr>
-		<tr>$tccell2ls colspan=3>".nl2br(dofilters($poll['briefing']))."</td></tr>
+		<tr>$tccell2ls colspan=3>".(post_content_to_html($poll['briefing']))."</td></tr>
 		$choices
 		<tr>$tccell2l colspan=3>$smallfont $polltext $tvotes_u user$s_have voted. $polledit</td></tr>
 		$tblend<br>
@@ -338,10 +338,11 @@ if ($log && $id && $forum['id']) {
 	$header = makeheader($header1, $headlinks, $header2 . (($fonline) ? "$tblstart$tccell1s>$fonline$tblend" : ""));
 }
 
+$forumlink = route('@forum', $forumid);
 $threadforumlinks = "
 	<table width=100%><td align=left>$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>".$GLOBALS['jul_settings']['board_name']."</a>"
 	.
-	(($forum['title']) ? " - <a href='{$GLOBALS['jul_views_path']}/forum.php?id=$forumid'>$forum[title]</a>" : "")
+	(($forum['title']) ? " - <a href='{$forumlink}'>$forum[title]</a>" : "")
 	.
 	" - $thread[title]</td><td align=right>$smallfont
 ";

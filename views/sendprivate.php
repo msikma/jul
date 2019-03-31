@@ -57,7 +57,7 @@ if (!$action) {
 			$tccellh>Message<tr>
 			$tcellbg><a href={$GLOBALS['jul_views_path']}/profile.php?id=$user[id]>$user[name]</a>$smallfont<br>
 			Posts: $postnum$user[posts]</td>
-			$tcellbg>".dofilters(array('', $msg[text], '')."<tr>
+			$tcellbg>".post_content_to_html($msg['text'])."<tr>
 		";
 	}
 	else
@@ -87,7 +87,8 @@ if (!$action) {
 }
 if($action=='sendmsg') {
 	$username	= stripslashes($_POST['username']);
-	$userid=username_to_user_id($username);
+	$user_data = get_user_by_name($username);
+	$userid=$user_data['id'];
 
 	if ($userid == -1)
 		print "$tccell1>Couldn't send the message. You didn't enter an existing username to send the message to.

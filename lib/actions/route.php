@@ -1,7 +1,7 @@
 <?php
 
 // If, during initialization, we found some kind of error (the database doesn't exist, or is invalid,
-// or the forum isn't installed yet, etc.) we will end the 
+// or the forum isn't installed yet, etc.) we will end the
 
 // We use this instead of a function, because we need to run routes in the global context.
 $route = get_request_route();
@@ -18,6 +18,12 @@ if ($route['file'] !== 'install' && $route['file'] !== 'theme/style.css' && !$ro
 if ($route['file']) {
   $file = $route['file'];
   $request = $route['request']['data'];
+
+  // Check for admin credentials on secured pages.
+  if ($route['admin'] && !is_admin_user()) {
+    error_page('Uh oh, you are not the admin go away!', 'Return to the homepage', route('@home'));
+  }
+
   include("views/{$file}.php");
   exit;
 }
