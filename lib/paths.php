@@ -6,6 +6,8 @@ $GLOBALS['jul_base_path'] = implode('/', array_splice(explode('/', __DIR__), 0, 
 $GLOBALS['jul_base_dir'] = implode('/', array_splice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1));
 // A link to home.
 $GLOBALS['jul_home'] = $GLOBALS['jul_base_dir'].'/';
+// The base URL (if not set, we'll use the base dir).
+$GLOBALS['jul_base_url'] = empty($GLOBALS['jul_settings']['base_url']) ? $GLOBALS['jul_base_dir'] : rtrim($GLOBALS['jul_settings']['base_url'], '/');
 
 // Path where we can find the views, e.g. thread.php, forum.php.
 $GLOBALS['jul_views_path'] = "{$GLOBALS['jul_base_dir']}";
