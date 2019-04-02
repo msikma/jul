@@ -235,6 +235,8 @@ foreach ($js_include as $js_file_include) {
   </script>";
 }
 
+$dev_test_html = dev_testing_tools_html();
+
 $header1 = "<html><head><meta http-equiv='Content-type' content='text/html; charset=utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>$windowtitle</title>
 {$GLOBALS['jul_js_vars']}
 $metatag
@@ -253,7 +255,7 @@ $tblstart
 
 $header2 = '
 '."
-</td><tr>
+</td>{$dev_test_html}<tr>
   <td width='120px' class='tbl tdbg2 center fonts'><nobr>Views: $dispviews<br><img src={$GLOBALS['jul_base_dir']}/static/images/spacer.gif width=120 height=1></td>
   <td width='100%' class='tbl tdbg2 center fonts'>$headlinks2</td>
   <td width='120px' class='tbl tdbg2 center fonts'><nobr>".date($dateformat, ctime() + $tzoff)."<br><img src={$GLOBALS['jul_base_dir']}/static/images/spacer.gif width=120 height=1></table>";
