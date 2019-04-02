@@ -19,7 +19,7 @@ if (!isset($windowtitle)) {
   $windowtitle = $GLOBALS['jul_settings']['board_name'];
 }
 
-$home = base_dir().'/';
+$home = base_url().'/';
 $GLOBALS['jul_settings']['board_title'] = "<a href='{$home}'>{$GLOBALS['jul_settings']['board_title']}</a>";
 
 try {

@@ -4,6 +4,10 @@ function base_dir() {
   return $GLOBALS['jul_base_dir'];
 }
 
+function base_url() {
+  return $GLOBALS['jul_base_url'];
+}
+
 function base_path() {
   return $GLOBALS['jul_base_path'];
 }

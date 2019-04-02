@@ -9,15 +9,15 @@ if (!$GLOBALS['jul_external_entry_point']) set_include_path('./');
 // Prevent entry without going through the system.
 $GLOBALS['jul_system'] = true;
 
-// These need to be included in order.
+// Some of these need to be included in a specific order.
+require_once 'lib/defaults.php';
+require_once 'lib/config.php';
 require_once 'lib/paths.php';
 require_once 'lib/version.php';
 require_once 'lib/ui.php';
 require_once 'lib/error.php';
 require_once 'lib/models/check-install.php';
-require_once 'lib/defaults.php';
 require_once 'lib/mysql.php';
-require_once 'lib/config.php';
 require_once 'lib/actions/connect.php';
 require_once 'lib/helpers.php';
 require_once 'lib/install.php';
