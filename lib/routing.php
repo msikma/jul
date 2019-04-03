@@ -147,7 +147,7 @@ function route($route, $data = 0, $query = array()) {
  */
 function extract_route($path, $query) {
   foreach ($GLOBALS['jul_routes'] as $name => $route) {
-    $match_re = $route['match'] ? $route['match'] : '/'.trim($route['path'], '/').'/';
+    $match_re = $route['match'] ? $route['match'] : '/'.preg_quote(trim($route['path'], '/'), '/').'/';
     $match_segments = $route['match_segments'];
     if (!$match_re) continue;
 
