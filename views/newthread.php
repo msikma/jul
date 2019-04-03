@@ -41,22 +41,7 @@ if ($poll) {
   }
 }
 
-// TODO: move to render posticons function
-$posticons = get_posticons(); // TODO
-for($i=0;$posticons[$i];$i++) {
-  if($iconid==$i) $checked='checked';
-  $posticonlist.="$radio=iconid value=$i $checked>&nbsp<IMG SRC=$posticons[$i] HEIGHT=15 WIDTH=15>&nbsp; &nbsp;";
-  $checked='';
-  if(($i+1)%10==0) $posticonlist.='<br>';
-}
-if (!$iconid or $iconid==-1) {
-  $checked='checked';
-}
-$posticonlist.="
-  <br>$radio=iconid value=-1 $checked>&nbsp;None&nbsp; &nbsp; &nbsp;
-  Custom: $inpt=custposticon SIZE=40 MAXLENGTH=100 VALUE=\"". stripslashes($custposticon) ."\">
-";
-// end posticons
+$posticons = get_posticons($iconid, true);
 
 // todo form generation
 $subject_html = htmlspecialchars($subject);
@@ -69,7 +54,7 @@ if ($nolayout)  $nolayoutchk  = " checked";
 $form = '';
 if ($poll) {
   $form .= "
-    <tr>$tccell1><b>Poll icon:</td> $tccell2l colspan=2>$posticonlist</td></tr>
+    <tr>$tccell1><b>Poll icon:</td> $tccell2l colspan=2>$posticons</td></tr>
     <tr>$tccell1><b>Poll title:</td>  $tccell2l colspan=2>$inpt=subject SIZE=40 MAXLENGTH=100 VALUE=\"". stripslashes($subject) ."\"></td></tr>
     <tr>$tccell1><b>Question:</td>  $tccell2l colspan=2>$inpt=question SIZE=60 MAXLENGTH=255 VALUE=\"". stripslashes($question) ."\"></td></tr>
     <tr>$tccell1><b>Briefing:</td>  $tccell2l colspan=2>$txta=briefing ROWS=2 COLS=$numcols style=\"resize:vertical;\">". stripslashes($briefing) ."</TEXTAREA></td></tr>
@@ -79,7 +64,7 @@ if ($poll) {
 }
 else {
   $form .= "
-    <tr>$tccell1><b>Thread icon:</td> $tccell2l colspan=2>$posticonlist</td></tr>
+    <tr>$tccell1><b>Thread icon:</td> $tccell2l colspan=2>$posticons</td></tr>
     <tr>$tccell1><b>Thread title:</td>$tccell2l colspan=2>$inpt=subject SIZE=40 MAXLENGTH=100 VALUE=\"". stripslashes($subject) ."\"></td></tr>
   ";
 }
@@ -198,12 +183,9 @@ if ($_POST['action']=='postthread' & !$previewing) {
     $rsign = doreplace($sign, $numposts, $numdays, $username);
     $rhead = doreplace($head, $numposts, $numdays, $username);
     $tagval = $sql->escape(json_encode($tags));
-    $posticons = get_posticons(); // TODO
-    $posticon = $posticons[$iconid];
+    $posticon = $_POST['posticon'];
     $currenttime = ctime();
     $postnum = $numposts;
-    if($iconid == -1) $posticon='';
-    if($custposticon) $posticon = $custposticon;
 
     if($submit) {
       update_user_post_count($user);

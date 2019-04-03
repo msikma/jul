@@ -30,6 +30,17 @@
   display: none;
 }
 
+/* Radio icon lists, e.g. the posticon list.
+
+<label class="radio-icon">
+  <input type="radio">
+  <img src="">
+</label>
+*/
+.radio-icons .radio-icon {
+  display: inline-block;
+}
+
 /* Centered bulleted list. */
 ul.center li {
   list-style-position: inside;

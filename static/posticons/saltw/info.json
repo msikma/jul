@@ -4,6 +4,7 @@
   "sets": [
     {
       "name": "base",
+      "initial": true,
       "items": [
         {
           "fn": "action.gif",
@@ -459,6 +460,7 @@
     },
     {
       "name": "art",
+      "initial": false,
       "items": [
         {
           "fn": "art.gif",
@@ -512,6 +514,7 @@
     },
     {
       "name": "dev",
+      "initial": false,
       "items": [
         {
           "fn": "dev_fury2.gif",
@@ -559,25 +562,26 @@
     },
     {
       "name": "special",
+      "initial": false,
       "items": [
         {
           "fn": "poll.gif",
           "name": "Poll",
           "size": [54, 15],
-          "legacy": false
+          "legacy": true
         },
         {
           "fn": "poll_posticon.gif",
           "name": "Poll_posticon",
           "size": [54, 15],
-          "legacy": false
+          "legacy": true
         },
         {
           "fn": "lock_icon.gif",
           "name": "Lock_icon",
           "size": [54, 15],
-          "legacy": false
-        },
+          "legacy": true
+        }
       ]
     }
   ]

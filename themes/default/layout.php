@@ -12,10 +12,10 @@ function userfields(){
  * the HTML of the post itself, and the closing HTML.
  */
 function postcode($post, $set){
-	global $tzoff, $smallfont, $ip, $quote, $edit, $dateshort, $dateformat, $tlayout, $textcolor, $numdir, $numfil, $tblstart, $hacks, $x_hacks, $loguser, $ui_images;
+	global $tzoff, $user, $smallfont, $ip, $quote, $edit, $dateshort, $dateformat, $tlayout, $textcolor, $numdir, $numfil, $tblstart, $hacks, $x_hacks, $loguser, $ui_images;
 
 	$tblend		= "</table>";
-	$exp		= calcexp($post['posts'],(ctime()-$post['regdate']) / 86400);
+	$exp		= calcexp($post['posts'],((ctime()-$post['regdate'])) / 86400);
 	$lvl		= calclvl($exp);
 	$expleft	= calcexpleft($exp);
 

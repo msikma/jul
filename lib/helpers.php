@@ -73,8 +73,12 @@ function get_image_set($base, $local_dir) {
     }
     $data['slug'] = $name;
     $data['path'] = $path;
+    $data['base'] = $GLOBALS['jul_base_dir'].'/static'.$local_dir.$name;
     $data['amount'] = 0;
-    foreach ($data['sets'] as $set) {
+    foreach ($data['sets'] as $set_name => $set) {
+      foreach ($set['items'] as $n => $item) {
+        $data['sets'][$set_name]['items'][$n]['slug'] = remove_extension($item['fn']);
+      }
       $data['amount'] += count($set['items']);
     }
     $sets[$name] = $data;
