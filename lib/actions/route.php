@@ -41,8 +41,5 @@ if ($route['redirect']) {
 // Display an error page.
 if ($route['error']) {
   error_code($route['error']);
-
-  // If developing, print messages to be passed on to the console.
-  print(console_exec());
   exit;
 }

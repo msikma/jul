@@ -11,6 +11,8 @@ function include_error($name, $print=true, $data=array()) {
 
   if ($print) {
     print($output);
+    // Only prints if developing.
+    print(console_exec());
     exit;
   }
 }
