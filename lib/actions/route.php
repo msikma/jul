@@ -22,6 +22,7 @@ if ($route['file']) {
   // Check for admin credentials on secured pages.
   if ($route['admin'] && !is_admin_user()) {
     error_page('Uh oh, you are not the admin go away!', 'Return to the homepage', route('@home'));
+    exit;
   }
 
   include("views/{$file}.php");

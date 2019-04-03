@@ -26,6 +26,8 @@ function error_page($text, $redir = '', $redirurl = '') {
   }
   print("{$tblend}{$footer}");
   printtimedif($startingtime);
+  // Only prints if developing.
+  print(console_exec());
   die();
 }
 
