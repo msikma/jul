@@ -5,7 +5,7 @@ function fetch_query($query) {
 	global $sql;
 	try {
 		$results = $sql->query($query);
-		return $sql->fetch($results);
+		return $sql->fetch($results, MYSQL_ASSOC);
 	}
 	catch (Exception $e) {
 		return false;
