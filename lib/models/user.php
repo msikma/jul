@@ -4,12 +4,14 @@
 $GLOBALS['jul_user_groups'] = array(
   '-2' => 'Permabanned',
   '-1' => 'Banned',
-  'Normal',
-  'Normal +',
-  'Moderator',
-  'Administrator',
-  'Sysadmin'
+  '0' => 'Normal',
+  '1' => 'Normal +',
+  '2' => 'Moderator',
+  '3' => 'Administrator',
+  '4' => 'Sysadmin',
 );
+// Minimum level you need to get access to admin forums.
+$GLOBALS['jul_admin_minimum'] = 3;
 
 /** Returns the user data of a logged in user. */
 function get_logged_in_user() {
@@ -26,8 +28,9 @@ function get_logged_in_user() {
   return $loguser;
 }
 
-function is_admin_user() {
-  return false;
+function is_admin_user($id = null) {
+  $user = $id ? get_user_by_id($id) : get_logged_in_user();
+  return $user['powerlevel'] >= $GLOBALS['jul_admin_minimum'];
 }
 
 /** Logs in a user. Returns false if login failed. */
