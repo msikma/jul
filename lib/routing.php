@@ -250,6 +250,9 @@ $GLOBALS['jul_routes'] = preprocess_routes(array(
   // Admin routes
   '@admin' => array('path' => '/admin', 'admin' => true),
 
+  // Dev routes
+  '@_converter' => array('path' => '/dev/converter', 'admin' => true, 'file' => 'devtools/converter'),
+
   // Replace these.
   /*
   '@memberlist' => array("{$GLOBALS['jul_views_path']}/memberlist.php"),
