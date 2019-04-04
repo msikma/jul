@@ -118,15 +118,14 @@ function to_home() {
  *
  * Any query string data will be tacked on the end from the third argument.
  */
-function route($route, $data = 0, $query = array()) {
+function route($route, $data = 0, $query = array(), $base = null) {
   if ($route[0] !== '@') return $route;
+  // Note: apply the base URL as defined in <paths.php> by default.
+  if (!$base) $base = $GLOBALS['jul_base_url'];
   $route_data = $GLOBALS['jul_routes'][$route];
 
   // Return the data for a 404 if this route isn't found.
   if (!$route_data) return route('@error', 404);
-
-  // All routes are prefixed with a base part, usually the views_path.
-  $route_base = $route_data['base'] ? $route_data['base'] : $GLOBALS['jul_views_path'];
 
   // Decorate the route with data, e.g. the ID of a topic or message.
   // This function can be run either as
@@ -135,7 +134,7 @@ function route($route, $data = 0, $query = array()) {
   // Add on query data.
   $query_str = !empty($query) ? '?'.http_build_query($query) : '';
 
-  return "{$route_base}{$route_path}{$query_str}";
+  return "{$base}{$route_path}{$query_str}";
 }
 
 /**
@@ -170,7 +169,7 @@ function extract_route($path, $query) {
 function decorate_route($route, $data = array()) {
   if (!$data) {
     // Return 'clean' variant of the path if no data is passed.
-    return $route['pathClean'] ? $route['pathClean'] : $route['path'];
+    return $route['path_clean'] ? $route['path_clean'] : $route['path'];
   }
 
   // Replace named variables with our data.
@@ -206,7 +205,9 @@ function preprocess_routes($routes) {
     }
     // Add the path segments and the target filename to the route info.
     $route_info = array('match_segments' => $segments, 'file' => $v['file'] ? $v['file'] : ltrim($k, '@'));
-    $processed_routes[$k] = array_merge($v, $route_info);
+    // Ensure all other values (noindex, admin, etc.) are present and cast to the right type.
+    $route_defaults = array('noindex' => !!$v['noindex'], 'admin' => !!$v['admin'], 'path_clean' => $v['path_clean'] ?: null, 'match' => $v['match'] ?: null);
+    $processed_routes[$k] = array_merge($v, $route_info, $route_defaults);
   }
   return $processed_routes;
 }
@@ -227,19 +228,19 @@ $GLOBALS['jul_redirects'] = array(
   array('index', '/')
 );
 
-// I don't know. Maybe someday these can be nice URLs.
+// Full list of routes available on the forum.
 $GLOBALS['jul_routes'] = preprocess_routes(array(
-  '@home' => array('path' => '/', 'base' => $GLOBALS['jul_base_dir'], 'match' => '/^\/$/', 'file' => 'index'),
+  '@home' => array('path' => '/', 'match' => '/^\/$/', 'file' => 'index'),
   '@forum' => array('path' => '/forum/{id}', 'match' => '/^forum\/([0-9]+)/'),
   '@thread' => array('path' => '/thread/{id}', 'match' => '/^thread\/([0-9]+)/'),
 
   // User management
   '@register' => array('path' => '/register'),
-  '@edit_profile' => array('path' => '/editprofile'),
+  '@edit_profile' => array('path' => '/editprofile', 'noindex' => true),
   '@login' => array('path' => '/login'),
 
   // Messages
-  '@new_thread' => array('path' => '/new-thread/{id}', 'pathClean' => '/new-thread/', 'match' => '/^new-thread\/?([0-9]+)?/', 'file' => 'newthread'),
+  '@new_thread' => array('path' => '/new-thread/{id}', 'path_clean' => '/new-thread/', 'match' => '/^new-thread\/?([0-9]+)?/', 'file' => 'newthread'),
 
   // Etc.
   '@error' => array('path' => '/$d'), // TODO: replace?
