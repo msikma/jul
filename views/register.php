@@ -61,7 +61,7 @@ if (!$is_registering) {
 // User information from registration post.
 $ip = $_SERVER['REMOTE_ADDR'];
 $username = $_POST['name'];
-$password = $_POST['pass']
+$password = $_POST['pass'];
 
 // Check if the username/ip already exists.
 $duplicate_info = check_registration($name, $ip);
