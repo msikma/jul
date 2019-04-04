@@ -3,7 +3,7 @@
 // Redirects in case the user marks a forum/all forums read.
 run_cleanup_actions();
 
-$postread = readpostread($loguserid);
+$postread = get_forum_read_date($loguserid);
 
 $users1 = $sql->query("SELECT id,name,birthday,sex,powerlevel,aka FROM users WHERE FROM_UNIXTIME(birthday,'%m-%d')='".date('m-d',ctime() + $tzoff)."' AND birthday ORDER BY name");
 $blist	= "";

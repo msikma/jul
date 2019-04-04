@@ -1,6 +1,6 @@
 <?php
 
-/** Simple query helper. */
+/** Helper for simple single row result queries. */
 function fetch_query($query) {
 	global $sql;
 	try {
@@ -12,7 +12,7 @@ function fetch_query($query) {
 	}
 }
 
-/** Simple insert fetch helper. */
+/** Helper for inserting data and returning the inserted ID. */
 function insert_query($query) {
 	global $sql;
 	try {
@@ -24,9 +24,16 @@ function insert_query($query) {
 	}
 }
 
-/** Simple update query. FIXME */
-function update_query($query) {
-	insert_query($query);
+/** Helper for queries that don't return data. Returns true if the query */
+function run_query($query) {
+	global $sql;
+	try {
+		$result = mysql_query($query);
+		return !!$result;
+	}
+	catch (Exception $e) {
+		return false;
+	}
 }
 
 class mysql {

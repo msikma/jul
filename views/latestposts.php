@@ -34,7 +34,7 @@
 		$headlinks.=' - <a href='.$GLOBALS['jul_base_dir'].'/index.php?action=markallforumsread>Mark all posts read</a>';
 		$header=makeheader($header1,$headlinks,$header2);
 
-		$forumread = $sql->getresultsbykey("SELECT forum,readdate FROM forumread WHERE user=$loguserid", 'forum', 'readdate');
+		$forumread = get_forum_read_date($loguserid);
 	}
 
 	$_counter = 1;

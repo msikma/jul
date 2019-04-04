@@ -9,6 +9,19 @@ function get_forum_by_id($id) {
 }
 
 /**
+ * Returns an array with forum ID for keys, and last read date for values.
+ * E.g. array('1' => '1554424019').
+ */
+function get_forum_read_date($userid)
+{
+  global $sql;
+  if (!$userid) {
+    return array();
+  }
+  $esc_userid = intval($userid);
+  return $sql->getresultsbykey("SELECT forum,readdate FROM forumread WHERE user=$esc_userid", 'forum', 'readdate');
+}
+/**
  * Returns a string of attributes to be used in an edit/create forum SQL call.
  * The attributes will already be escaped, so the string can be included directly.
  */
@@ -32,7 +45,7 @@ function _update_forum_after_post($user_id, $post_id, $forum_id) {
   $esc_user_id = intval($user_id);
   $esc_post_id = intval($post_id);
   $esc_forum_id = intval($forum_id);
-  update_query("
+  run_query("
     update `forums`
     set `numthreads` = `numthreads` + 1,
     `numposts` = `numposts` + 1,

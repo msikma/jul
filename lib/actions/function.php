@@ -229,16 +229,6 @@ function sinc($x) {
   return $ret;
 }
 
-function readpostread($userid)
-{
-  global $sql;
-  if (!$userid) {
-    return array();
-  }
-
-  return $sql->getresultsbykey("SELECT forum,readdate FROM forumread WHERE user=$userid", 'forum', 'readdate');
-}
-
 function timeunits($sec)
 {
   if ($sec < 60) {

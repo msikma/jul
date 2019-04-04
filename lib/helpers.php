@@ -44,8 +44,9 @@ function addslashes_array($data) {
  * Retrieves information about image sets for emoticons or posticons.
  * These are directories containing an info.json file and sets of images.
  * Used in lib/emoticons.php and lib/posticons.php.
+ * If 'collect' is true we'll put a copy of all images in a single container as well.
  */
-function get_image_set($base, $local_dir) {
+function get_image_set($base, $local_dir, $collect = true) {
   $dir = new DirectoryIterator($base);
   $sets = array();
   foreach ($dir as $item) {
@@ -73,11 +74,19 @@ function get_image_set($base, $local_dir) {
     }
     $data['slug'] = $name;
     $data['path'] = $path;
-    $data['base'] = $GLOBALS['jul_base_dir'].'/static'.$local_dir.$name;
+    $data['base'] = $GLOBALS['jul_base_url'].'/static'.$local_dir.$name;
     $data['amount'] = 0;
+    if ($collect) {
+      $data['all'] = array();
+    }
     foreach ($data['sets'] as $set_name => $set) {
       foreach ($set['items'] as $n => $item) {
-        $data['sets'][$set_name]['items'][$n]['slug'] = remove_extension($item['fn']);
+        $slug = remove_extension($item['fn']);
+        $data['sets'][$set_name]['items'][$n]['slug'] = $slug;
+        if ($collect) {
+          $data['sets'][$set_name]['items'][$n]['set_name'] = $set['name'];
+          $data['all'][$slug] = $data['sets'][$set_name]['items'][$n];
+        }
       }
       $data['amount'] += count($set['items']);
     }

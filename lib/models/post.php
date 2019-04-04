@@ -50,7 +50,7 @@ function make_new_post($thread_id, $forum_id, $user, $message) {
 function _update_thread_after_poll($thread_id, $poll_id) {
   $esc_thread_id = intval($thread_id);
   $esc_poll_id = intval($poll_id);
-  update_query("update `threads` set `poll` = {$esc_poll_id} where `id` = {$esc_thread_id};");
+  run_query("update `threads` set `poll` = {$esc_poll_id} where `id` = {$esc_thread_id};");
 }
 
 function make_new_poll($question, $briefing, $multiple_vote, $choices, $colors) {

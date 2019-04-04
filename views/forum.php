@@ -4,8 +4,9 @@ require_once 'lib/actions/function.php';
 $id = $request['id'];
 $user = intval($_GET['user']);
 
-if ($log)
-  $postread = $sql->getresultsbykey("SELECT forum,readdate FROM forumread WHERE user=$loguserid", 'forum', 'readdate');
+if ($log) {
+  $postread = get_forum_read_date($loguserid);
+}
 
 $forumlist="";
 $fonline="";
@@ -275,8 +276,6 @@ else for($i=1; $thread=@$sql->fetch($threads, MYSQL_ASSOC); ++$i) {
   if ($thread['closed'])  $threadstatus .= "off";
   if ($threadstatus) $new = $statusicons[$threadstatus];
 
-  $posticon="<img src='$thread[icon]'>";
-
   if (trim($thread['title']) == "")
     $thread['title']  = "<i>hurr durr i'm an idiot who made a blank thread</i>";
   else
@@ -327,23 +326,25 @@ else for($i=1; $thread=@$sql->fetch($threads, MYSQL_ASSOC); ++$i) {
   else
     $secondline = '';
 
-  if(!$thread['icon']) $posticon='&nbsp;';
   $userlink1 = getuserlink($thread,
     array('sex'=>'sex1', 'powerlevel'=>'pwr1', 'id'=>'user',     'aka'=>'aka1', 'name'=>'name1', 'birthday'=>'bd1'));
   $userlink2 = getuserlink($thread,
     array('sex'=>'sex2', 'powerlevel'=>'pwr2', 'id'=>'lastposter', 'aka'=>'aka2', 'name'=>'name2', 'birthday'=>'bd2'));
 
-  $threadlist .= "<tr>
-    $tccell1>$new</td>
-    $tccell2 width=40px><div style=\"max-width:60px;max-height:30px;overflow:hidden;\">$posticon</div></td>
-    $tccell2l>". ($newpost ? "<a href='{$GLOBALS['jul_views_path']}/thread.php?id=$thread[id]&lpt=". $newpostt ."'>". $statusicons['getnew'] ."</a> " : "") ."$threadtitle$secondline</td>
-    $tccell2>{$userlink1}</td>
-    $tccell1>$thread[replies]</td>
-    $tccell1>$thread[views]</td>
-    $tccell2><div class='lastpost'>".date($dateformat,$thread['lastpostdate']+$tzoff)."<br>
-      by {$userlink2}
-      <a href='{$GLOBALS['jul_views_path']}/thread.php?id=$thread[id]&end=1'>$statusicons[getlast]</a>
-    </div></td></tr>";
+  $posticon = get_posticon_html($thread['icon']);
+  $threadlist .= "
+    <tr>
+      $tccell1>$new</td>
+      $tccell2 width=40px><div style=\"max-width:60px;max-height:30px;overflow:hidden;\">$posticon</div></td>
+      $tccell2l>". ($newpost ? "<a href='{$GLOBALS['jul_views_path']}/thread.php?id=$thread[id]&lpt=". $newpostt ."'>". $statusicons['getnew'] ."</a> " : "") ."$threadtitle$secondline</td>
+      $tccell2>{$userlink1}</td>
+      $tccell1>$thread[replies]</td>
+      $tccell1>$thread[views]</td>
+      $tccell2><div class='lastpost'>".date($dateformat,$thread['lastpostdate']+$tzoff)."<br>
+        by {$userlink2}
+        <a href='{$GLOBALS['jul_views_path']}/thread.php?id=$thread[id]&end=1'>$statusicons[getlast]</a>
+      </div></td>
+    </tr>";
 }
 $threadlist .= "{$tblend}";
 
