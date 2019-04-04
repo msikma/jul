@@ -3,6 +3,33 @@
 $default_posticon_set = 'saltw';
 $active_posticon_set = '';
 
+/** Returns a posticon's data by its slug. */
+function get_posticon($slug) {
+  $icons = get_active_posticon_set();
+  return $icons['all'][$slug];
+}
+
+/** Returns an HTML string of a posticon. */
+function get_posticon_html($slug) {
+  $set = get_active_posticon_set();
+  $base = $set['base'];
+  $slug = trim($slug);
+  $icon = get_posticon($slug);
+  if (!$icon) {
+    return '<div class="posticon null"></div>';
+  }
+  $src = $base.'/'.$icon['set_name'].'/'.$icon['fn'];
+  $size = $icon['size'];
+  $width = $size[0];
+  $height = $size[1];
+  $alt = $icon['name'];
+  return '
+    <div class="posticon slug-'.$slug.'">
+      <img src="'.$src.'" width="'.$width.'" height="'.$height.'" alt="'.$alt.'" />
+    </div>
+  ';
+}
+
 function get_posticons($checked_slug = '', $add_null_icon = false) {
   $icons = get_active_posticon_set();
   return get_posticons_list($icons, $checked_slug, $add_null_icon);

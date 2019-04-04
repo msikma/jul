@@ -3,7 +3,7 @@
 // TODO: move?
 function check_config() {
   // Check to see if the user has set up their settings.
-  $config = $GLOBALS['jul_base_path'].'/lib/config.php';
+  $config = $GLOBALS['jul_base_path'].'/config.php';
   return is_file($config);
 }
 
