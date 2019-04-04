@@ -217,12 +217,6 @@
           "legacy": false
         },
         {
-          "fn": "moved.gif",
-          "name": "Moved",
-          "size": [54, 15],
-          "legacy": false
-        },
-        {
           "fn": "movies.gif",
           "name": "Movies",
           "size": [54, 15],
@@ -579,6 +573,12 @@
         {
           "fn": "lock_icon.gif",
           "name": "Lock_icon",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "moved.gif",
+          "name": "Moved",
           "size": [54, 15],
           "legacy": true
         }
