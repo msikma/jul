@@ -28,6 +28,18 @@ function get_logged_in_user() {
   return $loguser;
 }
 
+/**
+ * Generates a verification hash for a user after login and sets it as two cookies.
+ * Used to verify that they are the real owner of their login cookie.
+ */
+function set_user_login_cookies($id, $verifyid = '0') {
+  $user = get_user_by_id($id);
+  $verify = create_verification_hash($verifyid, $user['password']);
+
+  setcookie('loguserid', $user['id'], 2147483647, '/', $_SERVER['SERVER_NAME'], false, true);
+  setcookie('logverify', $verify, 2147483647, '/', $_SERVER['SERVER_NAME'], false, true);
+}
+
 function is_admin_user($id = null) {
   $user = $id ? get_user_by_id($id) : get_logged_in_user();
   return $user['powerlevel'] >= $GLOBALS['jul_admin_minimum'];

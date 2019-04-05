@@ -261,7 +261,7 @@ $GLOBALS['jul_routes'] = preprocess_routes(array(
 
   // Dev routes
   '@_converter' => array('path' => '/dev/converter', 'admin' => true, 'file' => 'devtools/converter'),
-  '@_db_ops' => array('path' => '/dev/db-ops', 'admin' => true, 'file' => 'devtools/db-ops'),
+  '@_db_ops' => array('path' => '/dev/db-ops', 'admin' => false, 'file' => 'devtools/db-ops'),
 
   // Replace these.
   /*

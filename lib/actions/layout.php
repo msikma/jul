@@ -81,13 +81,13 @@ if ($loguserid) {
 - <a href=\"".route('@post_radar')."\">Post radar</a>
 - <a href=\"".route('@shop')."\">Item shop</a>
 - <a href=\"".route('@forum', null, array('fav' => 1))."\">Favorites</a>";
-  if (_dev_testing_is_allowed()) {
-    $headlinks .= " - <a class='devtools-headlinks' href='".route('@_db_ops')."'>Database operations</a> - <a class='devtools-headlinks' href='".route('@_converter')."'>Converter</a>";
-  }
 } else {
   $headlinks .= "
   <a href=\"".route('@register')."\">Register</a>
 - <a href=\"".route('@login')."\">Login</a>";
+}
+if (_dev_testing_is_allowed()) {
+  $headlinks .= " - <a class='devtools-headlinks' href='".route('@_db_ops')."'>Database operations</a> - <a class='devtools-headlinks' href='".route('@_converter')."'>Converter</a>";
 }
 
 $headlinks2 = array();

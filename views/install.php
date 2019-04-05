@@ -134,40 +134,7 @@ else if ($config_ready && $db_ready[0] && $installer_step === 2) {
       Done. Inserted admin user with username <strong><a>{$admin_username}</a></strong>.
     </td>
   </tr>");
-  $cat_id = create_category('Discussion');
-  $id = create_forum(array(
-    'title' => 'General chat',
-    'description' => 'This is the ジェネラル chat.',
-    'catid' => $cat_id,
-  ));
-  $id = create_forum(array(
-    'title' => 'Entertainment and Media',
-    'description' => 'Talk about music, literature, art, movies, games and every other form of entertainment.',
-    'catid' => $cat_id,
-  ));
-  $id = create_forum(array(
-    'title' => 'Technology and Programming',
-    'description' => 'Computers, applications and technology.',
-    'catid' => $cat_id,
-  ));
-  // ---
-  $cat_id = create_category('Creativity');
-  $id = create_forum(array(
-    'title' => 'Game Design & Demos',
-    'description' => 'Discuss the process of making games, show off your work and get feedback.',
-    'catid' => $cat_id,
-  ));
-  $id = create_forum(array(
-    'title' => 'Artistry',
-    'description' => 'Discuss the creation of music, graphic art, literature and other endeavors.',
-    'catid' => $cat_id,
-  ));
-  $cat_id = create_category('Projects');
-  $id = create_forum(array(
-    'title' => 'Salt Dev',
-    'description' => 'THIS IS SO MUCH MORE FUN THAN MY LAST GULAG',
-    'catid' => $cat_id,
-  ));
+  _make_testing_forums();
   // ---
   print("
   <tr>

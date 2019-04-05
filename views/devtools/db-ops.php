@@ -8,12 +8,23 @@ $index = route('@home');
 
 if ($query['action'] === 'db-truncate') {
   // Truncate the database and redirect back to the index.
+  __truncate_db();
   redirect_exit($index);
 }
 if ($query['action'] === 'reinstall') {
-  // Return the database to the post-installation state and redirect back to the index.
+  // Return the database to the post-installation state.
+  __truncate_db();
+
+  // Quick install and redirect back to the index.
+  run_installer_sql();
+  _make_testing_forums();
+  register_admin_account('root', 'root');
+  check_login('root', 'root');
+  set_user_login_cookies(1, '0');
   redirect_exit($index);
 }
+
+check_login('root', 'root');
 
 ?>
 <?= $header ?>

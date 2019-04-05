@@ -15,6 +15,16 @@ function console_exec() {
   return _console_exec_content($GLOBALS['jul_devtools_logs']);
 }
 
+/**
+ * Empties the database completely.
+ */
+function __truncate_db() {
+  $db = mysql_real_escape_string($GLOBALS['jul_sql_settings_safe']['name']);
+  run_query('drop database `'.$db.'`;');
+  run_query('create database if not exists `'.$db.'` default character set utf8mb4 collate utf8mb4_general_ci;');
+  run_query('use `'.$db.'`;');
+}
+
 function _dev_testing_is_allowed() {
   // Allow dev testing only if we're running locally.
   $is_local_ipv6 = $_SERVER['SERVER_ADDR'] === '::1' && $_SERVER['REMOTE_ADDR'] === '::1';

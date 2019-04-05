@@ -25,12 +25,7 @@
 			$userid = check_login($username,$password);
 
 			if($userid!=-1) {
-				$pwhash = $sql->resultq("SELECT `password` FROM `users` WHERE `id` = '$userid'");
-				$verify = create_verification_hash($verifyid, $pwhash);
-
-				setcookie('loguserid',$userid,2147483647, "/", $_SERVER['SERVER_NAME'], false, true);
-				setcookie('logverify',$verify,2147483647, "/", $_SERVER['SERVER_NAME'], false, true);
-
+				set_user_login_cookies($userid, $verifyid);
 				$msg = "You are now logged in as $username.";
 			}
 			else {
