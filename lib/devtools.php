@@ -15,21 +15,6 @@ function console_exec() {
   return _console_exec_content($GLOBALS['jul_devtools_logs']);
 }
 
-/** Prints testing tools. */
-function dev_testing_tools_html() {
-  if (!_dev_testing_is_allowed()) {
-    return '';
-  }
-  return "
-    <tr width='100%' class='dev-testing-tools'>
-      <td colspan='3' class='tbl tdbg2 center fonts'>
-        Dev testing tools:
-        <a href='".(route('@_db_ops', null, array('a' => 'b')))."'>Truncate DB</a>
-      </td>
-    </tr>
-  ";
-}
-
 function _dev_testing_is_allowed() {
   // Allow dev testing only if we're running locally.
   $is_local_ipv6 = $_SERVER['SERVER_ADDR'] === '::1' && $_SERVER['REMOTE_ADDR'] === '::1';
