@@ -138,6 +138,14 @@ function route($route, $data = 0, $query = array(), $base = null) {
 }
 
 /**
+ * Redirects the user to a specified URL and exits.
+ */
+function redirect_exit($url) {
+  header('Location: '.$url);
+  exit;
+}
+
+/**
  * Essentially, this does the opposite of decorate_route().
  * It takes a path string and returns a matching route with data.
  * If no valid route is found, false is returned.
@@ -253,6 +261,7 @@ $GLOBALS['jul_routes'] = preprocess_routes(array(
 
   // Dev routes
   '@_converter' => array('path' => '/dev/converter', 'admin' => true, 'file' => 'devtools/converter'),
+  '@_db_ops' => array('path' => '/dev/db-ops', 'admin' => true, 'file' => 'devtools/db-ops'),
 
   // Replace these.
   /*

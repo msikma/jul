@@ -18,6 +18,7 @@ if ($route['file'] !== 'install' && $route['file'] !== 'theme/style.css' && !$ro
 if ($route['file']) {
   $file = $route['file'];
   $request = $route['request']['data'];
+  $query = $route['request']['query'];
 
   // Check for admin credentials on secured pages.
   if ($route['admin'] && !is_admin_user()) {

@@ -68,6 +68,12 @@ code br, pre br { display: none; }
 /* Make radio buttons look not terrible */
 input[type=radio] { color: black; background: white; }
 
+/* Developer-only header links. */
+.devtools-headlinks,
+.devtools-headlinks:visited {
+  color: #F0C413;
+}
+
 /* Spoiler tag code */
 .pstspl1 {opacity:0;}
 .pstspl1:hover {opacity:1;}
@@ -89,6 +95,12 @@ input[type=radio] { color: black; background: white; }
 .mobile-avatar > .avatar {
 	max-height:	100%;
 	max-width:	100%;
+}
+.table ul {
+  width: 220px;
+  margin: auto;
+  text-align: left;
+  list-style-position: inside;
 }
 
 .table.data-table {

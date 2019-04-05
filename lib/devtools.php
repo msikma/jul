@@ -20,12 +20,11 @@ function dev_testing_tools_html() {
   if (!_dev_testing_is_allowed()) {
     return '';
   }
-  $base = base_dir();
   return "
     <tr width='100%' class='dev-testing-tools'>
       <td colspan='3' class='tbl tdbg2 center fonts'>
         Dev testing tools:
-        <a href='#'>Truncate DB</a>
+        <a href='".(route('@_db_ops', null, array('a' => 'b')))."'>Truncate DB</a>
       </td>
     </tr>
   ";
