@@ -206,7 +206,7 @@ function preprocess_routes($routes) {
     // Add the path segments and the target filename to the route info.
     $route_info = array('match_segments' => $segments, 'file' => $v['file'] ? $v['file'] : ltrim($k, '@'));
     // Ensure all other values (noindex, admin, etc.) are present and cast to the right type.
-    $route_defaults = array('noindex' => !!$v['noindex'], 'admin' => !!$v['admin'], 'path_clean' => $v['path_clean'] ?: null, 'match' => $v['match'] ?: null);
+    $route_defaults = array('noindex' => !!$v['noindex'], 'admin' => !!$v['admin'], 'path_clean' => $v['path_clean'] ?? null, 'match' => $v['match'] ?? null);
     $processed_routes[$k] = array_merge($v, $route_info, $route_defaults);
   }
   return $processed_routes;
