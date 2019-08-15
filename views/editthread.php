@@ -112,7 +112,7 @@
 			$forummovelist.="<option value=$forum[id] $checked>$forum[title]</option>";
 		}
 
-		print "$header<br><FORM ACTION='{$GLOBALS['jul_views_path']}/editthread.php' NAME=REPLIER METHOD=POST>$tblstart
+		print "$header<br><FORM ACTION='{$GLOBALS['jul_views_path']}/editthread.php' NAME=replier METHOD=POST>$tblstart
 			<tr>$tccellh width=150>&nbsp;</td>$tccellh>&nbsp;</td></tr>
 			<tr>$tccell1><b>Thread title:</b></td>	$tccell2l>$inpt=subject VALUE=\"$thread[title]\" SIZE=40 MAXLENGTH=100></td></tr>
 			<tr>$tccell1><b>Thread icon:</b></td>	$tccell2l>$posticonlist</td></tr>

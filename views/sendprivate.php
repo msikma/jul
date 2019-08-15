@@ -44,7 +44,7 @@ if($id) {
 print "$header$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - <a href={$GLOBALS['jul_views_path']}/private.php>Private messages</a>$tblstart";
 
 if (!$action) {
-	print "<body onload=window.document.replier.message.focus()><FORM ACTION={$GLOBALS['jul_views_path']}/sendprivate.php NAME=REPLIER METHOD=POST>";
+	print "<body onload=window.document.replier.message.focus()><FORM ACTION={$GLOBALS['jul_views_path']}/sendprivate.php NAME=replier METHOD=POST>";
 
 	if ($log && $id) {
 		$user = loaduser($msg['userfrom'],1);
@@ -140,7 +140,7 @@ if($action=='sendmsg') {
 				$tblend$tblstart
 				".threadpost($ppost,1)."
 				$tblend<br>$tblstart
-				<FORM ACTION={$GLOBALS['jul_views_path']}/sendprivate.php NAME=REPLIER METHOD=POST>
+				<FORM ACTION={$GLOBALS['jul_views_path']}/sendprivate.php NAME=replier METHOD=POST>
 				$tccellh width=150>&nbsp</td>$tccellh>&nbsp<tr>
 				$tccell1><b>Subject:</td>	 $tccell2l>$inpt=subject value=\"$subject\" size=60 maxlength=100><tr>
 				$tccell1><b>Message:</td>

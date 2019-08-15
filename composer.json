@@ -18,6 +18,7 @@
   "require": {
     "php": ">=7.0.0",
     "dshafik/php7-mysql-shim": "^0.2.0",
+    "kevinlebrun/slug.php": "^1.0",
     "coduo/php-humanizer": "^2.0",
     "voku/anti-xss": "^4.1"
   }

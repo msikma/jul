@@ -129,7 +129,8 @@ function route($route, $data = 0, $query = array(), $base = null) {
 
   // Decorate the route with data, e.g. the ID of a topic or message.
   // This function can be run either as
-  $route_path = decorate_route($route_data, $data && is_numeric($data) ? array('id' => $data) : $data);
+  $route_vals = is_array($data) ? $data : ($data && is_numeric($data) ? array('id' => $data) : $data);
+  $route_path = decorate_route($route_data, $route_vals);
 
   // Add on query data.
   $query_str = !empty($query) ? '?'.http_build_query($query) : '';
@@ -182,7 +183,7 @@ function decorate_route($route, $data = array()) {
 
   // Replace named variables with our data.
   $decorated = preg_replace_callback(
-    '/\{(.*)\}/',
+    '/\{(.+?)\}/',
     function ($matches) use (&$data) {
       $match = $data[$matches[1]];
       return $match ? $match : '';
@@ -239,7 +240,7 @@ $GLOBALS['jul_redirects'] = array(
 // Full list of routes available on the forum.
 $GLOBALS['jul_routes'] = preprocess_routes(array(
   '@home' => array('path' => '/', 'match' => '/^\/$/', 'file' => 'index'),
-  '@forum' => array('path' => '/forum/{id}', 'match' => '/^forum\/([0-9]+)/'),
+  '@forum' => array('path' => '/forum/{id}/{slug}', 'match' => '/^forum\/([0-9]+)\/([A-Za-z0-9]+)/'),
   '@thread' => array('path' => '/thread/{id}', 'match' => '/^thread\/([0-9]+)/'),
 
   // User management

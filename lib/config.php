@@ -19,3 +19,9 @@ $GLOBALS['jul_settings'] = array_merge($default_forum_settings, $forum_settings)
 // A list of all the 'regular' settings that users would want to customize.
 // Doesn't include the very old legacy items. Used by the installer.
 $GLOBALS['jul_common_settings'] = array('board_name', 'board_title', 'site_url', 'site_name');
+
+function does_config_exist() {
+  // Check to see if the user has set up their settings.
+  $config = $GLOBALS['jul_base_path'].'/config.php';
+  return is_file($config);
+}

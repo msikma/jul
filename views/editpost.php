@@ -40,7 +40,7 @@
 	$forum_link = route('@forum', $forum['id']);
 	print "$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - ". ($forum['minpower'] <= $loguser['powerlevel'] ? "<a href='{$forum_link}'>".$forum['title']."</a> - <a href='{$GLOBALS['jul_views_path']}/thread.php?pid=$id#$id'>$thread[title]</a> - Edit post" : "Restricted thread") ."
 		$tblstart
-		<FORM ACTION='{$GLOBALS['jul_views_path']}/editpost.php' NAME=REPLIER METHOD=POST>";
+		<FORM ACTION='{$GLOBALS['jul_views_path']}/editpost.php' NAME=replier METHOD=POST>";
 
 	if(!$action && $log && ($ismod || ($loguserid==$post['user'] && $loguser['powerlevel'] > -1 && !$thread['closed'])) && (!$forum['minpower'] or $power>=$forum['minpower'])) {
 		$message=$post['text'];

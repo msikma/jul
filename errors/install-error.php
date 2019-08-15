@@ -1,9 +1,10 @@
 <?php
 include('templates/start.php');
 $install_link = $GLOBALS['jul_base_dir']."/install";
-$error_header = 'Installation error';
+$error_header = 'Installation notice';
 $error_content = "
-  It does not seem like Jul has been installed yet.<br />
+  <b>Welcome to Jul, the new old forum software.</b><p>
+  Jul has not been installed yet.<br />
   To install, visit <a href='{$install_link}'>{$install_link}</a> and follow the steps.
   ";
 render_error_header($data);

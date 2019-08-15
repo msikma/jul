@@ -117,7 +117,15 @@ div.lastpost:first-line { font: 13px $font !important; }
 .table {
 empty-cells: show; width: $tablewidth;
 border-top: #$tableborder 1px solid;
-border-left: #$tableborder 1px solid;
+}
+table.copyright td.cprtext {
+padding: 0px 0px 3px 5px;
+}
+.table-box td.tbl.tdbgh {
+padding: 1px 0 3px;
+}
+.table-box td.tbl.tdbg1 {
+padding: 4px 0 6px;
 }
 td.tbl {
 border-right: #$tableborder 1px solid;

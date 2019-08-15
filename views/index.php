@@ -200,7 +200,7 @@ foreach ($categories as $category) {
         $new = $statusicons['new'];
       }
     }
-    $forumlink = route('@forum', $forum['id']);//"/forum.php?id=$forum[id]"
+    $forumlink = forum_link($forum['id'], $forum['title']);
     $forumlist.="
     <tr>
       $tccell1>$new</td>

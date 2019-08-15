@@ -19,6 +19,7 @@ require_once 'lib/error.php';
 require_once 'lib/models/check-install.php';
 require_once 'lib/mysql.php';
 require_once 'lib/actions/connect.php';
+require_once 'lib/links.php';
 require_once 'lib/helpers.php';
 require_once 'lib/content.php';
 require_once 'lib/install.php';

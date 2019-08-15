@@ -91,7 +91,7 @@ function error_on_bad_db() {
 // If not, display a link to the installer.
 function error_on_bad_install() {
   if (check_installed() === false) {
-    include_error('install-error', true, array('static_css' => true));
+    include_error('install-error', true, array('static_css' => true, 'error_header' => 'Installer'));
     exit;
   }
 }

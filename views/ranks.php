@@ -17,7 +17,7 @@
 
 	print "
 		$header
-		<FORM ACTION={$GLOBALS['jul_views_path']}/ranks.php NAME=REPLIER>
+		<FORM ACTION={$GLOBALS['jul_views_path']}/ranks.php NAME=replier>
 		$tblstart
 		$tccellh colspan=2>&nbsp;<tr>
 		$tccell1><b>Rank set</b></td>

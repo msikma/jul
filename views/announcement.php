@@ -48,7 +48,7 @@
     }
     if($_GET[action]=='new'){
 	$annclist="
-	  <FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=REPLIER METHOD=POST>
+	  <FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=replier METHOD=POST>
 	  $tccellh width=150>&nbsp</td>$tccellh>&nbsp;<tr>
 	  $tccell1><b>Announcement title:</b></td>$tccell2l>$inpt=subject SIZE=70 MAXLENGTH=100><tr>
 	  $tccell1><b>Announcement:</b></td>	$tccell2l>$txta=message ROWS=20 COLS=$numcols></TEXTAREA><tr>
@@ -66,7 +66,7 @@
 	sbr(1,$head);
 	sbr(1,$sign);
 	$annclist="
-	  <FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=REPLIER METHOD=POST>
+	  <FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=replier METHOD=POST>
 	  $tccellh width=150>&nbsp</td>$tccellh>&nbsp;<tr>
 	  $tccell1><b>Announcement title:</b></td>$tccell2l>$inpt=subject VALUE=\"$annc[title]\" SIZE=70 MAXLENGTH=100><tr>
 	  $tccell1><b>Header:</b></td>		$tccell2l>$txta=head ROWS=8 COLS=$numcols>$head</TEXTAREA><tr>
@@ -117,7 +117,7 @@
 		  $tblend$tblstart
 		  ".threadpost($ppost,1)."
 		  $tblend<br>$tblstart
-		  <FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=REPLIER METHOD=POST>
+		  <FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=replier METHOD=POST>
 		  $tccellh width=150>&nbsp</td>$tccellh>&nbsp<tr>
 		  $tccell1><b>Announcement title:</td>$tccell2l>$inpt=subject SIZE=70 MAXLENGTH=100 VALUE=\"". stripslashes($subject) ."\"><tr>
 		  $tccell1><b>Announcement:</td>	$tccell2l>$txta=message ROWS=10 COLS=$numcols>". stripslashes($message) ."</TEXTAREA><tr>
@@ -176,7 +176,7 @@
 		$tblend$tblstart
 		".threadpost($ppost,1)."
 		$tblend<br>$tblstart
-		<FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=REPLIER METHOD=POST>
+		<FORM ACTION='{$GLOBALS['jul_views_path']}/announcement.php' NAME=replier METHOD=POST>
 		$tccellh width=150>&nbsp</td>$tccellh>&nbsp<tr>
 		$tccell1><b>Announcement title:</b></td>$tccell2l>$inpt=subject VALUE=\"$subject\" SIZE=70 MAXLENGTH=100><tr>
 		$tccell1><b>Header:</td>	 $tccell2l>$txta=head ROWS=4 COLS=$numcols>$head</TEXTAREA><tr>

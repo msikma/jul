@@ -258,7 +258,7 @@ if ($_POST['action']=='postthread' & !$previewing) {
       $tblend$tblstart
       ".threadpost($ppost,1)."
       $tblend<br>$tblstart
-      <FORM ACTION='{$form_action}' NAME=REPLIER METHOD=POST>
+      <FORM ACTION='{$form_action}' NAME=replier METHOD=POST>
       $tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
       $inph=username VALUE=\"".htmlspecialchars($username)."\">
       $inph=password VALUE=\"".htmlspecialchars($password)."\">

@@ -80,7 +80,7 @@
     ";
 
 	print "$header<br>
-	<FORM ACTION={$GLOBALS['jul_views_path']}/postradar.php NAME=REPLIER METHOD=POST>
+	<FORM ACTION={$GLOBALS['jul_views_path']}/postradar.php NAME=replier METHOD=POST>
 	$tblstart$prtable$tblend$footer";
 	printtimedif($startingtime);
 ?>

@@ -1,28 +1,5 @@
 <?php
 
-// TODO: move?
-function check_config() {
-  // Check to see if the user has set up their settings.
-  $config = $GLOBALS['jul_base_path'].'/config.php';
-  return is_file($config);
-}
-
-// TODO: move?
-function get_data_table($data, $items = array()) {
-  $html = "<table class='table data-table'>";
-  foreach ($data as $k => $v) {
-    if ((!empty($items) && in_array($k, $items)) || empty($items)) {
-      $html .= "
-        <tr>
-          <th>$k</th>
-          <td>$v</td>
-        </tr>";
-    }
-  }
-  $html .= '</table>';
-  return $html;
-}
-
 // Actually runs the installer SQL to install the database.
 function run_installer_sql() {
   global $sql;

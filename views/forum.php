@@ -1,10 +1,12 @@
 <?php
 require_once 'lib/actions/function.php';
-
+// TODO: notAuthorizedError();
+// TODO: hotcount
 $id = $request['id'];
 $user = intval($_GET['user']);
 
 if ($log) {
+  // When was the forum last read?
   $postread = get_forum_read_date($loguserid);
 }
 
@@ -12,6 +14,7 @@ $forumlist="";
 $fonline="";
 
 // Add/remove favorites
+// TODO
 if ($act == 'add' || $act == 'rem') {
   $meta['noindex'] = true; // prevent search engines from indexing
   $t = $sql->fetchq("SELECT title,forum FROM threads WHERE id=$thread");
@@ -38,7 +41,8 @@ if ($act == 'add' || $act == 'rem') {
   error_page($tx,'return to the forum',"{$GLOBALS['jul_views_path']}/forum.php?id=$t[forum]");
 }
 
-// Forum Setup
+// Favorites list
+// TODO TEST
 if ($fav) {
   if (!$log) {
     $meta['noindex'] = true; // prevent search engines from indexing what they can't access
@@ -54,21 +58,22 @@ if ($fav) {
 
   $threadcount = $sql->resultq("SELECT COUNT(*) FROM favorites where user={$user}");
 }
+// User list
 elseif ($user) {
-  $user1=$sql->fetchq("SELECT name,sex,powerlevel,aka,birthday FROM users WHERE id={$user}");
+  $user1 = get_user_by_id($user);
   if (!$user1) {
     $meta['noindex'] = true; // prevent search engines from indexing what they can't access
     require_once 'lib/actions/layout.php';
-    error_page("No user with that ID exists.",'the index page','index.php');
+    error_page("No user with that ID exists.",'the index page',route('@home'));
   }
 
   $forum['title']="Threads by $user1[name]";
-  $threadcount = $sql->resultq("SELECT COUNT(*) FROM threads where user=$user");
+  $threadcount = get_thread_count_by_user($user);
 }
 elseif ($id) { # Default case, show forum with id
   error_log("asdf.$id.");
   $id = intval($id);
-  $forum = $sql->fetchq("SELECT title,minpower,numthreads,specialscheme,pollstyle FROM forums WHERE id=$id");
+  $forum = get_forum_by_id($id);
 
   if (!$forum) {
     trigger_error("Attempted to access invalid forum $id", E_USER_NOTICE);
@@ -83,10 +88,10 @@ elseif ($id) { # Default case, show forum with id
     require_once 'lib/actions/layout.php';
     notAuthorizedError();
   }
-  else
+  else {
     $specialscheme=$forum['specialscheme'];
-
-  global $fourmid;
+  }
+  global $forumid;
   $forumid=$id;
 
   $threadcount = $forum['numthreads'];
@@ -101,7 +106,8 @@ else {
 $windowtitle = "{$GLOBALS['jul_settings']['board_name']} -- $forum[title]";
 require_once 'lib/actions/layout.php';
 
-$hotcount = $sql->resultq('SELECT hotcount FROM misc',0,0);
+// TODO
+$hotcount = get_hot_count();
 if ($hotcount <= 0) $hotcount = 0xFFFF;
 
 $ppp = (($_GET['ppp']) ? intval($_GET['ppp']) : (($log) ? $loguser['postsperpage'] : 20));
@@ -111,7 +117,7 @@ $tpp = (($_GET['tpp']) ? intval($_GET['tpp']) : (($log) ? $loguser['threadsperpa
 $tpp = max(min($tpp, 500), 1);
 
 $page = intval($_GET['page']);
-  $min = $page*$tpp;
+$min = $page*$tpp;
 
 $newthreadbar = $forumlist = '';
 if ($id) {
@@ -119,7 +125,9 @@ if ($id) {
   $fonline = fonlineusers($id);
 
   if($log) {
-    $headlinks.=" - <a href={$GLOBALS['jul_base_dir']}/index.php?action=markforumread&forumid=$id>Mark forum read</a>";
+    $markasread = route('@forum', $id, ['action' => 'markforumread']);
+    // TODO: test
+    $headlinks.=" - <a href='{$markasread}'>Mark forum read</a>";
     $header = makeheader($header1,$headlinks,$header2 .(($fonline) ? "$tblstart$tccell1s>$fonline$tblend" : ""));
   }
 
@@ -130,12 +138,14 @@ if ($id) {
     (($forum['pollstyle'] != -2) ? "<a href='{$new_poll_link}'>$newpollpic</a>" : $ui_icons['no_more_polls'])
     ." - <a href='{$new_thread_link}'>$newthreadpic</a></td>";
 }
+$home = route('@home');
 $infotable =
   "<table width=100%><tr>
-    <td align=left class='font'><a href={$GLOBALS['jul_base_dir']}/index.php>{$GLOBALS['jul_settings']['board_name']}</a> - $forum[title]</td>
+    <td align=left class='font'><a href='{$home}'>{$GLOBALS['jul_settings']['board_name']}</a> - $forum[title]</td>
     $newthreadbar
   </tr></table>";
 
+// TODO: this is pagination
 $forumpagelinks = '';
 if($threadcount > $tpp){
   $query = ($id ? "id=$id" : ($user ? "user=$user" : "fav=1"));

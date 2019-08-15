@@ -258,7 +258,7 @@
 				$tblend$tblstart
 				".threadpost($ppost,1)."
 				$tblend<br>$tblstart
-				<FORM ACTION={$GLOBALS['jul_views_path']}/newreply.php NAME=REPLIER METHOD=POST>
+				<FORM ACTION={$GLOBALS['jul_views_path']}/newreply.php NAME=replier METHOD=POST>
 				$tccellh width=150>&nbsp</td>$tccellh colspan=2>&nbsp<tr>
 				$tccell1><b>Reply:</td>
 				$tccell2l width=800px valign=top>$txta=message ROWS=21 COLS=$numcols style=\"width: 100%; max-width: 800px; resize:vertical;\">". htmlspecialchars($message, ENT_QUOTES) ."</TEXTAREA></td>

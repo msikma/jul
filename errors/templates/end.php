@@ -6,11 +6,11 @@ if (!$hide_footer) {
   <br><br><a href=<?= $GLOBALS['jul_settings']['site_url'] ?>><?= $GLOBALS['jul_settings']['site_name'] ?></a>
 <br><?= ((String)$affiliatelinks); ?>
 <br>
-    <table cellpadding=0 border=0 cellspacing=2><tr>
+    <table cellpadding=0 border=0 cellspacing=2 class="copyright"><tr>
 <td>
 	<img class="pointresize" src=<?= $GLOBALS['jul_base_dir']; ?>/static/images/poweredbyacmlm.gif>
 </td>
-<td>
+<td class="cprtext">
 	<?= version_footer(); ?>
 </td>
     </tr>

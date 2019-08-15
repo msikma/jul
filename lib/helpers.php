@@ -1,5 +1,7 @@
 <?php
 
+$GLOBALS['slugifier_tpl'] = new \Slug\Slugifier;
+
 function base_dir() {
   return $GLOBALS['jul_base_dir'];
 }
@@ -15,6 +17,11 @@ function base_path() {
 /** Return the current person's IP address. */
 function get_current_ip() {
   return $_SERVER['REMOTE_ADDR'];
+}
+
+/** Returns a slug for a string. */
+function slugify($str) {
+  return $GLOBALS['slugifier_tpl']->slugify($str);
 }
 
 /**

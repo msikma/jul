@@ -93,7 +93,7 @@
 
     print "
 	$header<br>
-    <FORM ACTION='{$GLOBALS['jul_views_path']}/editprofile.php' NAME=REPLIER METHOD=POST autocomplete=off>
+    <FORM ACTION='{$GLOBALS['jul_views_path']}/editprofile.php' NAME=replier METHOD=POST autocomplete=off>
     $tblstart
 	 $tccellh colspan='2'>Login information</td><tr>
 	 $tccell1 style='width: 40%;'><b>User name:$descbr If you want to change this, ask an admin.</td>$tccell2l style='width: 60%;'>$loguser[name]<tr>

@@ -47,7 +47,7 @@
 				$msg = "Couldn't login.  Either you didn't enter an existing username, or you haven't entered the right password for the username.";
 			}
 		}
-		$txt.="$tccell1>$msg<br>".redirect("{$GLOBALS['jul_base_dir']}/index.php",'the board',0);
+		$txt.="$tccell1>$msg<br>".redirect("{$GLOBALS['jul_base_dir']}/",'the forum index',0);
 	}
 	elseif ($_POST['action']=='logout') {
 		setcookie('loguserid','', time()-3600, "/", $_SERVER['SERVER_NAME'], false, true);
@@ -55,7 +55,7 @@
 
 		// May as well unset this as well
 		setcookie('logpassword','', time()-3600, "/", $_SERVER['SERVER_NAME'], false, true);
-		$txt.="$tccell1> You are now logged out.<br>".redirect("{$GLOBALS['jul_base_dir']}/index.php",'the board',0);
+		$txt.="$tccell1> You are now logged out.<br>".redirect("{$GLOBALS['jul_base_dir']}/",'the index',0);
 	}
 	elseif (!$_POST['action']) {
 		$ipaddr = explode('.', $_SERVER['REMOTE_ADDR']);
@@ -63,25 +63,8 @@
 			$verifyoptext[$i] = "(".implode('.', $ipaddr).")";
 			$ipaddr[$i-1]       = 'xxx';
 		}
-		$txt .= "<body onload=window.document.replier.username.focus()>
-		<FORM ACTION='{$GLOBALS['jul_views_path']}/login.php' NAME=REPLIER METHOD=POST><tr>
-		$tccellh width=150>&nbsp;</td>$tccellh width=40%>&nbsp</td>$tccellh width=150>&nbsp;</td>$tccellh width=40%>&nbsp;</td></tr><tr>
-		$tccell1><b>User name:</b></td>       $tccell2l>$inpt=username MAXLENGTH=25 style='width:280px;'></td>
-		$tccell1 rowspan=2><b>IP Verification:</b></td> $tccell2l rowspan=2>
-			<select name=verify>
-				<option selected value=0>Don't use</option>
-				<option value=1> /8 $verifyoptext[1]</option>
-				<option value=2>/16 $verifyoptext[2]</option>
-				<option value=3>/24 $verifyoptext[3]</option>
-				<option value=4>/32 $verifyoptext[4]</option>
-			</select><br><small>You can require your IP address to match your current IP, to an extent, to remain logged in.</small>
-		</tr><tr>
-		$tccell1><b>Password:</b></td>        $tccell2l>$inpp=userpass MAXLENGTH=64 style='width:180px;'></td>
-		</tr><tr>
-		$tccell1>&nbsp;</td>$tccell2l colspan=3>
-		$inph=action VALUE=login>
-		$inps=submit VALUE=Login></td></tr>
-		</FORM>";
+		$txt .= "<body onload=window.document.replier.username.focus()>";
+		$txt .= get_login_form();
 	}
 	else { // Just what do you think you're doing
 		$sql->query("INSERT INTO `ipbans` SET `ip` = '". $_SERVER['REMOTE_ADDR'] ."', `reason` = 'Generic internet exploit searcher'");

@@ -4,8 +4,15 @@
 function get_forum_by_id($id) {
   global $sql;
   $esc_id = intval($id);
-  $forum = $sql->fetchq("SELECT * FROM forums WHERE id=$esc_id");
+  $forum = $sql->fetchq("SELECT * FROM forums WHERE id=$esc_id limit 1;");
   return $forum;
+}
+
+/** Returns the hot topics in a forum. */
+function get_hot_count() {
+  global $sql;
+  $hotcount = $sql->resultq('SELECT hotcount FROM misc',0,0);
+  return $hotcount;
 }
 
 /**

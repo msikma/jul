@@ -21,7 +21,7 @@ if ($is_start){
   $descbr="</b>$smallfont<br></center>&nbsp";
   print "
 <body onload=window.document.replier.username.focus()>
-<form ACTION={$GLOBALS['jul_views_path']}/register.php NAME=REPLIER METHOD=POST>
+<form ACTION={$GLOBALS['jul_views_path']}/register.php NAME=replier METHOD=POST>
 <br>$tblstart
 
 $tccellh colspan=2>Login information</td><tr>

@@ -90,7 +90,7 @@
 	print "
 		<br>
 			$tblstart
-			<FORM ACTION='{$GLOBALS['jul_views_path']}/edituser.php' NAME=REPLIER METHOD=POST autocomplete=\"off\">
+			<FORM ACTION='{$GLOBALS['jul_views_path']}/edituser.php' NAME=replier METHOD=POST autocomplete=\"off\">
 
 				$hlft Login information $hrgt
 				$lft User name		$rgt$inpt=username VALUE=\"$user[name]\" SIZE=25 MAXLENGTH=25 autocomplete=\"off\">

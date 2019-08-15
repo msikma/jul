@@ -45,6 +45,11 @@ function is_admin_user($id = null) {
   return $user['powerlevel'] >= $GLOBALS['jul_admin_minimum'];
 }
 
+function get_thread_count_by_user($user_id) {
+  $esc_user_id = intval($user_id);
+  return fetch_query_first("select count(*) from `threads` where `user` = '{$esc_user_id}';");
+}
+
 /** Logs in a user. Returns false if login failed. */
 function check_login($name, $pass) {
   global $sql;
@@ -53,7 +58,8 @@ function check_login($name, $pass) {
   $user = $sql->fetchq("
     select `id`, `password`
     from `users`
-    where `name` = '{$esc_name}';
+    where `name` = '{$esc_name}'
+    limit 1;
   ");
 
   if (!$user) {
@@ -71,10 +77,11 @@ function update_user_post_count($user) {
   $count = intval($user['posts']);
   $new_count = $count + 1;
   $esc_id = intval($user['id']);
-  $user = fetch_query("
+  $user = fetch_query_single("
     update `users`
     set `posts` = {$new_count}, `lastposttime` = unix_timestamp()
-    where `id` = '{$esc_id}';
+    where `id` = '{$esc_id}'
+    limit 1;
   ");
   return $user;
 }
@@ -103,10 +110,11 @@ function can_user_post($user, $forum, $subject, $message) {
 /** Retrieves a user's data by their ID. */
 function get_user_by_id($user_id) {
   $user_id = intval($user_id);
-  $user = fetch_query("
+  $user = fetch_query_single("
     select *
     from `users`
-    where `id` = '{$user_id}';
+    where `id` = '{$user_id}'
+    limit 1;
   ");
   return $user;
 }
@@ -114,10 +122,11 @@ function get_user_by_id($user_id) {
 /** Retrieves a user's data by their username. */
 function get_user_by_name($username) {
   $esc_username = mysql_real_escape_string($username);
-  $user = fetch_query("
+  $user = fetch_query_single("
     select *
     from `users`
-    where `name` = '{$esc_username}';
+    where `name` = '{$esc_username}'
+    limit 1;
   ");
   return $user;
 }

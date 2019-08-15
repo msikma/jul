@@ -21,10 +21,15 @@ function include_error($name, $print=true, $data=array()) {
 function error_page($text, $redir = '', $redirurl = '') {
   global $header, $tblstart, $tccell1, $tblend, $footer, $startingtime;
 
+  // Legacy: some calls to error_page() have 'return to' in the $redir string.
+  // This is now provided outside of the link. So we remove it from $redir.
+  // We also remove a period at the end if it's there.
+  $redir = trim(preg_replace('/^return to/i', '', trim($redir, '.')));
+
   print("{$header}<br>{$tblstart}{$tccell1}>{$text}");
   if ($redir) {
     print('<br>');
-    print('<a href="'.$redirurl.'">'.$redir.'</a>');
+    print('Return to <a href="'.$redirurl.'">'.$redir.'</a>.');
   }
   print("{$tblend}{$footer}");
   printtimedif($startingtime);

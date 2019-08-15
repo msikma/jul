@@ -1,11 +1,35 @@
 <?php
 
-/** Helper for simple single row result queries. */
+/** Helper for simple fetch queries. */
 function fetch_query($query) {
+	global $sql;
+	try {
+		return $sql->getallresults($query, MYSQL_ASSOC);
+	}
+	catch (Exception $e) {
+		return false;
+	}
+}
+
+/** Helper for simple single row result queries. */
+function fetch_query_single($query) {
 	global $sql;
 	try {
 		$results = $sql->query($query);
 		return $sql->fetch($results, MYSQL_ASSOC);
+	}
+	catch (Exception $e) {
+		return false;
+	}
+}
+
+/** Helper for simple single row . */
+function fetch_query_first($query) {
+	global $sql;
+	try {
+		$results = $sql->query($query);
+		$rows = $sql->fetch($results, MYSQL_NUM);
+		return $rows[0];
 	}
 	catch (Exception $e) {
 		return false;
@@ -182,6 +206,14 @@ class mysql {
 		$ret = array();
 		while ($res = @$this->fetch($q, MYSQL_ASSOC))
 			$ret[] = $res[$wanted];
+		return $ret;
+	}
+
+	public function getallresults($query, $cache = false) {
+		$q = $this->query($query, $cache);
+		$ret = array();
+		while ($res = @$this->fetch($q, MYSQL_ASSOC))
+			$ret[] = $res;
 		return $ret;
 	}
 
