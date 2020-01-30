@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * Returns whether the current route is an external entry point.
+ */
+function is_external_entry_point() {
+  $route = get_request_route();
+  return in_array($route['path'], $GLOBALS['jul_external_entry']);
+}
+
+/**
  * Searches one of the views directories and returns the filenames of everything there.
  * All of these files can be used directly as route.
  */
@@ -235,6 +243,11 @@ $GLOBALS['jul_views'] = array_merge($file_routes, $other_routes);
 // Redirects.
 $GLOBALS['jul_redirects'] = array(
   array('index', '/')
+);
+
+// External entry points (other than index.php).
+$GLOBALS['jul_external_entry'] = array(
+  'theme/style.css'
 );
 
 // Full list of routes available on the forum.

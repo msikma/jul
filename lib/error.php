@@ -68,7 +68,11 @@ function error_404() {
 }
 
 // Used in early errors, such as SQL connection problems.
-function early_html_die($reason, $use_mysql_error=false) {
+function early_html_die($reason, $use_mysql_error=false, $external_entry_point=false) {
+  if ($external_entry_point) {
+    // Don't die if we're not on the main entry point.
+    return false;
+  }
   $sql_error = $use_mysql_error ? "<br><font style=\"color: #f55;\">". mysql_error() ."</font>" : '';
   include_error('generic-error', true, array(
     'reason' => $reason,

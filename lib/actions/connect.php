@@ -1,9 +1,10 @@
 <?php
 
+$is_external = is_external_entry_point();
 $sql = new mysql();
 
 $sql->connect($GLOBALS['jul_sql_settings']['host'], $GLOBALS['jul_sql_settings']['user'], $GLOBALS['jul_sql_settings']['pass']) or
-    early_html_die('The MySQL server has exploded.', true);
+    early_html_die('The MySQL server has exploded.', true, $is_external);
 
 // Check if the database exists.
 $selected_db = $sql->selectdb($sql_settings['name']);
@@ -15,9 +16,9 @@ if (!$selected_db) {
         early_html_die("
             <p>Connected to MySQL, but couldn't find the configured database.</p>
             <p>Make sure a database with the name <tt>{$sql_name}</tt> exists.</p>
-        ", true);
+        ", true, $is_external);
     }
     else {
-        early_html_die('Another stupid MySQL error happened, panic', true);
+        early_html_die('Another stupid MySQL error happened, panic', true, $is_external);
     }
 }
