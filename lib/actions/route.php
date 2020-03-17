@@ -5,6 +5,7 @@
 
 // We use this instead of a function, because we need to run routes in the global context.
 $route = get_request_route();
+console_log($route);
 
 // There are two special routes: the installer, and the theme CSS generator.
 // They both circumvent the regular error handling that occurs when the database

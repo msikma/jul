@@ -169,13 +169,17 @@ function extract_route($path, $query) {
 
     $data = array();
     $valid = preg_match_all($match_re, $path, $matches);
+
     if (!$valid) continue;
     if ($matches[1]) {
-      foreach ($matches[1] as $n => $match) {
-        $data[$match_segments[$n]] = $match;
+      foreach ($matches as $k => $v) {
+        if ($k === 0) continue;
+        $value = $matches[$k][0];
+        $segment = $match_segments[$k - 1];
+        $data[$segment] = is_numeric($value) ? intval($value) : $value;
       }
     }
-    return array_merge($route, array('request' => array('path' => $path, 'data' => $data, 'query' => $query)));
+    return array_merge($route, array('request' => array('path' => $path, 'data' => $data, 'query' => $query), 'route_name' => $name));
   }
   return false;
 }
@@ -253,8 +257,11 @@ $GLOBALS['jul_external_entry'] = array(
 // Full list of routes available on the forum.
 $GLOBALS['jul_routes'] = preprocess_routes(array(
   '@home' => array('path' => '/', 'match' => '/^\/$/', 'file' => 'index'),
-  '@forum' => array('path' => '/forum/{id}/{slug}', 'match' => '/^forum\/([0-9]+)\/([A-Za-z0-9]+)/'),
-  '@thread' => array('path' => '/thread/{id}', 'match' => '/^thread\/([0-9]+)/'),
+  '@forum' => array('path' => '/forum/{id}/{slug}', 'match' => '/^forum\/([0-9]+)\/([A-Za-z0-9-]+)/'),
+  '@thread_slug_post' => array('path' => '/thread/{id}/{slug}/post/{pid}', 'match' => '/^thread\/([0-9]+)\/([A-Za-z0-9-]+)\/post\/([0-9]+)/', 'file' => 'thread'),
+  '@thread_post' => array('path' => '/thread/{id}/post/{pid}', 'match' => '/^thread\/([0-9]+)\/post\/([0-9]+)/', 'file' => 'thread'),
+  '@thread_slug' => array('path' => '/thread/{id}/{slug}', 'match' => '/^thread\/([0-9]+)\/([A-Za-z0-9-]+)/', 'file' => 'thread'),
+  '@thread' => array('path' => '/thread/{id}', 'match' => '/^thread\/([0-9]+)/', 'file' => 'thread'),
 
   // User management
   '@register' => array('path' => '/register'),

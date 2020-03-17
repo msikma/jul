@@ -17,6 +17,11 @@ function include_error($name, $print=true, $data=array()) {
   }
 }
 
+// Error page that links back to home.
+function error_page_common($text) {
+  return error_page($text, 'Return to the homepage', route('@home'));
+}
+
 // Generic error page.
 function error_page($text, $redir = '', $redirurl = '') {
   global $header, $tblstart, $tccell1, $tblend, $footer, $startingtime;

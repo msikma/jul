@@ -402,7 +402,7 @@ function doforumlist($id)
 
 function ctime()
 {
-  return time() + (3 * 3600);
+  return time();
 }
 function cmicrotime()
 {

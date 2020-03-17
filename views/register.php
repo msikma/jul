@@ -3,17 +3,13 @@
 require_once 'lib/actions/function.php';
 require_once 'lib/actions/layout.php';
 
-// TODO: QA
-// TODO: set defaults for register_account()
-
 print $header;
 $is_viewing_form = $_POST['action'] !== 'Register';
 $is_registering = $_POST['action'] === 'Register';
 $is_start = !$_POST['action'];
 
-// TODO: figure out where adminconfig comes from.
-if ($adminconfig['registrationdisable']) {
-	die("$tblstart<br>$tccell2>Registration is disabled. Please contact an admin if you have any questions.$tblend$footer");
+if (!is_registration_enabled()) {
+	error_page_common('Registration is disabled. Please contact an admin if you have any questions.');
 }
 
 if ($is_start){

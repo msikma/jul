@@ -291,7 +291,7 @@ else for($i=1; $thread=@$sql->fetch($threads, MYSQL_ASSOC); ++$i) {
   else
     $thread['title'] = str_replace(array('<', '>'), array('&lt;', '&gt;'), trim($thread['title']));
 
-  $threadlink = route('@thread', $thread['id']);
+  $threadlink = route('@thread_slug', array('id' => $thread['id'], 'slug' => slugify($thread['title'])));
   $threadtitle = $thread['title'];
   $threadtitle  = "<a href='{$threadlink}'>{$threadtitle}</a>";
   $belowtitle   = array(); // An extra line below the title in certain circumstances

@@ -67,7 +67,7 @@ function postcode($post, $set){
 	}
 	$lastactivity	= 'Last activity: '.timeunits(ctime()-$post['lastactivity']);
 	$since			= 'Since: '.@date($dateshort,$post['regdate']+$tzoff);
-	$postdate		= date($dateformat,$post['date']+$tzoff);
+	$postdate		= format_timestamp_html($post['date'], true, true, true);//date($dateformat,$post['date']+$tzoff);
 
 	$threadlink		= "";
 	if (filter_string($set['threadlink'])) {
@@ -103,7 +103,7 @@ function postcode($post, $set){
 			</td>
 			$set[tdbg] height=1 width=100%>
 			  <table cellspacing=0 cellpadding=2 width=100% class=fonts>
-			    <td>Posted on $postdate$threadlink$post[edited]</td>
+			    <td>Posted $postdate$threadlink$post[edited]</td>
 			    <td width=255><nobr>$quote$edit$ip
 			  </table><tr>
 			$set[tdbg] height=220 class='jul-post-content' id=\"post". $post['id'] ."\">",
@@ -128,7 +128,7 @@ function postcode($post, $set){
 			</td>
 			$set[tdbg] height=1 width=100%>
 			  <table cellspacing=0 cellpadding=2 width=100% class='fonts'>
-			    <td>Posted on $postdate$threadlink$post[edited]</td>
+			    <td>Posted $postdate$threadlink$post[edited]</td>
 			    <td width=255><nobr>$quote$edit$ip
 			  </table><tr>
 			$set[tdbg] height=220 class='jul-post-content' id=\"post". $post['id'] ."\">",

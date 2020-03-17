@@ -1,5 +1,55 @@
 <?php
 
+/**
+ * Returns the first post ID in a thread after a specific timestamp.
+ */
+function get_thread_post_id_after_ts($thread_id, $unix_timestamp) {
+  $esc_thread_id = intval($thread_id);
+  $esc_unix_timestamp = intval($unix_timestamp);
+  $result = fetch_query_single("
+    select min(`id`) as id
+    from `posts`
+    where `thread` = {$esc_thread_id}
+    and `date` >= {$esc_unix_timestamp}
+  ");
+  return $result['id'];
+}
+
+/**
+ * Returns a direct link to a post.
+ */
+function get_post_direct_link($thread_id, $post_id) {
+  $thread = get_thread($thread_id);
+  $url = route('@thread_slug_post', array('id' => $thread_id, 'slug' => slugify($thread['title']), 'pid' => $post_id));
+  return $url.'#post'.$post_id;
+}
+
+/**
+ * Returns the last post ID of a thread.
+ */
+function get_thread_last_post_id($thread_id) {
+  $esc_thread_id = intval($thread_id);
+  $result = fetch_query_single("
+    select max(`id`) as id
+    from `posts`
+    where `thread` = {$esc_thread_id}
+  ");
+  return $result['id'];
+}
+
+/**
+ * Returns a thread by ID.
+ */
+function get_thread($thread_id) {
+  $esc_thread_id = intval($thread_id);
+  $result = fetch_query_single("
+    select *
+    from `threads`
+    where `id` = {$esc_thread_id}
+  ");
+  return $result;
+}
+
 function make_new_thread($forum, $user, $subject, $posticon) {
   $esc_forum_id = intval($forum['id']);
   $esc_user_id = intval($user['id']);

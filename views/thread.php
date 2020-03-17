@@ -2,18 +2,21 @@
 
 require_once 'lib/actions/function.php';
 
+$query = $route['request']['query'];
 $id = intval($request['id']);
-$user		= filter_int($_GET['user']);
+$thread_id = $id;
+$thread = get_thread($thread_id);
+$user = filter_int($_GET['user']);
 $gotopost	= null;
 
-// Skip to last post/end thread
-if (filter_int($_GET['lpt'])) {
-	$gotopost = $sql->resultq("SELECT MIN(`id`) FROM `posts` WHERE `thread` = '{$id}' AND `date` > '".intval($_GET['lpt'])."'");
-} elseif (filter_int($_GET['end']) || (filter_int($_GET['lpt']) && !$gotopost)) {
-	$gotopost = $sql->resultq("SELECT MAX(`id`) FROM `posts` WHERE `thread` = '{$id}'");
+$last_post_time = $query['lpt'];
+$go_to_end = $query['end'] === '1';
+
+if ($last_post_time) {
+	redirect_exit(get_post_direct_link($thread_id, get_thread_post_id_after_ts($thread_id, $last_post_time)));
 }
-if ($gotopost) {
-	return header("Location: ?pid={$gotopost}#{$gotopost}");
+if ($go_to_end) {
+	redirect_exit(get_post_direct_link($thread_id, get_thread_last_post_id($thread_id)));
 }
 
 // Poll votes
@@ -95,7 +98,7 @@ if ($id) do {
 	$thread['title'] = str_replace("<", "&lt;", $thread['title']);
 
 	$forumid = intval($thread['forum']);
-	$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$forumid");
+	$forum = get_forum_by_id($forumid);
 
 	if (!$forum) {
 		$meta['noindex'] = true; // prevent search engines from indexing
@@ -338,7 +341,7 @@ if ($log && $id && $forum['id']) {
 	$header = makeheader($header1, $headlinks, $header2 . (($fonline) ? "$tblstart$tccell1s>$fonline$tblend" : ""));
 }
 
-$forumlink = route('@forum', $forumid);
+$forumlink = route('@forum', array('id' => $forumid, 'slug' => slugify($forum['title'])));
 $threadforumlinks = "
 	<table width=100%><td align=left>$fonttag<a href={$GLOBALS['jul_base_dir']}/index.php>".$GLOBALS['jul_settings']['board_name']."</a>"
 	.
@@ -373,7 +376,9 @@ for ($i = 0; $post = $sql->fetch($posts); $i++) {
 
 	$bg = $i % 2 + 1;
 
-	$quote = "<a href=\"?pid=$post[id]#$post[id]\">Link</a>";
+	$post_link = get_post_direct_link($thread_id, $post['id']);
+	
+	$quote = "<a href=\"{$post_link}\">Link</a>";
 	if ($id and ! $thread['closed'])
 		$quote	.= " | <a href='{$GLOBALS['jul_views_path']}/newreply.php?id=$id&postid=$post[id]'>Quote</a>";
 

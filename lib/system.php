@@ -20,6 +20,7 @@ require_once 'lib/models/check-install.php';
 require_once 'lib/mysql.php';
 require_once 'lib/helpers.php';
 require_once 'lib/devtools.php';
+require_once 'lib/formatting.php';
 require_once 'lib/routing.php';
 require_once 'lib/actions/connect.php';
 require_once 'lib/links.php';

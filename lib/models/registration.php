@@ -9,6 +9,13 @@ function register_admin_account($username, $password) {
 }
 
 /**
+ * Returns whether registration is enabled or not.
+ */
+function is_registration_enabled() {
+  return true;
+}
+
+/**
  * Registers a new user.
  */
 function register_account($username, $password, $ip, $powerlevel = 0) {
